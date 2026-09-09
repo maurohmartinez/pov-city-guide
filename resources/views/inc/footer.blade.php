@@ -5,7 +5,7 @@
     $isHomepage = ($page->slug ?? null) === '/';
 @endphp
 
-<footer @unless($isHomepage) class="footer-interior" @endunless>
+<footer>
     @if(\App\Services\PageService::isUsingMarketplace())
         @php
             $webUser = auth()->guard('web')->user();
@@ -38,7 +38,7 @@
                                 title="{{ ucfirst($socialMediaLink['type']) }}"
                                 aria-label="Follow us on {{ ucfirst($socialMediaLink['type']) }}"
                             >
-                                <i class="fi-{{ $socialMediaLink['type'] }} fs-2 text-light"></i>
+                                <i class="fi-{{ $socialMediaLink['type'] }} fs-2 text-custom-accent"></i>
                             </a>
                         @endforeach
                     </div>
@@ -46,10 +46,10 @@
             @endif
 
             <div class="col-lg-8 @if (!$socialMediaLinks) offset-lg-2 @endif text-center d-block d-lg-flex justify-content-between legal align-items-center px-5 my-2 my-lg-0 order-lg-1">
-                <div><a class="text-decoration-none hover-effect-underline text-light" href="{{ url('terms-and-conditions') }}">@lang('common.terms_and_conditions')</a></div>
-                <div><a class="text-decoration-none hover-effect-underline text-light" href="{{ url('privacy-policy') }}">@lang('common.privacy_policy')</a></div>
-                <div><a class="text-decoration-none hover-effect-underline text-light" href="{{ url('cookie-policy') }}">@lang('common.cookie_policy')</a></div>
-                <div><a class="text-decoration-none hover-effect-underline text-light" href="{{ url('delivery-and-refund-policy') }}">@lang('common.delivery_and_refund_policy')</a></div>
+                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('terms-and-conditions') }}">@lang('common.terms_and_conditions')</a></div>
+                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('privacy-policy') }}">@lang('common.privacy_policy')</a></div>
+                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('cookie-policy') }}">@lang('common.cookie_policy')</a></div>
+                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('delivery-and-refund-policy') }}">@lang('common.delivery_and_refund_policy')</a></div>
             </div>
 
             @if (config('custom.currency_iso') === 'RON')

@@ -6,13 +6,13 @@
 @endphp
 @unless($menuItems->isEmpty() && !$switchesInOffcanvas)
     <!-- Navbar with offcanvas menu on screens smaller than 500px (xs) -->
-    <header class="navbar @if(!($alwaysExpanded ?? false)) navbar-expand-lg @endif @if($__env->yieldContent('navbarColor') === 'transparentLight') navbar-dark @endif p-0">
+    <header class="navbar @if(!($alwaysExpanded ?? false)) navbar-expand-lg @endif">
         {{-- When always expanded the toggler sits inline with other navbar icons, so strip the
              container padding and button chrome and optically center it against the font icons. --}}
         <div class="container @if($alwaysExpanded ?? false) px-0 @endif">
             <!-- Menu toggler -->
             <button type="button" class="navbar-toggler @if($alwaysExpanded ?? false) border-0 p-0 pov-toggler-inline @endif" data-bs-toggle="offcanvas" data-bs-target="#navbarOffCanvas" aria-controls="navbarOffCanvas" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon {{ ($isNavbarLight ?? false) ? 'pov-navbar-light' : 'pov-navbar-auto' }}"></span>
+                <span class="navbar-toggler-icon pov-navbar"></span>
             </button>
             <!-- Offcanvas menu -->
             <div class="offcanvas offcanvas-end" id="navbarOffCanvas" tabindex="-1" aria-label="{{ config('app.name') }}">

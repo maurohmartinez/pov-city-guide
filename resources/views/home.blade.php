@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @push('title', $page?->title ?? null)
-@section('navbarColor', 'home')
 
 @section('content')
     <div class="bg-primary">
@@ -15,12 +14,12 @@
 
 {{--        @includeWhen(!$recentlyAddedEvents->isEmpty(), 'marketplace.sections.recently-added')--}}
 
-        @foreach(($categorySections ?? []) as $categorySection)
-            @includeWhen(!$categorySection['events']->isEmpty(), 'marketplace.partials.category-types.' . $categorySection['layoutType'], [
-                'events' => $categorySection['events'],
-                'category' => $categorySection['category'],
-            ])
-        @endforeach
+{{--        @foreach(($categorySections ?? []) as $categorySection)--}}
+{{--            @includeWhen(!$categorySection['events']->isEmpty(), 'marketplace.partials.category-types.' . $categorySection['layoutType'], [--}}
+{{--                'events' => $categorySection['events'],--}}
+{{--                'category' => $categorySection['category'],--}}
+{{--            ])--}}
+{{--        @endforeach--}}
     </div>
 @endsection
 

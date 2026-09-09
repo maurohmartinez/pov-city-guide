@@ -23,11 +23,6 @@ body {
     background: #CCDE00 !important;
 }
 
-/* Interior marketplace pages mute the pink footer to design's dark→indigo gradient (same as
-   .card-surface-gradient). Class beats the element rule above, so this wins despite !important. */
-.footer-interior {
-    background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9), rgb(49, 13, 163)) !important;
-}
 
 /*
     The newsletter block is a deliberately loud pink CTA. On the light pink, the title needs dark
@@ -54,11 +49,11 @@ body {
 }
 
 .text-custom-primary {
-    color: #ECAEFF;
+    color: #CCDE00;
 }
 
 .text-custom-accent {
-    color: #310DA3;
+    color: #1400FF;
 }
 
 [data-bs-theme=light] .h1,
@@ -126,6 +121,10 @@ body {
     --fn-btn-disabled-border-color: #cebed3;
 }
 
+.custom-hero-container {
+    padding-bottom: 100px;
+}
+
 .custom-hero {
     position: relative;
     width: 100%;
@@ -136,19 +135,19 @@ body {
 .custom-hero-mask {
     position: absolute;
     top: 0;
-    width: 15%;
+    width: 100%;
     height: 100%;
     background: #CCDE00;
 
-    -webkit-mask-image: url(/storefront/images/logo.svg), linear-gradient(black, black);
+    -webkit-mask-image: url(/storefront/images/pov.svg), linear-gradient(black, black);
     -webkit-mask-repeat: no-repeat, repeat;
-    -webkit-mask-size: 85% auto, 100%;
+    -webkit-mask-size: 100%;
     -webkit-mask-position: center, center;
     -webkit-mask-composite: xor, source-over;
 
-    mask-image: url(/storefront/images/logo.svg), linear-gradient(black, black);
+    mask-image: url(/storefront/images/pov.svg), linear-gradient(black, black);
     mask-repeat: no-repeat, repeat;
-    mask-size: 85% auto, 100%;
+    mask-size: 100%;
     mask-position: center, center;
     mask-composite: exclude;
 }
@@ -172,7 +171,7 @@ body {
 
 .custom-hero-slogan {
     position: relative;
-    text-align: center;
+    text-align: left;
     color: var(--fn-dark);
     font-size: 1.1rem;
     font-weight: bold;
@@ -193,95 +192,91 @@ body {
     padding: 10px;
 }
 
-.custom-hero-arrow {
-    position: relative;
-    align-self: center;
-    padding-top: 1em;
-    text-align: center;
-}
-
 @media (max-width: 1000px) {
-    .custom-hero-mask {
-        width: 20%;
-        -webkit-mask-size: 65% auto, 100%;
-        mask-size: 65% auto, 100%;
-    }
+    /*position: relative;*/
+    /*width: 100%;*/
+    /*overflow: hidden;*/
+    /*padding: 0;*/
+    /*.custom-hero {*/
+    /*    max-width: 100%;*/
+    /*    margin-left: 0;*/
+    /*    margin-top: 0;*/
+    /*    width: 100%;*/
+    /*    height: 30vh;*/
+    /*    padding: unset;*/
+    /*}*/
 }
 
 @media (max-width: 850px) {
-    .custom-hero-mask {
-        width: 30%;
-        -webkit-mask-size: 50% auto, 100%;
-        mask-size: 50% auto, 100%;
-    }
+    /*.custom-hero {*/
+    /*    max-width: 100%;*/
+    /*    margin-left: 0;*/
+    /*    margin-top: 0;*/
+    /*    width: 100%;*/
+    /*    height: 20vh;*/
+    /*    padding: unset;*/
+    /*}*/
 }
 
 @media (max-width: 768px) {
-    .custom-hero {
-        max-width: 100%;
-        margin-left: 0;
-        margin-top: 0;
-        width: 100%;
-        height: 100vh;
-        padding: unset;
-    }
+    /*.custom-hero {*/
+    /*    max-width: 100%;*/
+    /*    margin-left: 0;*/
+    /*    margin-top: 0;*/
+    /*    width: 100%;*/
+    /*    height: 10vh;*/
+    /*    padding: unset;*/
+    /*}*/
 
-    .custom-hero-mask {
-        position: absolute;
-        width: 50%;
-        height: 100%;
-        -webkit-mask-size: 90% auto, 100%;
-        mask-size: 80% auto, 100%;
-    }
+    /*.custom-hero-mask {*/
+    /*    position: absolute;*/
+    /*    width: 50%;*/
+    /*    height: 100%;*/
+    /*    -webkit-mask-size: 90% auto, 100%;*/
+    /*    mask-size: 80% auto, 100%;*/
+    /*}*/
 
     .custom-hero-media {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-        max-width: 100%;
+        /*position: absolute;*/
+        /*height: 100%;*/
+        /*width: 100%;*/
+        /*margin-left: 0;*/
+        /*margin-right: 0;*/
+        /*max-width: 100%;*/
     }
 
     .custom-hero-media video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        max-width: unset;
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*left: 0;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*object-fit: cover;*/
+        /*max-width: unset;*/
     }
 
-    .custom-hero-slogan {
-        position: absolute;
-        z-index: 1;
-        top: 15%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: var(--fn-light);
-        font-size: 1.3rem;
-        font-weight: bold;
-        line-height: 1em;
-    }
+    /*.custom-hero-slogan {*/
+    /*    position: absolute;*/
+    /*    z-index: 1;*/
+    /*    top: 15%;*/
+    /*    left: 50%;*/
+    /*    transform: translate(-50%, -50%);*/
+    /*    text-align: center;*/
+    /*    color: var(--fn-light);*/
+    /*    font-size: 1.3rem;*/
+    /*    font-weight: bold;*/
+    /*    line-height: 1em;*/
+    /*}*/
 
-    .custom-hero-mask:after {
-        height: unset;
-        position: absolute;
-        bottom: 15%;
-        left: 12.5%;
-        font-size: 1.5rem;
-        text-align: left;
-    }
+    /*.custom-hero-mask:after {*/
+    /*    height: unset;*/
+    /*    position: absolute;*/
+    /*    bottom: 15%;*/
+    /*    left: 12.5%;*/
+    /*    font-size: 1.5rem;*/
+    /*    text-align: left;*/
+    /*}*/
 
-    .custom-hero-arrow {
-        position: absolute;
-        bottom: 20px;
-        left: 25%;
-        transform: translateX(-50%);
-        text-align: unset;
-    }
 }
 
 .section-with-swiper {
@@ -530,8 +525,8 @@ footer .container {
     text-decoration: line-through;
 }
 
-.pov-navbar-light, .pov-navbar-light::before, .pov-navbar-light::after {
-    background: white;
+.pov-navbar, .pov-navbar::before, .pov-navbar::after {
+    background: #1400FF;
 }
 
 [data-bs-theme=dark] .pov-navbar-auto, [data-bs-theme=dark] .pov-navbar-auto::before, [data-bs-theme=dark] .pov-navbar-auto::after {

@@ -1,14 +1,3 @@
-{{--
-    navbarColor can be:
-        "home" => home look from Figma template
-        "light" => light solid background + dark text
-        "transparentLight" => transparent background + light text
-        "transparentDark" => transparent background + dark text (e.g.: useful for pages without banne rimage - checkout)
---}}
-@php
-    $isNavbarLight = \App\Services\PageService::getIsNavbarLightColor($__env->yieldContent('navbarColor'));
-@endphp
-
 <!-- header-start -->
 <header data-pov-section="header" class="header w-100 py-3 ps-3 @if($__env->yieldContent('navbarColor') !== 'light') position-absolute top-0 start-0 @else bg-primary @endif">
     <div class="container position-relative z-1">
@@ -16,7 +5,6 @@
             @php
                 $userHref = null; // guests → open auth modal
                 $seeAllUrl = \App\Services\PageService::getSeeAllUrl();
-                $iconColor = $isNavbarLight ? 'text-white' : 'text-default';
                 // the homepage hero already carries the logo, so the navbar doesn't repeat it
                 $showLogo = ($page->slug ?? null) !== '/';
             @endphp
@@ -24,7 +12,7 @@
             @if($showLogo)
                 <!-- header-logo -->
                 <div class="header-logo">
-                    <a href="{{ url('/') }}" class="navbar-brand d-block py-1 py-md-2 py-xl-1 me-2 {{ $iconColor }}">
+                    <a href="{{ url('/') }}" class="navbar-brand d-block py-1 py-md-2 py-xl-1 me-2 text-custom-accent">
                         <div class="d-block" style="height: 1.75rem; width: auto">
                             <svg viewBox="0 0 703 346" xmlns="http://www.w3.org/2000/svg" fill="none" role="img" aria-label="{{ config('app.name') }}">
                                 <path d="M170.505 5.43213H9.77329L4.11108 11.0885V325.333L9.77329 330.99H86.3538L92.016 325.333V266.28H170.494L193.164 243.634V28.0783L170.494 5.43213H170.505ZM105.249 189.237L103.361 191.123H93.9139L92.0265 189.237V72.2978L93.9139 70.4124H103.361L105.249 72.2978V189.237Z" fill="currentColor"/>
@@ -46,20 +34,20 @@
                 @if($seeAllUrl)
                     <a href="{{ url($seeAllUrl) }}" class="animate-scale">
                 @endif
-                    <i class="fi-search animate-target {{ $iconColor }} fs-3 mx-1"></i>
+                    <i class="fi-search animate-target text-custom-accent fs-3 mx-1"></i>
                 @if($seeAllUrl)
                     </a>
                 @endif
                 @if($userHref)
-                    <a href="{{ $userHref }}" class="mx-3 animate-shake {{ $iconColor }}">
+                    <a href="{{ $userHref }}" class="mx-3 animate-shake text-custom-accent">
                         <i class="fi-user animate-target fs-3"></i>
                     </a>
                 @else
-                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#auth-modal" class="mx-3 animate-shake {{ $iconColor }}">
+                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#auth-modal" class="mx-3 animate-shake text-custom-accent">
                         <i class="fi-user animate-target fs-3"></i>
                     </a>
                 @endif
-                @include('inc.menu', ['alwaysExpanded' => true, 'isNavbarLight' => $isNavbarLight, 'switchesInOffcanvas' => true])
+                @include('inc.menu', ['alwaysExpanded' => true, 'switchesInOffcanvas' => true])
             </div>
         </div>
     </div>

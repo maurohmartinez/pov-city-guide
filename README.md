@@ -1,4 +1,4 @@
-## About POV Tickets
+## About POV City Guide
 
 This is an e-commerce app for event tickets. It allows event organizers to put up an event for sale, then end-customers to purchase tickets to that event.
 

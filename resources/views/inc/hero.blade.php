@@ -1,15 +1,15 @@
-<section>
-    <p class="custom-hero-slogan">OUR<br>STORIES.<br>YOUR<br>PLANS.</p>
-    <div class="container custom-hero">
+<section class="container custom-hero-container">
+    <div class="d-md-flex justify-content-between align-items-center">
+        <p class="custom-hero-slogan">OUR<br>STORIES.<br>YOUR<br>PLANS.</p>
+        <h2 class="text-center">The new kind of city guide</h2>
+        <div></div>
+    </div>
+
+    <div class="custom-hero">
         <div class="custom-hero-media">
             <video autoplay loop muted webkit-playsinline playsinline id="hero-video"></video>
         </div>
         <div class="custom-hero-mask"></div>
-    </div>
-    <div class="custom-hero-arrow fs-1 text-light">
-        <a href="#more" class="text-light text-decoration-none">
-            <i class="fi-arrow-down text-custom-accent"></i>
-        </a>
     </div>
 </section>
 
