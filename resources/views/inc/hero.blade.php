@@ -12,12 +12,19 @@
         <div class="custom-hero-mask"></div>
     </div>
 </section>
+<div class="bg-dark py-3 custom-hero-bottom">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="text-white text-decoration-none">News</a>
+        <a class="text-white text-decoration-none">Things to do</a>
+        <a class="text-white text-decoration-none">Festivals</a>
+        <a class="text-white text-decoration-none">Food & Drink</a>
+        <a class="text-white text-decoration-none">Cinema</a>
+        <a class="text-white text-decoration-none">Theatre</a>
+    </div>
+</div>
 
 @push('after_styles')
     <style>
-        .custom-hero-mask:after {
-            content: '{{ $page->heading ?? '' }}';
-        }
     </style>
 @endpush
 

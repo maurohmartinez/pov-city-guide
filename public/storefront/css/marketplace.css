@@ -23,6 +23,9 @@ body {
     background: #CCDE00 !important;
 }
 
+.custom-hero-bottom {
+    background-color: rgba(0,0,0,.6) !important;
+}
 
 /*
     The newsletter block is a deliberately loud pink CTA. On the light pink, the title needs dark

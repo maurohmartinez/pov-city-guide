@@ -51,8 +51,5 @@
             </div>
         </div>
     </div>
-    @if($__env->yieldContent('navbarColor') === 'transparentLight')
-        <div class="header-top-overlay"></div>
-    @endif
 </header>
 <!-- header-end -->
