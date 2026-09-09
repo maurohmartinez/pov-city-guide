@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'update_seatmap' => 'Alegeți o altă hartă a locurilor',
+    'seatmap' => 'harta',
+    'seatmaps' => 'hărți',
+    'seatmap_template' => 'Șablon hartă locație',
+    'seatmap_templates' => 'Șabloane hărți locații',
+    'select_seatmap_template' => 'Selectați un șablon de hartă a locurilor',
+    'seats' => 'Locuri',
+    'color' => 'Culoare',
+    'description' => 'Descriere',
+    'preview' => 'Previzualizare',
+    'seatmap_preview' => 'Previzualizare hartă',
+    'click_seat_to_view_details' => 'Faceți clic pe un loc pentru a vedea detaliile. Faceți clic din nou pentru a închide.',
+    'hover_over_seat_to_view_details' => 'Treceți cursorul peste un loc pentru a vedea detaliile.',
+    'changes_reflected_once_saved' => 'Modificările în categorii vor fi reflectate după salvare.',
+    'apply_selection' => 'Aplică selecția',
+    'edit_category_seats' => 'Editare Categorie Locuri',
+    'editing' => 'Editare',
+    'no_category_selected' => 'Nu se poate adăuga locul: nu a fost selectată nicio categorie.',
+    'attribute' => 'Atribut',
+    'max_seats_selection_limit' => 'Puteți selecta doar până la :max locuri.',
+    'unique_seat_ids' => 'Toate ID-urile locurilor trebuie să fie unice. Vă rugăm să verificați: :ids',
+    'seat_missing_section' => 'Locul :id nu are o secțiune.',
+    'seat_missing_row' => 'Locul :id nu are un rând.',
+    'seat_missing_number' => 'Locul :id nu are un număr.',
+];

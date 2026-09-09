@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'update_seatmap' => 'Choose another seat map',
+    'seatmap' => 'Seatmap',
+    'seatmaps' => 'Seatmaps',
+    'seatmap_template' => 'Seatmap template',
+    'seatmap_templates' => 'Seatmap templates',
+    'select_seatmap_template' => 'Select a seat map template',
+    'seats' => 'Seats',
+    'color' => 'Color',
+    'description' => 'Description',
+    'preview' => 'Preview',
+    'seatmap_preview' => 'Seatmap Preview',
+    'click_seat_to_view_details' => 'Click a seat to view details. Click again to close.',
+    'hover_over_seat_to_view_details' => 'Hover over a seat to view details.',
+    'changes_reflected_once_saved' => 'Changes in categories will be reflected once saved.',
+    'apply_selection' => 'Apply selection',
+    'edit_category_seats' => 'Edit Category Seats',
+    'editing' => 'Editing',
+    'no_category_selected' => 'Cannot add the seat: no category selected.',
+    'attribute' => 'Attribute',
+    'max_seats_selection_limit' => 'You can only select up to :max seats.',
+    'unique_seat_ids' => 'All seat ids must be unique. Please check: :ids',
+    'seat_missing_section' => 'Seat :id does not have a section.',
+    'seat_missing_row' => 'Seat :id does not have a row.',
+    'seat_missing_number' => 'Seat :id does not have a number.',
+];

@@ -1,0 +1,209 @@
+.bg-blue {
+    background: #066fd1;
+}
+
+.bg-azure {
+    background: #4299e1;
+}
+
+.bg-indigo {
+    background: #4263eb;
+}
+
+.bg-purple {
+    background: #ae3ec9;
+}
+
+.bg-pink {
+    background: #d6336c;
+}
+
+.bg-red {
+    background: #d63939;
+}
+
+.bg-orange {
+    background: #f76707;
+}
+
+.bg-yellow {
+    background: #f59f00;
+}
+
+.bg-lime {
+    background: #74b816;
+}
+
+.bg-green {
+    background: #2fb344;
+}
+
+.bg-teal {
+    background: #0ca678;
+}
+
+.bg-cyan {
+    background: #17a2b8;
+}
+
+.bg-dark {
+    background: #182433;
+}
+
+.bg-muted {
+    background: #6c7a91;
+}
+
+.event-ribbon.blue {
+    background: #066fd1;
+    box-shadow: 0 0 0 999px #066fd1;
+    color: white;
+}
+
+.badge.bg-blue {
+    background: #066fd1;
+    color: white;
+}
+
+.event-ribbon.azure {
+    background: #4299e1;
+    box-shadow: 0 0 0 999px #4299e1;
+    color: white;
+}
+
+.badge.bg-azure {
+    background: #4299e1;
+    color: white;
+}
+
+.event-ribbon.indigo {
+    background: #4263eb;
+    box-shadow: 0 0 0 999px #4263eb;
+    color: white;
+}
+
+.badge.bg-indigo {
+    background: #4263eb;
+    color: white;
+}
+
+.event-ribbon.purple {
+    background: #ae3ec9;
+    box-shadow: 0 0 0 999px #ae3ec9;
+    color: white;
+}
+
+.badge.bg-purple {
+    background: #ae3ec9;
+    color: white;
+}
+
+.event-ribbon.pink {
+    background: #d6336c;
+    box-shadow: 0 0 0 999px #d6336c;
+    color: white;
+}
+
+.badge.bg-pink {
+    background: #d6336c;
+    color: white;
+}
+
+.event-ribbon.red {
+    background: #d63939;
+    box-shadow: 0 0 0 999px #d63939;
+    color: white;
+}
+
+.badge.bg-red {
+    background: #d63939;
+    color: white;
+}
+
+.event-ribbon.orange {
+    background: #f76707;
+    box-shadow: 0 0 0 999px #f76707;
+    color: white;
+}
+
+.badge.bg-orange {
+    background: #f76707;
+    color: white;
+}
+
+.event-ribbon.yellow {
+    background: #f59f00;
+    box-shadow: 0 0 0 999px #f59f00;
+    color: white;
+}
+
+.badge.bg-yellow {
+    background: #f59f00;
+    color: white;
+}
+
+.event-ribbon.lime {
+    background: #74b816;
+    box-shadow: 0 0 0 999px #74b816;
+    color: white;
+}
+
+.badge.bg-lime {
+    background: #74b816;
+    color: white;
+}
+
+.event-ribbon.green {
+    background: #2fb344;
+    box-shadow: 0 0 0 999px #2fb344;
+    color: white;
+}
+
+.badge.bg-green {
+    background: #2fb344;
+    color: white;
+}
+
+.event-ribbon.teal {
+    background: #0ca678;
+    box-shadow: 0 0 0 999px #0ca678;
+    color: white;
+}
+
+.badge.bg-teal {
+    background: #0ca678;
+    color: white;
+}
+
+.event-ribbon.cyan {
+    background: #17a2b8;
+    box-shadow: 0 0 0 999px #17a2b8;
+    color: white;
+}
+
+.badge.bg-cyan {
+    background: #17a2b8;
+    color: white;
+}
+
+.event-ribbon.dark {
+    background: #182433;
+    box-shadow: 0 0 0 999px #182433;
+    color: white;
+}
+
+.badge.bg-dark {
+    background: #182433;
+    color: white;
+}
+
+.event-ribbon.muted {
+    background: #6c7a91;
+    box-shadow: 0 0 0 999px #6c7a91;
+    color: white;
+}
+
+.badge.bg-muted {
+    background: #6c7a91;
+    color: white;
+}

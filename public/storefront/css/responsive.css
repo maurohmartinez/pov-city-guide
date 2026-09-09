@@ -1,0 +1,279 @@
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (max-width: 1400px) {  }
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (max-width: 1200px) {
+    .testimonial-slide-btns .swiper-button-next {
+        right: -60px;
+    }
+
+    .testimonial-slide-btns .swiper-button-prev {
+        left: -60px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (max-width: 991px) {
+
+    .tickets-items {
+        gap: 16px 0;
+      }
+
+    .fs-1 {
+        font-size: 40px !important;
+    }
+
+    .event-page-1-banner .banner-para {
+        font-size: 20px;
+    }
+
+    .event-title {
+        font-size: 18px;
+    }
+
+    .events-wrapper {
+        margin: 65px 0;
+        padding: 0;
+    }
+
+    .event-cards-row.g-5 {
+        --bs-gutter-x: 40px;
+        --bs-gutter-y: 40px;
+    }
+
+    /* event-page-2.html Responsive Start */
+    .about-event-wrapper {
+        padding: 40px;
+        padding-bottom: 0;
+    }
+
+    /* event-page-2.html Responsive End */
+}
+
+/*  Medium devices (tablets, 768px and up) */
+@media (max-width: 767px) {
+    .top-section-wide-image {
+        height: 26vh;
+    }
+
+    .heading-without-carousel {
+        padding-bottom: 140px;
+    }
+
+    .fs-1 {
+        font-size: 32px !important;
+    }
+
+    .fs-2 {
+        font-size: 28px !important;
+    }
+
+    .event-page-1-banner .banner-para {
+        font-size: 16px;
+    }
+
+    .banner-section {
+        min-height: auto;
+        /* padding: 125px 0 100px; */
+    }
+
+    .footer-content ul {
+        gap: 25px;
+    }
+
+    /* event-page-2.html Responsive Start */
+    .banner-event-detail {
+        gap: 10px;
+    }
+
+    .about-event-wrapper {
+        padding: 0;
+        padding-top: 40px;
+    }
+
+    .testimonial-wrapper {
+        padding: 40px 0;
+    }
+
+    .testimonial-para {
+        font-size: 16px;
+    }
+
+    .ratings i {
+        font-size: 16px;
+    }
+
+    .swiper-pagination .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        margin: 0 3px !important;
+    }
+
+    .get-ticket-wrapper {
+        padding: 20px;
+    }
+
+    .gti-date {
+        font-size: 16px;
+    }
+
+    .get-ticket-btn.btn {
+        font-size: 14px;
+        padding: 9px 18px;
+    }
+
+    /* event-page-2.html Responsive End */
+
+    /* dev-2 */
+
+    .step::after {
+        display: none;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .step-label {
+        font-size: 13px;
+        line-height: 24px;
+    }
+
+    .step {
+        width: auto;
+    }
+
+    .infoCard-img img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .steps-indicator {
+        margin-bottom: 20px;
+    }
+
+    .infoCard-content {
+        padding: 15px 14px;
+    }
+
+    .box {
+        padding: 22px 16px;
+    }
+
+    .ticket-item {
+        flex-wrap: wrap;
+        gap: 9px;
+    }
+
+    .ticket-item {
+        padding: 18px 14px;
+    }
+
+    .ticket-item-text {
+        width: 65%;
+        min-width: 210px;
+    }
+
+    .ticket-item-title {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+    .ticket-item-text,
+    .ticket-item-ron {
+        width: 100%; /* Make sure both elements take full width */
+    }
+
+    .footer-content ul li a {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .footer-content ul {
+        gap: 19px;
+    }
+
+    .footer {
+        padding: 18px 0px;
+    }
+
+    .ticket-seat span {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .y-ticket {
+        background: #F0F7FD;
+        padding: 18px 12px;
+    }
+
+    .y-ticket-header h5 {
+        font-size: 16px;
+        line-height: 23px;
+    }
+
+    .sit-info {
+        font-size: 14px;
+    }
+
+    .y-ticket-header p.price {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .infoCard-content h4 {
+        font-size: 18px;
+    }
+
+    /* dev-2--end */
+
+
+}
+
+/* Small devices  */
+@media (max-width: 575px) {
+    .top-section-wide-image {
+        height: 47vh !important;
+    }
+
+    .heading-without-carousel {
+        padding-bottom: 120px;
+    }
+
+    .event-title {
+        font-size: 16px;
+    }
+
+    .events-wrapper {
+        margin: 40px 0;
+    }
+
+    .event-cards-row.g-5 {
+        --bs-gutter-x: 15px;
+        --bs-gutter-y: 15px;
+    }
+
+    .single-event-card {
+        min-height: auto;
+    }
+
+    .event-card-thumb {
+        height: 200px;
+    }
+
+    .ec-load-more {
+        padding-top: 40px;
+    }
+
+    .footer {
+        padding: 25px 0px;
+    }
+
+    .footer-content ul {
+        gap: 10px;
+    }
+}

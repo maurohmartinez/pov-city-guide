@@ -1,0 +1,298 @@
+/**
+ * =============================================================================
+ * Storefront Custom Styles
+ * =============================================================================
+ *
+ * This file contains custom CSS for the storefront, layered on top of the
+ * theme (theme.min.css). It is loaded after theme.min.css so theme variables
+ * and utility classes are available to override.
+ *
+ * Keep vendor/library CSS in separate files (e.g. choices.min.css).
+ * Add all project-specific styles here.
+ * =============================================================================
+ */
+
+.event-page-2-banner {
+    aspect-ratio: 3/1;
+}
+
+.city-page-banner {
+    aspect-ratio: 5/1;
+}
+
+/* Styles for the steps indicator */
+.steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.step {
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 auto;
+}
+
+.step::after {
+    position: absolute;
+    left: calc(100% + 50px);
+    top: 42px;
+    width: 86px;
+    height: 1px;
+    content: "";
+    background: #BFC2C7;
+}
+
+[data-bs-theme=dark] .step::after {
+    background: var(--fn-user-selection-color-dark);
+}
+
+.step:last-child::after {
+    display: none;
+}
+
+.step-number {
+    background-color: var(--fn-light);
+    color: var(--fn-dark);
+    border-radius: 50%;
+    padding: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 600;
+    border: 1px solid #E9EAEC;
+}
+
+[data-bs-theme=dark] .step-number {
+    background-color: var(--fn-user-selection-color-dark);
+    color: var(--fn-light);
+    border: 1px solid var(--fn-user-selection-color-dark);
+}
+
+.step-label {
+    display: block;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: var(--fn-dark);
+}
+
+[data-bs-theme=dark] .step-label {
+    color: var(--fn-light);
+}
+
+.steps-indicator,
+.step-nav {
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Active and checked step styling */
+.active .step-number {
+    background-color: var(--fn-dark);
+    color: var(--fn-light);
+}
+
+[data-bs-theme=dark] .active .step-number {
+    background-color: var(--fn-light);
+    color: var(--fn-dark);
+}
+
+.checked .step-number {
+    background-color: var(--fn-success);
+    color: var(--fn-light);
+    border-color: var(--fn-success);
+}
+
+.checked .step-label {
+    color: var(--fn-success);
+}
+
+/* Content area styling */
+.step-content {
+    padding-bottom: 20px;
+}
+
+/* Button styling */
+.step-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.step-nav button {
+    background: var(--fn-primary);
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.step-nav button:not([disabled]):hover {
+    background: var(--fn-primary);
+}
+
+.step-nav button:disabled {
+    background-color: var(--fn-btn-disabled-bg);
+}
+
+.step-area {
+    max-width: 860px;
+}
+
+.seating-category-badge {
+    padding: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 3px;
+}
+
+.btn-primary, [data-bs-theme=dark] .product-card:hover .product-card-button {
+    --fn-btn-bg: var(--fn-primary);
+    --fn-btn-border-color: var(--fn-primary);
+    --fn-btn-disabled-bg: color-mix(in srgb, var(--fn-primary) 60%, #888);
+    --fn-btn-hover-bg: color-mix(in srgb, var(--fn-primary) 85%, black);
+    --fn-btn-active-bg: color-mix(in srgb, var(--fn-primary) 80%, black);
+    --fn-btn-hover-border-color: color-mix(in srgb, var(--fn-primary) 85%, black);
+    --fn-btn-active-border-color: color-mix(in srgb, var(--fn-primary) 80%, black);
+}
+
+.btn-outline-primary, .btn-outline-primary [data-bs-theme=dark] {
+    --fn-btn-color: var(--fn-primary);
+    --fn-btn-border-color: var(--fn-primary);
+    --fn-btn-hover-color: #fff;
+    --fn-btn-hover-bg: var(--fn-primary);
+    --fn-btn-hover-border-color: var(--fn-primary);
+    --fn-btn-active-color: #fff;
+    --fn-btn-active-bg: var(--fn-primary);
+    --fn-btn-disabled-color: var(--fn-primary);
+}
+
+a {
+    color: rgb(var(--fn-primary-rgb));
+}
+
+#event-description-short {
+    position: relative;
+}
+
+#event-description-short .event-description-gradient {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, var(--fn-body-bg) 28%, transparent 60%);
+    z-index: 10;
+}
+
+#event-description-short .event-description-btn {
+    position: relative;
+    z-index: 100;
+}
+
+.top-section-wide-image {
+    position: relative;
+    min-height: 565px;
+    height: 44vh;
+    background: url("../imgs/bg-imgs/event-page-1-banner.jpg") no-repeat center / cover;
+}
+
+@media (max-width: 767px) {
+    .top-section-wide-image {
+        min-height: auto;
+        padding: 125px 0px 100px;
+    }
+}
+
+.heading-without-carousel {
+    padding-bottom: 180px;
+}
+
+.header-top-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background: linear-gradient(0deg, rgba(20, 20, 20, 0) 0%, rgba(20, 20, 20, 1) 100%);
+}
+
+.img-event-chip {
+    height: 100px;
+    --fn-aspect-ratio: calc(520 / 966 * 100%);
+}
+
+/* when sticky, items should push out from the top edge a bit  */
+.sticky {
+    top: 5px;
+}
+
+.grayscale {
+    filter: grayscale(100%);
+}
+
+/* Todo: replace everywhere this is used with .object-fit-cover, then remove this class */
+.event {
+    object-fit: cover;
+}
+
+.hero-keyword {
+    color: var(--fn-tertiary-bg);
+    text-shadow: 1px 1px 0 var(--fn-border-color), -1px 1px 0 var(--fn-border-color), -1px -1px 0 var(--fn-border-color), 1px -1px 0 var(--fn-border-color);
+}
+
+footer {
+    background-color: var(--fn-body-bg);
+}
+
+.dropdown-item.active, .dropdown-item:active, .dropdown-item:hover {
+    background-color: var(--fn-tertiary-bg);
+}
+
+.form-control, .form-select {
+    --fn-form-control-bg: var(--fn-bg-color);
+    --fn-form-control-focus-bg: var(--fn-bg-color);
+}
+
+.spinner-border.text-primary {
+    color: var(--fn-primary) !important;
+}
+
+/* Additional Helper Classes */
+.text-decoration-dashed {
+    text-decoration: underline !important;
+    text-decoration-style: dashed !important;
+}
+
+.hover-effect-dashed:hover {
+    text-decoration: underline !important;
+    text-decoration-style: dashed !important;
+    text-decoration-thickness: var(--fn-border-width) !important;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}

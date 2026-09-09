@@ -1,0 +1,581 @@
+/* Articulat CF Font Family */
+@font-face { font-family: 'Articulat CF'; src: url('/fonts/ArticulatCF-Regular.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Articulat CF'; src: url('/fonts/ArticulatCF-RegularOblique.otf') format('opentype'); font-weight: 500; font-style: oblique; font-display: swap; }
+@font-face { font-family: 'Articulat CF'; src: url('/fonts/ArticulatCF-DemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Articulat CF'; src: url('/fonts/ArticulatCF-DemiBoldOblique.otf') format('opentype'); font-weight: 600; font-style: oblique; font-display: swap; }
+@font-face { font-family: 'Articulat CF'; src: url('/fonts/ArticulatCF-ExtraBold.otf') format('opentype'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Articulat CF'; src: url('/fonts/ArticulatCF-ExtraBoldOblique.otf') format('opentype'); font-weight: 800; font-style: oblique; font-display: swap; }
+
+:root, [data-bs-theme=light] {
+    --fn-primary: #CCDE00;
+    --fn-primary-rgb: 236, 174, 255;
+    --fn-dark: black;
+    --fn-dark-rgb: 0, 0, 0;
+    --fn-secondary: #310DA3;
+    --fn-secondary-rgb: 49, 13, 163;
+}
+
+body {
+    font-family: 'Articulat CF', sans-serif !important;
+}
+
+.bg-primary, footer {
+    background: #CCDE00 !important;
+}
+
+/* Interior marketplace pages mute the pink footer to design's dark→indigo gradient (same as
+   .card-surface-gradient). Class beats the element rule above, so this wins despite !important. */
+.footer-interior {
+    background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9), rgb(49, 13, 163)) !important;
+}
+
+/*
+    The newsletter block is a deliberately loud pink CTA. On the light pink, the title needs dark
+    text and the controls read best as a matched all-black pair (the select is already black via
+    its inline style). We also drop the social divider's top border, which would otherwise draw a
+    stray black line across the pink where the block meets the icons below.
+*/
+.newsletter-cta p {
+    color: #000;
+}
+
+.newsletter-cta .btn {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.newsletter-cta .btn:hover {
+    background: #222;
+}
+
+.newsletter-cta + .container .social-media {
+    border-top: 0;
+}
+
+.text-custom-primary {
+    color: #ECAEFF;
+}
+
+.text-custom-accent {
+    color: #310DA3;
+}
+
+[data-bs-theme=light] .h1,
+[data-bs-theme=light] .h2,
+[data-bs-theme=light] .h3,
+[data-bs-theme=light] .h4,
+[data-bs-theme=light] .h5,
+[data-bs-theme=light] .h6,
+[data-bs-theme=light] h1,
+[data-bs-theme=light] h2,
+[data-bs-theme=light] h3,
+[data-bs-theme=light] h4,
+[data-bs-theme=light] h5,
+[data-bs-theme=light] h6 {
+    font-weight: 700;
+}
+
+.text-default {
+    color: black;
+}
+
+[data-bs-theme=dark] .text-default {
+    color: white;
+}
+
+.badge.bg-dark {
+    background-color: black !important;
+}
+
+.pov-text-secondary {
+    color: #ECAEFF!important;
+}
+
+/*
+    Solid Dark Button in Light Theme
+    Solid Light Button in Dark Theme
+*/
+.pov-btn-dark, [data-bs-theme=dark] .pov-btn-light:not([data-bs-theme=light]) {
+    --fn-btn-bg: black;
+    --fn-btn-color: white;
+    --fn-btn-border-color: black;
+    --fn-btn-hover-color: black;
+    --fn-btn-hover-bg: transparent;
+    --fn-btn-hover-border-color: black;
+    --fn-btn-focus-shadow-rgb: 63, 71, 83;
+    --fn-btn-active-color: black;
+    --fn-btn-active-bg: #ECAEFF;
+    --fn-btn-active-border-color: black;
+    --fn-btn-active-shadow: none;
+    --fn-btn-disabled-color: #7c7c7c;
+    --fn-btn-disabled-bg: #f4d1ff;
+    --fn-btn-disabled-border-color: #f4d1ff;
+}
+
+.pov-btn-primary, [data-bs-theme=dark] .pov-btn-primary:not([data-bs-theme=light]) {
+    --fn-btn-bg: #ECAEFF;
+    --fn-btn-color: black;
+    --fn-btn-border-color: #ECAEFF;
+    --fn-btn-hover-color: white;
+    --fn-btn-hover-bg: #e96bff;
+    --fn-btn-hover-border-color: #e96bff;
+    --fn-btn-focus-shadow-rgb: 63, 71, 83;
+    --fn-btn-disabled-color: white;
+    --fn-btn-disabled-bg: #cebed3;
+    --fn-btn-disabled-border-color: #cebed3;
+}
+
+.custom-hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+}
+
+.custom-hero-mask {
+    position: absolute;
+    top: 0;
+    width: 15%;
+    height: 100%;
+    background: #CCDE00;
+
+    -webkit-mask-image: url(/storefront/images/logo.svg), linear-gradient(black, black);
+    -webkit-mask-repeat: no-repeat, repeat;
+    -webkit-mask-size: 85% auto, 100%;
+    -webkit-mask-position: center, center;
+    -webkit-mask-composite: xor, source-over;
+
+    mask-image: url(/storefront/images/logo.svg), linear-gradient(black, black);
+    mask-repeat: no-repeat, repeat;
+    mask-size: 85% auto, 100%;
+    mask-position: center, center;
+    mask-composite: exclude;
+}
+
+.custom-hero-media {
+    inset: 0;
+    position: relative;
+    height: 100%;
+    width: auto;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+}
+
+.custom-hero-media video {
+    position: relative;
+    height: 100%;
+    width: auto;
+    aspect-ratio: 16/9;
+    pointer-events: none;
+}
+
+.custom-hero-slogan {
+    position: relative;
+    text-align: center;
+    color: var(--fn-dark);
+    font-size: 1.1rem;
+    font-weight: bold;
+    line-height: 1em;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.custom-hero-mask:after {
+    position: absolute;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--fn-light);
+    line-height: 1.2;
+    text-align: center;
+    justify-items: end;
+    bottom: 5%;
+    padding: 10px;
+}
+
+.custom-hero-arrow {
+    position: relative;
+    align-self: center;
+    padding-top: 1em;
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .custom-hero-mask {
+        width: 20%;
+        -webkit-mask-size: 65% auto, 100%;
+        mask-size: 65% auto, 100%;
+    }
+}
+
+@media (max-width: 850px) {
+    .custom-hero-mask {
+        width: 30%;
+        -webkit-mask-size: 50% auto, 100%;
+        mask-size: 50% auto, 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-hero {
+        max-width: 100%;
+        margin-left: 0;
+        margin-top: 0;
+        width: 100%;
+        height: 100vh;
+        padding: unset;
+    }
+
+    .custom-hero-mask {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        -webkit-mask-size: 90% auto, 100%;
+        mask-size: 80% auto, 100%;
+    }
+
+    .custom-hero-media {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 100%;
+    }
+
+    .custom-hero-media video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        max-width: unset;
+    }
+
+    .custom-hero-slogan {
+        position: absolute;
+        z-index: 1;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: var(--fn-light);
+        font-size: 1.3rem;
+        font-weight: bold;
+        line-height: 1em;
+    }
+
+    .custom-hero-mask:after {
+        height: unset;
+        position: absolute;
+        bottom: 15%;
+        left: 12.5%;
+        font-size: 1.5rem;
+        text-align: left;
+    }
+
+    .custom-hero-arrow {
+        position: absolute;
+        bottom: 20px;
+        left: 25%;
+        transform: translateX(-50%);
+        text-align: unset;
+    }
+}
+
+.section-with-swiper {
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.swiper-pagination span.swiper-pagination-bullet {
+    border-radius: 2px;
+    width: 15px;
+    height: 4px;
+    background-color: color-mix(in oklab, #ECAEFF, black 15%);
+}
+
+.swiper-pagination span.swiper-pagination-bullet-active {
+    width: 30px;
+    background-color: var(--fn-dark);
+}
+
+.card-category {
+    color: #ECAEFF;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-title {
+    color: white;
+    font-weight: 800;
+    margin: 0;
+}
+
+.card-description {
+    color: #8c8c8c;
+    font-weight: 500;
+    margin: 0;
+}
+
+.ratio-6x5 {
+    aspect-ratio: 6/5;
+}
+
+.ratio-3x4 {
+    aspect-ratio: 3/4;
+}
+
+.ratio-5x3 {
+    aspect-ratio: 5/3;
+}
+
+.ratio-5x4 {
+    aspect-ratio: 5/4;
+}
+
+.card-arrow {
+    width: 40px;
+    height: 40px;
+    background: #ECAEFF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-arrow-positioned {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.datetime-on-image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: var(--fn-light);
+    border-top-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    backdrop-filter: blur(10px);
+}
+
+.datetime-on-image .icon {
+    color: #ECAEFF;
+}
+
+.swiper-slide {
+    transition: opacity .5s ease !important;
+}
+
+.swiper-slide:not(.swiper-slide-active,.no-opacity) {
+    opacity: 0.5;
+}
+
+.swiper-slide.swiper-slide-active {
+    opacity: 1;
+}
+
+.upcoming-events-section {
+    background-color: #030303;
+    background-image: url(/marketplace/images/circle.png);
+    background-position: top;
+    background-size: auto;
+    background-repeat: repeat-y;
+}
+
+.card-dark {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.card-surface-gradient {
+    background: linear-gradient(to bottom right, rgba(0,0,0,.9), rgba(0,0,0,.9), #310DA3);
+}
+
+@media (min-width: 769px) {
+    .card-variant-sm {
+        background: rgba(0,0,0,.6);
+    }
+    .card-variant-sm .image-container {
+        aspect-ratio: 5 / 2;
+        max-width: 100%;
+    }
+    .card-variant-sm .card-category {
+        font-size: 1.2em;
+    }
+    .card-variant-sm .card-title {
+        font-size: 1.4em;
+    }
+}
+
+.image-container {
+    position: relative;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.card-separator {
+    border-color: var(--fn-light);
+    border-width: thin;
+    opacity: .1;
+    margin: 10px 0;
+}
+
+.card-price .price-display {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #ECAEFF;
+}
+
+.card-price .currency-iso {
+    font-size: .5em;
+    font-weight: 600;
+}
+
+.card-heart {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    color: #ECAEFF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em;
+    text-decoration: none;
+    transition: transform 0.15s ease, color 0.15s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+.card-heart:active {
+    transform: scale(1.3);
+}
+.card-heart.is-hearted {
+    color: #ECAEFF;
+}
+
+.card-vertical {
+    position: relative;
+    background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+    z-index: 2;
+}
+
+.card-vertical-body {
+    padding-top: 30vh !important;
+}
+
+.card-vertical-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+footer {
+    overflow-x: hidden;
+}
+
+footer .container {
+    padding: 0;
+}
+
+@media (min-width: 992px) {
+    footer {
+        border-top: 1px solid var(--fn-dark);
+    }
+
+    footer .container {
+        padding: 2em 0;
+    }
+
+    footer .social-media {
+        border-left: 1px solid var(--fn-dark);
+    }
+}
+
+@media (max-width: 991px) {
+    footer .social-media {
+        border-top: 1px solid var(--fn-dark);
+        border-bottom: 1px solid var(--fn-dark);
+    }
+}
+
+.is-sold-out {
+    background: #333333;
+}
+
+.is-sold-out .image-container {
+    filter: grayscale(1);
+}
+
+.is-sold-out .card-category, .is-sold-out .card-title, .is-sold-out .card-description {
+    color: #9f9f9f;
+}
+
+.is-sold-out .card-title {
+    text-decoration: line-through;
+}
+
+.pov-navbar-light, .pov-navbar-light::before, .pov-navbar-light::after {
+    background: white;
+}
+
+[data-bs-theme=dark] .pov-navbar-auto, [data-bs-theme=dark] .pov-navbar-auto::before, [data-bs-theme=dark] .pov-navbar-auto::after {
+    background: white;
+}
+
+[data-bs-theme=light] .pov-navbar-auto, [data-bs-theme=light] .pov-navbar-auto::before, [data-bs-theme=light] .pov-navbar-auto::after {
+    background: #000;
+}
+
+/* Optically center the inline hamburger against the neighbouring font icons (fi-search / fi-user),
+   whose glyphs sit ~3px above their box center due to font metrics. */
+.pov-toggler-inline {
+    transform: translateY(-3px);
+}
+
+/*
+    Event ribbon colours, retuned to the vibrant POV palette on the marketplace.
+    ribbons.css ships the generic Tabler hues; this file loads after it and only on the
+    marketplace, so shops keep the Tabler colours untouched. Kept true to each colour name
+    so an admin's choice still reads as intended; text colour picked per background for contrast.
+*/
+.badge.bg-blue   { background: #2323f0; color: #fff; }
+.badge.bg-azure  { background: #3e9bff; color: #000; }
+.badge.bg-indigo { background: #4b23e0; color: #fff; }
+.badge.bg-purple { background: #7a2bf5; color: #fff; }
+.badge.bg-pink   { background: #ecaeff; color: #000; }
+.badge.bg-red    { background: #ff4132; color: #fff; }
+.badge.bg-orange { background: #ff7a1a; color: #000; }
+.badge.bg-yellow { background: #ffd21a; color: #000; }
+.badge.bg-lime   { background: #c4ff3d; color: #000; }
+.badge.bg-green  { background: #35da6a; color: #000; }
+.badge.bg-teal   { background: #17e0be; color: #000; }
+.badge.bg-cyan   { background: #22d3ee; color: #000; }
+.badge.bg-dark   { background: #000000; color: #fff; } /* also enforced by the bg-dark !important rule above */
+
+.pov-navbar-item-light:not(.dropdown-item) {
+    color: white;
+}
+
+.pov-navbar-item-dark:not(.dropdown-item) {
+    color: #000;
+}
+
+header {
+    z-index: 9999;
+}
