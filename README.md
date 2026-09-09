@@ -1,58 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## About POV Tickets
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is an e-commerce app for event tickets. It allows event organizers to put up an event for sale, then end-customers to purchase tickets to that event.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project uses the BALL stack, so it's:
+- Bootstrap
+- As-little-JS-as-possible
+- Laravel
+- Livewire
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+In addition:
+- the admin panel for this project uses [Backpack for Laravel](https://backpackforlaravel.com/) for... everything - authentication, CRUDs;
+- the front-end uses the [Tabler HTML template](https://tabler.io/);
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+1. Clone the repository `git clone https://github.com/DigitallyHappy/povtickets.git povtickets`
+2. Run `composer install`
+3. Run `cp .env.example .env` to clone the .env file, then customize it for your local environment
+4. Run `php artisan key:generate`
+5. Run `php artisan migrate --seed`
+6. Setup the payment integration:
+    - Add the payment provider certificates (eg. Netopia to `storage/app/certs/netopia/public_key.cer` and `storage/app/certs/netopia/private_key.key`);
+    - On localhost, be aware that if you want to have a complete payment flow, you need to expose your localhost to the Internet using Ngrok or Expose and set up a base URL for the IPN in the .env file - for example:  `NETOPIA_LOCAL_DEV_IPN_BASE_URL=https://3be2-bbbb-2f07-cccc-f800-dddd-807a-ffff-807a.ngrok-free.app`
+8. Remember to start the queue using `php artisan queue:work` or set `QUEUE_CONNECTION=sync` in your .env file;
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+If you can browse the backoffice but have JS errors, that means not all assets are being loaded properly. Please check [the Basset docs](https://github.com/Laravel-Backpack/basset?tab=readme-ov-file#basset-is-not-working-what-may-be-wrong).
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Development Guides
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- [File Migration Guide](docs/file-migration.md) - How to migrate files from production to your local environment
 
-## Agentic Development
+## Architecture
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+There are two sides to this app:
+- the storefront - runs on Livewire full-page components
+- the backoffice - runs on Backpack for Laravel
+
+## Database Schema
+
+![eer](https://github.com/user-attachments/assets/c49232a6-54fd-4a29-8c77-bcae3c612aa0)
+
+
+## Branching & Server Setup
+
+Git branches:
+- `main` - auto-deployed on https://staging.povtickets.com - protected branch, holds features after code review and dev testing;
+- `feature-example` - feature branches;
+
+When merging PRs to `main`, always squash-merge. Each PR needs to become ONE single commit when merging to `main`, with the commit message being `v2.x.y - what was done`. It is IMPORTANT to stick to this rule, because the commit message is the single source of truth for our application's version number. That version is then shown in the backoffice footer, to easily identify what version each client instance is using.
+
+## Services
+
+To run our environments, we use the following services:
+- **DNS** - [CloudFlare](https://cloudflare.com/) for `povtickets.com`; the client subdomain probably each use a different DNS provider, and point to our server IP;
+- **Hosting** - [DigitalOcean](https://digitalocean.com/) - each client has his own droplet; we have an extra droplet for our staging & testing environments;
+- **Server Provisioning & Management** - [Laravel Forge](https://forge.laravel.com/);
+- **Transactional Email** - [Resend](https://resend.com/);
+- **Payment Gateway** - [Netopia](https://admin.netopia-payments.com/);
+- **Error Logging** - [Flare](https://flareapp.io/);
+- **Analytics** - [Plausible](https://plausible.io/);
+
+## Manual Testing
+
+Manual testing can be done one https://staging.povtickets.com - as soon as a PR is merged into `main`, it will be deployed there. That instance also runs the seeders, so you can login using:
+- admin email: `admin@example.com`
+- admin password: `admin`
+
+To test payments using Netopia, you can use the following cards:
+- 9900004810225098 - card accepted (CVV = 111)
+- 9900541631437790 - card expired
+- 9900518572831942 - insufficient funds
+- 9900827979991500 - CVV2/CCV incorrect
+- 9900576270414197 - transaction denied (eg, card not registered)
+- 9900334791085173 - gard with high degree of risk (eg, stolen card)
+- 9900130597497640 - error with card bank (could not establish communication channel with bank that issued the card)
+
+To test emails, use our mailpit instance at [https://mailpit.povtickets.com](https://mailpit.povtickets.com) with either:
+- username `povtickets@digitallyhappy.com` and password `qky!mqg@GUY7jdf2nbk`
+- username `pov` and password `mailpitBcool`
+
+## Automated Testing
+
+Testing is done using PHPUnit for unit tests and and Laravel Dusk for browser tests:
+
+**Notes:**
+- If you want to SEE the browser tests running (maybe to debug them), add `DUSK_HEADLESS_DISABLED=true` to your `.env` file;
+- Local tests run on a `sqlite` db. You don't need to do anything.
+- Github Action tests run on a `mysql` db, to be an accurate representation of prod.
 
 ```bash
-composer require laravel/boost --dev
+# to run both test suites
+composer test
 
-php artisan boost:install
+# to only run unit and feature tests
+php artisan test
+
+# to only run dusk tests
+php artisan dusk
+
+# to run tests with coverage on localhost (requires Xdebug)
+composer test-coverage
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Test Coverage
 
-## Contributing
+The project is configured to generate test coverage reports in GitHub Actions. After each test run:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. The coverage percentage is displayed in the GitHub Actions summary
+2. A detailed HTML coverage report is available as an artifact named "coverage-report"
+3. Coverage is collected only for PHPUnit tests (unit and feature tests)
 
-## Code of Conduct
+To view the detailed HTML report:
+1. Go to the GitHub Actions run
+2. Scroll to the bottom of the page
+3. Under "Artifacts", download the "coverage-report" zip file
+4. Extract the zip and open "tests/Output/Coverage/html/index.html" in your browser
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Note:** Coverage is intentionally not collected for Dusk browser tests due to performance considerations. Collecting coverage during browser tests can cause tests to run extremely slowly and potentially time out in CI environments.
 
-## Security Vulnerabilities
+The coverage configuration is managed through:
+- **phpunit.xml** - Coverage configuration for unit and feature tests
+- **GitHub Actions workflow** - Runs PHPUnit tests with Xdebug enabled to generate coverage reports
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Running tests with coverage locally requires Xdebug to be installed. If you don't have Xdebug, you can still run the tests without coverage.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Proprietary. Do not distribute.
