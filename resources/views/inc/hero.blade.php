@@ -14,12 +14,7 @@
 </section>
 <div class="bg-dark py-3 custom-hero-bottom">
     <div class="container d-flex justify-content-between align-items-center">
-        <a class="text-white text-decoration-none">News</a>
-        <a class="text-white text-decoration-none">Things to do</a>
-        <a class="text-white text-decoration-none">Festivals</a>
-        <a class="text-white text-decoration-none">Food & Drink</a>
-        <a class="text-white text-decoration-none">Cinema</a>
-        <a class="text-white text-decoration-none">Theatre</a>
+        @include('inc.menu-item', ['items' => $menuItems, 'depth' => null])
     </div>
 </div>
 

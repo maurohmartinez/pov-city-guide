@@ -20,7 +20,7 @@ class MenuItem extends Model
 
     protected $table = 'menu_items';
 
-    protected $fillable = ['name', 'type', 'link', 'page_id', 'parent_id'];
+    protected $fillable = ['name', 'type', 'link', 'page_id', 'parent_id', 'depth', 'lft', 'rgt'];
 
     public array $translatable = ['name'];
 

@@ -1,5 +1,4 @@
 @php
-    $menuItems = \App\Models\MenuItem::getTree();
     // The marketplace navbar is too crowded on mobile to also hold the theme/language
     // switches, so it hosts them in the offcanvas instead. Shops keep them in the navbar.
     $switchesInOffcanvas = $switchesInOffcanvas ?? false;
@@ -26,9 +25,9 @@
                     @if($switchesInOffcanvas)
                         <div class="d-flex align-items-center flex-wrap gap-2 @unless($menuItems->isEmpty()) border-top pt-3 mt-3 @endunless">
                             <x-component::select-language :light-color="false"/>
-                            @if(\App\Services\PageService::hasAvailableColorModes())
-                                <x-component::select-theme :light-color="false" :with-label="true"/>
-                            @endif
+{{--                            @if(\App\Services\PageService::hasAvailableColorModes())--}}
+{{--                                <x-component::select-theme :light-color="false" :with-label="true"/>--}}
+{{--                            @endif--}}
                         </div>
                     @endif
                 </div>

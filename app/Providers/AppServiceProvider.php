@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\View\Composers\MenuComposer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,12 +16,17 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Make sure there's no funny business
         if (config('app.env') !== 'production') {
             Model::preventLazyLoading();
         }
 
-        // Register marketplace anonymous component path
         Blade::anonymousComponentPath(resource_path('views/components'), 'component');
+
+        View::composer(['inc.menu', 'inc.hero'], MenuComposer::class);
+
+        $macrosPath = app_path('Helpers/macros.php');
+        if (file_exists($macrosPath)) {
+            include_once($macrosPath);
+        }
     }
 }

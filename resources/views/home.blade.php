@@ -5,7 +5,6 @@
 @section('content')
     <div class="bg-primary">
         @include('inc.hero')
-
 {{--        @includeWhen(!$recommendedEvents->isEmpty(), 'marketplace.sections.recommended-for-you')--}}
 
 {{--        @includeWhen(!$spotlightEvent->isEmpty(), 'marketplace.sections.spotlight')--}}
