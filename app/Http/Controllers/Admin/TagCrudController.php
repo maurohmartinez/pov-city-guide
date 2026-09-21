@@ -18,6 +18,13 @@ class TagCrudController extends CrudController
         CRUD::setModel(Tag::class);
         CRUD::setRoute(route: config('backpack.base.route_prefix').'/tag');
         CRUD::setEntityNameStrings(singular: 'tag', plural: 'tags');
+        CRUD::addBaseClause('withCount', 'articles');
+    }
+
+    protected function setupListOperation(): void
+    {
+        CRUD::column('name')->label('Label');
+        CRUD::column('articles_count')->label('Articles');
     }
 
     protected function setupCreateOperation(): void
@@ -26,7 +33,7 @@ class TagCrudController extends CrudController
             'name' => 'required|max:100',
         ]);
 
-        CRUD::field('name')->label('Label')->type('text');
+        CRUD::field('name')->label('Name')->type('text');
 
         CRUD::autoTranslateConfirmationField();
     }
@@ -34,13 +41,6 @@ class TagCrudController extends CrudController
     protected function setupUpdateOperation(): void
     {
         $this->setupCreateOperation();
-    }
-
-    protected function setupListOperation(): void
-    {
-        CRUD::column('name')->label('Label');
-
-        CRUD::column('parent_id')->label('Parent')->type('select')->entity('parent');
     }
 
     protected function setupReorderOperation(): void

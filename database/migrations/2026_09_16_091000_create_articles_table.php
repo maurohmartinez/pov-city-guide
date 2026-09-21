@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('slug');
-            $table->json('images');
-            $table->json('extras');
+            $table->string('image');
+            $table->json('extras')->nullable()->default(null);
             $table->enum('visibility', VisibilityEnum::options())->default(VisibilityEnum::PRIVATE->value);
             $table->timestamps();
             $table->softDeletes();

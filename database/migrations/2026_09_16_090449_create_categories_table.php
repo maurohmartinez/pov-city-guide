@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->json('name');
             $table->string('slug');
-            $table->json('images');
+            $table->string('image');
             $table->integer('parent_id')->default(0)->nullable();
             $table->integer('lft')->default(0);
             $table->integer('rgt')->default(0);

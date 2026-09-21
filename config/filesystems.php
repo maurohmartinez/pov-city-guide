@@ -47,6 +47,24 @@ return [
             'report' => false,
         ],
 
+        'articles' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/articles'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage/articles',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'categories' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/categories'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage/categories',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

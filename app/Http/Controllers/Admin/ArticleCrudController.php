@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\VisibilityEnum;
 use App\Models\Article;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class ArticleCrudController extends CrudController
@@ -22,24 +23,45 @@ class ArticleCrudController extends CrudController
         CRUD::setEntityNameStrings(singular: 'article', plural: 'articles');
     }
 
+    protected function setupListOperation(): void
+    {
+        CRUD::column('small_image')->label('Image')->type('image');
+        CRUD::column('title')->label('Label');
+        CRUD::column('categories')->label('Categories');
+        CRUD::column('tags')->label('Tags');
+        CRUD::column('visibility')->label(__('common.visibility'))
+            ->type('enum')
+            ->enum(VisibilityEnum::cases())
+            ->wrapper([
+                'element' => 'span',
+                'class' => function (CrudPanel $crud, array $column, Article $entry) {
+                    return match ($entry->visibility) {
+                        VisibilityEnum::PUBLIC => 'badge bg-success-lt fs-6 py-1',
+                        VisibilityEnum::PRIVATE => 'badge bg-orange-lt fs-6 py-1',
+                        VisibilityEnum::HIDDEN => 'badge bg-dark-lt fs-6 py-1',
+                    };
+                },
+            ]);
+    }
+
     protected function setupCreateOperation(): void
     {
         CRUD::setValidation([
             'title' => 'required|max:200',
             'content' => 'required|max:1000',
-            'images' => 'required',
+            'image' => 'required',
             'visibility' => 'required|in:' . VisibilityEnum::toString(),
         ]);
 
         CRUD::field('title')->label('Label')->type('text');
 
-        CRUD::field('large')
+        CRUD::field('image')
             ->label('Image')
-            ->type('upload')
-            ->fake(true)
-            ->store_in('images')
-            ->withFiles(true)
-            ->hint(__('event.main_image_hint'));
+            ->type('image')
+            ->withFiles(['disk' => 'categories'])
+            ->crop(true)
+            ->aspect_ratio(16/9)
+            ->hint('Ideal size 2400×800px.');
 
         CRUD::field('content')
             ->type('ckeditor')
@@ -53,15 +75,8 @@ class ArticleCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    protected function setupListOperation(): void
-    {
-        CRUD::column('name')->label('Label');
-
-        CRUD::column('parent_id')->label('Parent')->type('select')->entity('parent');
-    }
-
     protected function setupReorderOperation(): void
     {
-        CRUD::enableReorder('name', 0);
+        CRUD::enableReorder('title', 1);
     }
 }

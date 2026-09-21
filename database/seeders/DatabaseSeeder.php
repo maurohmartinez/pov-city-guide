@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\Article;
+use App\Models\Category;
+use App\Models\Tag;
 use App\Models\User;
 use Backpack\Settings\app\Models\Setting;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     public function run(): void
     {
         User::factory()->create([
@@ -18,6 +18,20 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
         ]);
+
+        Category::factory()->count(7)->sequence(
+            ['name' => 'Concerts'],
+            ['name' => 'Fun'],
+            ['name' => 'Theatre'],
+            ['name' => 'Music'],
+            ['name' => 'Dance'],
+            ['name' => 'Film'],
+            ['name' => 'Other'],
+        )->create();
+
+        Tag::factory()->count(15)->create();
+
+        Article::factory()->count(50)->create();
 
         // Define social media links, for the footer
         Setting::query()

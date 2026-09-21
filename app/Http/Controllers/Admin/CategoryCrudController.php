@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Validation\Rules\ValidUpload;
 
 class CategoryCrudController extends CrudController
 {
@@ -19,29 +20,32 @@ class CategoryCrudController extends CrudController
         CRUD::setModel(Category::class);
         CRUD::setRoute(route: config('backpack.base.route_prefix').'/category');
         CRUD::setEntityNameStrings(singular: 'category', plural: 'categories');
+        CRUD::addBaseClause('withCount', 'articles');
+    }
+
+    protected function setupListOperation(): void
+    {
+        CRUD::column('small_image')->label('Image')->type('image');
+        CRUD::column('name')->label('Label');
+        CRUD::column('articles_count')->label('Articles');
     }
 
     protected function setupCreateOperation(): void
     {
         CRUD::setValidation([
             'name' => 'required|max:100',
-            'images' => 'required',
+            'image' => 'required',
         ]);
 
-        CRUD::field('name')->label('Label')->type('text');
+        CRUD::field('name')->label('Name')->type('text');
 
-        CRUD::field('parent_id')
-            ->label('Parent')
-            ->type('select')
-            ->entity('parent');
-
-        CRUD::field('large')
+        CRUD::field('image')
             ->label('Image')
-            ->type('upload')
-            ->fake(true)
-            ->store_in('images')
-            ->withFiles(true)
-            ->hint(__('event.main_image_hint'));
+            ->type('image')
+            ->withFiles(['disk' => 'categories'])
+            ->crop(true)
+            ->aspect_ratio(16/9)
+            ->hint('Ideal size 2400×800px.');
 
         CRUD::autoTranslateConfirmationField();
     }
@@ -49,13 +53,6 @@ class CategoryCrudController extends CrudController
     protected function setupUpdateOperation(): void
     {
         $this->setupCreateOperation();
-    }
-
-    protected function setupListOperation(): void
-    {
-        CRUD::column('name')->label('Label');
-
-        CRUD::column('parent_id')->label('Parent')->type('select')->entity('parent');
     }
 
     protected function setupReorderOperation(): void

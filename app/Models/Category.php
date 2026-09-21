@@ -2,24 +2,27 @@
 
 namespace App\Models;
 
+use App\Observers\CategoryObserver;
+use App\Traits\HasImages;
 use App\Traits\UseTranslatableToArray;
 use Backpack\AutoTranslate\Traits\HasAutoTranslations;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use App\Traits\HasCaseInsensitiveSearch;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ObservedBy(CategoryObserver::class)]
 class Category extends Model
 {
-    use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations, UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable;
+    use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
+    use UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable, HasImages;
 
-    protected $fillable = ['name', 'slug', 'images', 'parent_id', 'lft', 'rgt', 'depth'];
-
-    protected $casts = ['images' => 'array'];
+    protected $fillable = ['name', 'slug', 'image', 'parent_id', 'lft', 'rgt', 'depth'];
 
     public array $translatable = ['name'];
 
@@ -37,8 +40,8 @@ class Category extends Model
         ];
     }
 
-    public function articles(): HasMany
+    public function articles(): BelongsToMany
     {
-        return $this->hasMany(Article::class);
+        return $this->belongsToMany(Article::class);
     }
 }
