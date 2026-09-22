@@ -19,7 +19,7 @@ class ArticleCrudController extends CrudController
     public function setup(): void
     {
         CRUD::setModel(Article::class);
-        CRUD::setRoute(route: config('backpack.base.route_prefix').'/article');
+        CRUD::setRoute(route: config('backpack.base.route_prefix') . '/article');
         CRUD::setEntityNameStrings(singular: 'article', plural: 'articles');
     }
 
@@ -48,24 +48,33 @@ class ArticleCrudController extends CrudController
     {
         CRUD::setValidation([
             'title' => 'required|max:200',
-            'content' => 'required|max:1000',
+            'content' => 'required|max:3000',
             'image' => 'required',
             'visibility' => 'required|in:' . VisibilityEnum::toString(),
+            'categories' => 'required|exists:categories,id',
+            'tags' => 'sometimes|nullable|exists:tags,id',
         ]);
 
-        CRUD::field('title')->label('Label')->type('text');
+        CRUD::field('title')->label('Title');
+        CRUD::field('categories')->label('Categories')->size(6);
+        CRUD::field('tags')->label('Tags')->size(6);
 
         CRUD::field('image')
             ->label('Image')
             ->type('image')
-            ->withFiles(['disk' => 'categories'])
+            ->withFiles(['disk' => 'articles'])
             ->crop(true)
-            ->aspect_ratio(16/9)
+            ->aspect_ratio(16 / 9)
             ->hint('Ideal size 2400×800px.');
 
         CRUD::field('content')
             ->type('ckeditor')
             ->label('Content');
+
+        CRUD::field('visibility')
+            ->type('enum')
+            ->label('Visibility')
+            ->default(VisibilityEnum::PRIVATE);
 
         CRUD::autoTranslateConfirmationField();
     }

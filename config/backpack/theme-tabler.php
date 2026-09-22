@@ -59,6 +59,9 @@ return [
         base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/glass.css'),
         base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/fuzzy-background.css'),
 
+        // Project custom admin styles
+        public_path('css/admin.css'),
+
         // Or comment the two lines above and pick one skin:
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/atlas.css'),
         // base_path('vendor/backpack/theme-tabler/resources/assets/css/skins/manuscript.css'),

@@ -1,0 +1,4 @@
+/* Give the CKEditor content field a taller editing area */
+.ck-editor__editable_inline {
+    min-height: 400px;
+}
