@@ -292,7 +292,7 @@ body {
     border-radius: 2px;
     width: 15px;
     height: 4px;
-    background-color: color-mix(in oklab, #ECAEFF, black 15%);
+    background-color: color-mix(in oklab, #CCED00, black 15%);
 }
 
 .swiper-pagination span.swiper-pagination-bullet-active {
@@ -301,14 +301,14 @@ body {
 }
 
 .card-category {
-    color: #ECAEFF;
-    font-weight: 600;
+    color: #CCED00;
+    font-weight: 400;
     margin: 0;
 }
 
 .card-title {
     color: white;
-    font-weight: 800;
+    font-weight: 600;
     margin: 0;
 }
 
@@ -330,14 +330,18 @@ body {
     aspect-ratio: 5/3;
 }
 
+.ratio-5x2 {
+    aspect-ratio: 5/2;
+}
+
 .ratio-5x4 {
     aspect-ratio: 5/4;
 }
 
 .card-arrow {
-    width: 40px;
-    height: 40px;
-    background: #ECAEFF;
+    width: 30px;
+    height: 30px;
+    background: #CCED00;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -376,9 +380,8 @@ body {
     opacity: 1;
 }
 
-.upcoming-events-section {
-    background-color: #030303;
-    background-image: url(/marketplace/images/circle.png);
+.background-spin {
+    background-image: url(/images/circle.png);
     background-position: top;
     background-size: auto;
     background-repeat: repeat-y;
@@ -393,6 +396,10 @@ body {
     background: linear-gradient(to bottom right, rgba(0,0,0,.9), rgba(0,0,0,.9), #310DA3);
 }
 
+.card-surface {
+    background: rgba(0,0,0,.6);
+}
+
 @media (min-width: 769px) {
     .card-variant-sm {
         background: rgba(0,0,0,.6);
@@ -402,10 +409,10 @@ body {
         max-width: 100%;
     }
     .card-variant-sm .card-category {
-        font-size: 1.2em;
+        font-size: 1em;
     }
     .card-variant-sm .card-title {
-        font-size: 1.4em;
+        font-size: 1em;
     }
 }
 

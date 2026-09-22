@@ -26,12 +26,12 @@ class ArticleFactory extends Factory
 
     public function definition(): array
     {
-        $title = strtoupper(fake()->words(rand(1, 5), true));
+        $title = ucfirst(fake()->words(rand(1, 5), true));
 
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'content' => fake()->paragraphs(2),
+            'content' => fake()->paragraphs(2, true),
             'image' => $this->generateRandomColoredImage(2400, 800, $title, storage_path('app/public/articles'), 'article'),
             'visibility' => fake()->randomElement(VisibilityEnum::options()),
         ];

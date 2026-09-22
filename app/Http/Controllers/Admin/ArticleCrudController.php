@@ -64,7 +64,7 @@ class ArticleCrudController extends CrudController
             ->type('image')
             ->withFiles(['disk' => 'articles'])
             ->crop(true)
-            ->aspect_ratio(16 / 9)
+//            ->aspect_ratio(16 / 9)
             ->hint('Ideal size 2400×800px.');
 
         CRUD::field('content')

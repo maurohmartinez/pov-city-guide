@@ -13,4 +13,25 @@ trait HasImages
             get: fn () => ImageProcessingService::getSmallPath($this),
         );
     }
+
+    protected function mediumImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ImageProcessingService::getMediumPath($this),
+        );
+    }
+
+    protected function largeImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ImageProcessingService::getLargePath($this),
+        );
+    }
+
+    protected function originalImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ImageProcessingService::getOriginalPath($this),
+        );
+    }
 }

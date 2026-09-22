@@ -57,4 +57,19 @@ class ImageProcessingService
     {
         return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('small/' . $model->image . '.jpg');
     }
+
+    public static function getMediumPath(Category|Article $model): string
+    {
+        return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('medium/' . $model->image . '.jpg');
+    }
+
+    public static function getLargePath(Category|Article $model): string
+    {
+        return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('large/' . $model->image . '.jpg');
+    }
+
+    public static function getOriginalPath(Category|Article $model): string
+    {
+        return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('originals/' . $model->image . '.jpg');
+    }
 }
