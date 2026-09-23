@@ -138,7 +138,19 @@ body {
     --fn-btn-disabled-border-color: #cebed3;
 }
 
-.custom-hero-container {
+.tags {
+    background-color: rgba(0,0,0,.2);
+    color: black;
+    box-shadow: none;
+    border: none;
+}
+
+.tags:hover {
+    background-color: rgba(0,0,0,.6);
+    color: white;
+}
+
+.custom-hero-container:not(.minimalistic) {
     padding-bottom: 50px;
 }
 

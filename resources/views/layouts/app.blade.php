@@ -43,8 +43,6 @@
 </head>
 <body>
 
-@include('inc.header')
-
 <main class="bg-primary">
     @yield('content')
     @include('inc.footer')

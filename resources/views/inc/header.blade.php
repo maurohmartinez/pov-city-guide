@@ -1,5 +1,5 @@
 <!-- header-start -->
-<header data-pov-section="header" class="header w-100 py-3 ps-3 @if($__env->yieldContent('navbarColor') !== 'light') position-absolute top-0 start-0 @else bg-primary @endif">
+<header class="header">
     <div class="container position-relative z-1">
         <div class="header-wrapper d-flex align-items-center justify-content-between">
             <!-- header-logo -->

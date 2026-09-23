@@ -1,6 +1,6 @@
 @foreach($articles as $article)
     <div class="card-surface card-variant-sm p-2 rounded mb-3">
-        <a href="#" class="text-decoration-none">
+        <a href="{{ route('article', $article) }}" class="text-decoration-none">
             <div class="row position-relative">
                 <div class="col-5 col-lg-4">
                     <div class="overflow-hidden ratio-5x4 rounded hover-effect-scale">

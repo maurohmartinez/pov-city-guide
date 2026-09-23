@@ -13,7 +13,7 @@ class TagFactory extends Factory
 {
     public function definition(): array
     {
-        $name = fake()->words(3, true);
+        $name = ucfirst(fake()->words(2, true));
 
         return [
             'name' => $name,

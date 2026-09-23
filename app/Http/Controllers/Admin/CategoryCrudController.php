@@ -18,15 +18,15 @@ class CategoryCrudController extends CrudController
     {
         CRUD::setModel(Category::class);
         CRUD::setRoute(route: config('backpack.base.route_prefix').'/category');
-        CRUD::setEntityNameStrings(singular: 'category', plural: 'categories');
+        CRUD::setEntityNameStrings(singular: __('common.category'), plural: __('common.categories'));
         CRUD::addBaseClause('withCount', 'articles');
     }
 
     protected function setupListOperation(): void
     {
-        CRUD::column('small_image')->label('Image')->type('image');
-        CRUD::column('name')->label('Label');
-        CRUD::column('articles_count')->label('Articles');
+        CRUD::column('small_image')->label(__('common.image'))->type('image');
+        CRUD::column('name')->label(__('common.name'));
+        CRUD::column('articles_count')->label(__('common.articles'));
     }
 
     protected function setupCreateOperation(): void
@@ -36,10 +36,10 @@ class CategoryCrudController extends CrudController
             'image' => 'required',
         ]);
 
-        CRUD::field('name')->label('Name')->type('text');
+        CRUD::field('name')->label(__('common.name'))->type('text');
 
         CRUD::field('image')
-            ->label('Image')
+            ->label(__('common.image'))
             ->type('image')
             ->withFiles(['disk' => 'categories'])
             ->crop(true)

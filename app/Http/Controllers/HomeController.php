@@ -27,4 +27,11 @@ class HomeController extends Controller
             }, json_decode(Setting::get(SettingService::HOMEPAGE_SECTIONS), true)),
         ]);
     }
+
+    public function article(Article $article): View
+    {
+        return view('article', [
+            'article' => $article,
+        ]);
+    }
 }

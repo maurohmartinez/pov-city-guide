@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\VisibilityEnum;
 use App\Models\Article;
+use App\Models\Category;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -23,15 +24,15 @@ class ArticleCrudController extends CrudController
     {
         CRUD::setModel(Article::class);
         CRUD::setRoute(route: config('backpack.base.route_prefix') . '/article');
-        CRUD::setEntityNameStrings(singular: 'article', plural: 'articles');
+        CRUD::setEntityNameStrings(singular: __('common.article'), plural: __('common.articles'));
     }
 
     protected function setupListOperation(): void
     {
-        CRUD::column('small_image')->label('Image')->type('image');
-        CRUD::column('title')->label('Label');
-        CRUD::column('categories')->label('Categories');
-        CRUD::column('tags')->label('Tags');
+        CRUD::column('small_image')->label(__('common.image'))->type('image');
+        CRUD::column('title')->label(__('common.title'));
+        CRUD::column('categories')->label(__('common.categories'));
+        CRUD::column('tags')->label(__('common.tags'));
         CRUD::column('visibility')->label(__('common.visibility'))
             ->type('enum')
             ->enum(VisibilityEnum::cases())
@@ -58,12 +59,12 @@ class ArticleCrudController extends CrudController
             'tags' => 'sometimes|nullable|exists:tags,id',
         ]);
 
-        CRUD::field('title')->label('Title');
-        CRUD::field('categories')->label('Categories')->size(6);
-        CRUD::field('tags')->label('Tags')->size(6);
+        CRUD::field('title')->label(__('common.title'));
+        CRUD::field('categories')->label(__('common.categories'))->size(6);
+        CRUD::field('tags')->label(__('common.tags'))->size(6);
 
         CRUD::field('image')
-            ->label('Image')
+            ->label(__('common.image'))
             ->type('image')
             ->withFiles(['disk' => 'articles'])
             ->crop(true)
@@ -72,11 +73,11 @@ class ArticleCrudController extends CrudController
 
         CRUD::field('content')
             ->type('ckeditor')
-            ->label('Content');
+            ->label(__('common.content'));
 
         CRUD::field('visibility')
             ->type('enum')
-            ->label('Visibility')
+            ->label(__('common.visibility'))
             ->default(VisibilityEnum::PRIVATE);
 
         CRUD::autoTranslateConfirmationField();
@@ -94,6 +95,6 @@ class ArticleCrudController extends CrudController
 
     protected function fetchCategory(): JsonResponse|Paginator
     {
-        return $this->fetch(\App\Models\Category::class);
+        return $this->fetch(Category::class);
     }
 }

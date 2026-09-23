@@ -17,14 +17,14 @@ class TagCrudController extends CrudController
     {
         CRUD::setModel(Tag::class);
         CRUD::setRoute(route: config('backpack.base.route_prefix').'/tag');
-        CRUD::setEntityNameStrings(singular: 'tag', plural: 'tags');
+        CRUD::setEntityNameStrings(singular: __('common.tag'), plural: __('common.tags'));
         CRUD::addBaseClause('withCount', 'articles');
     }
 
     protected function setupListOperation(): void
     {
-        CRUD::column('name')->label('Label');
-        CRUD::column('articles_count')->label('Articles');
+        CRUD::column('name')->label(__('common.name'));
+        CRUD::column('articles_count')->label(__('common.articles'));
     }
 
     protected function setupCreateOperation(): void
@@ -33,7 +33,7 @@ class TagCrudController extends CrudController
             'name' => 'required|max:100',
         ]);
 
-        CRUD::field('name')->label('Name')->type('text');
+        CRUD::field('name')->label(__('common.name'))->type('text');
 
         CRUD::autoTranslateConfirmationField();
     }
