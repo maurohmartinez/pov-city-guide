@@ -23,8 +23,22 @@ body {
     background: #CCED00 !important;
 }
 
-.custom-hero-bottom {
+.stripe-menu {
     background-color: rgba(0,0,0,.6) !important;
+}
+
+@media (max-width: 768px) {
+    .stripe-menu {
+        position: relative;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;
+    }
+    .stripe-menu::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 /*

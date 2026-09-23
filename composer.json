@@ -13,10 +13,10 @@
         "backpack/auto-translate": "^0.4.5",
         "backpack/ckeditor-field": "^1.0",
         "backpack/crud": "^7.0",
-        "backpack/pagemanager": "^3.4",
         "backpack/pro": "^3.0",
         "backpack/settings": "^3.2",
         "backpack/theme-tabler": "^2.1",
+        "cviebrock/eloquent-sluggable": "^13.0",
         "intervention/image-laravel": "^4.1",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0"

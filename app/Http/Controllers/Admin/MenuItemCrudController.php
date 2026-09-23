@@ -35,10 +35,9 @@ class MenuItemCrudController extends CrudController
             ->type('select')
             ->entity('parent');
 
-        CRUD::field('type,link,page_id')
+        CRUD::field('type,link')
             ->label('Type')
-            ->type('page_or_link')
-            ->pageModel(Page::class);
+            ->type('page_or_link');
 
         CRUD::autoTranslateConfirmationField();
     }

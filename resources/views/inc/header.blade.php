@@ -4,7 +4,6 @@
         <div class="header-wrapper d-flex align-items-center justify-content-between">
             @php
                 $userHref = null; // guests → open auth modal
-                $seeAllUrl = \App\Services\PageService::getSeeAllUrl();
                 // the homepage hero already carries the logo, so the navbar doesn't repeat it
                 $showLogo = ($page->slug ?? null) !== '/';
             @endphp
@@ -31,13 +30,7 @@
                 </div>
             @endif
             <div class="d-flex align-items-center ms-auto">
-                @if($seeAllUrl)
-                    <a href="{{ url($seeAllUrl) }}" class="animate-scale">
-                @endif
-                    <i class="fi-search animate-target text-custom-accent fs-3 mx-1"></i>
-                @if($seeAllUrl)
-                    </a>
-                @endif
+                <i class="fi-search animate-target text-custom-accent fs-3 mx-1"></i>
                 @if($userHref)
                     <a href="{{ $userHref }}" class="mx-3 animate-shake text-custom-accent">
                         <i class="fi-user animate-target fs-3"></i>

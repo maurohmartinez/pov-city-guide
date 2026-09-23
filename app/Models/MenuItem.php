@@ -5,7 +5,6 @@ namespace App\Models;
 use Backpack\AutoTranslate\Traits\HasAutoTranslations;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
-use Backpack\PageManager\app\Models\Page;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,17 +30,12 @@ class MenuItem extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(MenuItem::class, 'parent_id')->with('children', 'page');
-    }
-
-    public function page(): BelongsTo
-    {
-        return $this->belongsTo(Page::class, 'page_id');
+        return $this->hasMany(MenuItem::class, 'parent_id')->with('children');
     }
 
     public static function getTree(): Collection
     {
-        return self::whereNull('parent_id')->orderBy('lft')->with('children', 'page')->get();
+        return self::whereNull('parent_id')->orderBy('lft')->with('children')->get();
     }
 
     public function url(): Attribute

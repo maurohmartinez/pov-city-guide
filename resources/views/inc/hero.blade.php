@@ -12,16 +12,6 @@
         <div class="custom-hero-mask"></div>
     </div>
 </section>
-<div class="bg-dark py-3 custom-hero-bottom">
-    <div class="container d-flex justify-content-between align-items-center">
-        @include('inc.menu-item', ['items' => $menuItems, 'depth' => null])
-    </div>
-</div>
-
-@push('after_styles')
-    <style>
-    </style>
-@endpush
 
 @push('after_scripts')
     <script>

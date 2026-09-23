@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::anonymousComponentPath(resource_path('views/components'), 'component');
 
-        View::composer(['inc.menu', 'inc.hero'], MenuComposer::class);
+        View::composer(['inc.menu', 'inc.stripe-menu'], MenuComposer::class);
 
         $macrosPath = app_path('Helpers/macros.php');
         if (file_exists($macrosPath)) {

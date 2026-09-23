@@ -3,41 +3,34 @@
 
 <?php
     $field['allows_null'] = $field['allows_null'] ?? false;
-   
-    [$type, $link, $page_id] = explode(',', $field['name']);
-    $field['configurationNames'] = [];
 
+    [$type, $link] = explode(',', $field['name']);
+
+    $field['configurationNames'] = [];
     $field['configurationNames']['type'] = $type ?? 'type';
     $field['configurationNames']['link'] = $link ?? 'link';
-    $field['configurationNames']['page_id'] = $page_id ?? 'page_id';
-    $field['options']['page_link'] = $field['options']['page_link'] ?? trans('backpack::crud.page_link');
     $field['options']['internal_link'] = $field['options']['internal_link'] ?? trans('backpack::crud.internal_link');
     $field['options']['external_link'] = $field['options']['external_link'] ?? trans('backpack::crud.external_link');
-
-    $field['pages'] = $field['pages'] ?? ($field['page_model'] ?? config('backpack.pagemanager.page_model_class'))::all();
 ?>
 
 @include('crud::fields.inc.wrapper_start')
     <label>{!! $field['label'] !!}</label>
     @include('crud::fields.inc.translatable_icon')
 
-    <div class="row" data-init-function="bpFieldInitPageOrLinkElement">
+    <div class="row" data-init-function="bpFieldInitLinkElement">
         {{-- hidden placeholders for content --}}
-        <input type="hidden" value="{{ $entry->{$field['configurationNames']['page_id']} ?? '' }}" name="{{ $field['configurationNames']['page_id'] }}" />
         <input type="hidden" value="{{ $entry->{$field['configurationNames']['link']} ?? '' }}" name="{{ $field['configurationNames']['link'] }}" />
 
         <div class="col-sm-3">
             {{-- type select --}}
             <select
-                data-identifier="page_or_link_select"
+                data-identifier="link_select"
                 name="{!! $field['configurationNames']['type'] !!}"
                 @include('crud::fields.inc.attributes')
                 >
-
                 @if ($field['allows_null'])
                     <option value="">-</option>
                 @endif
-
                 @foreach ($field['options'] as $key => $value)
                     <option value="{{ $key }}"
                         @if (isset($entry) && $key === $entry->{$field['configurationNames']['type']})
@@ -48,34 +41,13 @@
             </select>
         </div>
         <div class="col-sm-9">
-            {{-- page slug input --}}
-            @php
-                $shouldShowPageLink = (isset($entry) && $entry->{$field['configurationNames']['type']} === 'page_link') ||
-                     (isset($entry) && !$entry->{$field['configurationNames']['type']} && !$field['allows_null']) || 
-                     (!isset($entry) && !$field['allows_null']);
-
-            @endphp
-            <div class="page_or_link_value page_link {{ $shouldShowPageLink ? '' : 'd-none' }}">
-                <select
-                    class="form-control"
-                    for="{{ $field['configurationNames']['page_id'] }}"
-                    {{ $shouldShowPageLink ? 'required' : '' }}
-                    >
-                    @foreach ($field['pages'] as $page)
-                        <option value="{{ $page->id }}"
-                            @if (isset($entry) && $page->id === $entry->{$field['configurationNames']['page_id']})
-                                selected
-                            @endif
-                        >{{ $page->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
             {{-- internal link input --}}
             @php
-                $shouldShowInternalLink = isset($entry) && $entry->{$field['configurationNames']['type']} === 'internal_link';
+                $shouldShowInternalLink = (isset($entry) && $entry->{$field['configurationNames']['type']} === 'internal_link') ||
+                     (isset($entry) && !$entry->{$field['configurationNames']['type']} && !$field['allows_null']) ||
+                     (!isset($entry) && !$field['allows_null']);
             @endphp
-            <div class="page_or_link_value internal_link {{ $shouldShowInternalLink ? '' : 'd-none' }}">
+            <div class="link_value internal_link {{ $shouldShowInternalLink ? '' : 'd-none' }}">
                 <input
                     type="text"
                     class="form-control"
@@ -100,7 +72,7 @@
             @php
                 $shouldShowExternalLink = isset($entry) && $entry->{$field['configurationNames']['type']} === 'external_link';
             @endphp
-            <div class="page_or_link_value external_link {{ $shouldShowExternalLink ? '' : 'd-none' }}">
+            <div class="link_value external_link {{ $shouldShowExternalLink ? '' : 'd-none' }}">
                 <input
                     type="url"
                     class="form-control"
@@ -108,7 +80,7 @@
                     for="{{ $field['configurationNames']['link'] }}"
                     {{ $shouldShowExternalLink ? 'required' : '' }}
                     @if(isset($entry))
-                        @if (!in_array($entry->{$field['configurationNames']['type']}, ['external_link','page_link']))
+                        @if (!in_array($entry->{$field['configurationNames']['type']}, ['external_link']))
                             disabled="disabled"
                         @endif
 
@@ -142,11 +114,11 @@
     {{-- FIELD JS - will be loaded in the after_scripts section --}}
     @push('crud_fields_scripts')
     <script>
-        function bpFieldInitPageOrLinkElement(element) {
+        function bpFieldInitLinkElement(element) {
             element = element[0]; // jQuery > Vanilla
 
-            const select = element.querySelector('select[data-identifier=page_or_link_select]');
-            const values = element.querySelectorAll('.page_or_link_value');
+            const select = element.querySelector('select[data-identifier=link_select]');
+            const values = element.querySelectorAll('.link_value');
 
             // updates hidden fields
             const updateHidden = () => {
@@ -162,6 +134,7 @@
             // main select change
             select.addEventListener('change', () => {
                 values.forEach(value => {
+                    console.log(value);
                     let isSelected = value.classList.contains(select.value);
 
                     // toggle visibility, disabled and required validation

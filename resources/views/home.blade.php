@@ -6,20 +6,14 @@
     <div class="bg-primary">
         @include('inc.hero')
 
+        @include('inc.stripe-menu')
+
         <section class="container py-5 background-spin">
             <div class="row">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h3 class="m-0">Articles</h3>
                     </div>
-                    {{--            <div>--}}
-                    {{--                <a href="#" class="text-decoration-none">--}}
-                    {{--                    <i class="fi-sliders text-light fs-2 me-3"></i>--}}
-                    {{--                </a>--}}
-                    {{--                <a href="#" class="text-decoration-none">--}}
-                    {{--                    <i class="fi-sort text-light fs-2"></i>--}}
-                    {{--                </a>--}}
-                    {{--            </div>--}}
                 </div>
                 @php($firstArticle = $articles->first())
                 <div class="col-md-7">

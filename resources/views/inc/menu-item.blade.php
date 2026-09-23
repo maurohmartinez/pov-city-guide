@@ -1,6 +1,6 @@
 @foreach($items as $item)
     @if($depth === null)
-        <a class="text-white text-decoration-none" href="{{ $item->url }}">{{ $item->name }}</a>
+        <a class="text-white text-decoration-none @if(!$loop->first) px-4 @else pe-4 @endif mx-md-0" href="{{ $item->url }}">{{ $item->name }}</a>
     @else
         @if($item->children->isEmpty())
             <li class="@if($depth === 0) nav-item @endif">

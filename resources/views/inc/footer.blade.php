@@ -6,22 +6,6 @@
 @endphp
 
 <footer>
-    @if(\App\Services\PageService::isUsingMarketplace())
-        @php
-            $webUser = auth()->guard('web')->user();
-            $alreadySubscribed = $webUser && $webUser->newsletterSubscription?->isActive();
-        @endphp
-        @if($webUser && !$alreadySubscribed)
-            {{-- Deliberately loud pink CTA on every page — this is the one footer element we DO want to grab attention. --}}
-            <div class="row p-4 bg-primary newsletter-cta mb-n1">
-                <div class="col-12 col-lg-6 offset-lg-3">
-                    <p class="text-center mb-3">{{ __('marketplace.newsletter_subscribe') }}</p>
-                    <livewire:marketplace.account-newsletter-form />
-                </div>
-            </div>
-        @endif
-    @endif
-
     <div class="container">
         <div class="row">
             {{-- Only show this footer section if it will show something --}}

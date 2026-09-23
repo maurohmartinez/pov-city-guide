@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5464c4b33d039e78082fb414e5354b7a",
+    "content-hash": "77dd59db590bfcce1137b6f6a9d7c9e6",
     "packages": [
         {
             "name": "backpack/auto-translate",
@@ -289,78 +289,6 @@
                 "source": "https://github.com/Laravel-Backpack/CRUD/tree/7.1.15"
             },
             "time": "2026-08-25T09:58:21+00:00"
-        },
-        {
-            "name": "backpack/pagemanager",
-            "version": "3.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Backpack/PageManager.git",
-                "reference": "b94a391f6eb3622a029ce5a9f32bb3e35ad5a302"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/PageManager/zipball/b94a391f6eb3622a029ce5a9f32bb3e35ad5a302",
-                "reference": "b94a391f6eb3622a029ce5a9f32bb3e35ad5a302",
-                "shasum": ""
-            },
-            "require": {
-                "backpack/crud": "^4.0||^5.0||^6.0||^7.0",
-                "cviebrock/eloquent-sluggable": "^13.0||^12.0||^11.0||^10.0||^9.0||^8.0||^7.0||^6.0||4.8"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^11.0||^10.0||^9.0||^7.0",
-                "scrutinizer/ocular": "~1.1",
-                "squizlabs/php_codesniffer": "~2.3||~3.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Backpack\\PageManager\\PageManagerServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Backpack\\PageManager\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Cristian Tabacitu",
-                    "email": "tabacitu@backpackforlaravel.com",
-                    "homepage": "https://backpackforlaravel.com",
-                    "role": "Architect & Developer"
-                }
-            ],
-            "description": "Create admin panels for presentation websites on Laravel, using page templates and Backpack\\CRUD.",
-            "homepage": "https://github.com/laravel-backpack/PageManager",
-            "keywords": [
-                "Content management system",
-                "admin panel",
-                "administer pages",
-                "backpack",
-                "cms",
-                "crud",
-                "manage pages",
-                "pagemanager",
-                "presentation pages",
-                "presentation website",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/Laravel-Backpack/PageManager/issues",
-                "source": "https://github.com/Laravel-Backpack/PageManager/tree/3.4.1"
-            },
-            "time": "2026-03-20T09:47:01+00:00"
         },
         {
             "name": "backpack/pro",
