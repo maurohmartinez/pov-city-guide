@@ -1,8 +1,5 @@
 @php
     $socialMediaLinks = json_decode(\Backpack\Settings\app\Models\Setting::get('social_media_links'), true);
-    // The bright pink footer is a deliberate homepage flourish; on interior pages it just shouts
-    // for attention where we'd rather the eye stay on buying/browsing, so we mute it to the gradient.
-    $isHomepage = ($page->slug ?? null) === '/';
 @endphp
 
 <footer>
@@ -33,7 +30,6 @@
                 <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('terms-and-conditions') }}">@lang('common.terms_and_conditions')</a></div>
                 <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('privacy-policy') }}">@lang('common.privacy_policy')</a></div>
                 <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('cookie-policy') }}">@lang('common.cookie_policy')</a></div>
-                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('delivery-and-refund-policy') }}">@lang('common.delivery_and_refund_policy')</a></div>
             </div>
 
             @if (config('custom.currency_iso') === 'RON')

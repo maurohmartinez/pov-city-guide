@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@push('title', $page?->title ?? null)
-
 @section('content')
     <div class="bg-primary">
         @include('inc.hero')
