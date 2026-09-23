@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function index(): View
     {
         return view('home', [
-            'articles' => Article::query()->with(['categories', 'tags'])->limit(5)->get(),
+            'articles' => Article::query()->with(['categories', 'tags'])->limit(4)->get(),
             'sections' => array_map(function (array $value) {
                 return [
                     'category' => Category::find($value['category_id']),

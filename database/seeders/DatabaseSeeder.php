@@ -36,12 +36,12 @@ class DatabaseSeeder extends Seeder
         Setting::query()
             ->where('key', 'social_media_links')
             ->update(['value' => json_encode([
-                ['type' => 'instagram', 'link' => fake()->url()],
                 ['type' => 'facebook', 'link' => fake()->url()],
-                ['type' => 'x', 'link' => fake()->url()],
+                ['type' => 'instagram', 'link' => fake()->url()],
+//                ['type' => 'x', 'link' => fake()->url()],
                 ['type' => 'tiktok', 'link' => fake()->url()],
-                ['type' => 'youtube', 'link' => fake()->url()],
-                ['type' => 'vimeo', 'link' => fake()->url()],
+//                ['type' => 'youtube', 'link' => fake()->url()],
+//                ['type' => 'vimeo', 'link' => fake()->url()],
             ])]);
 
         Setting::query()

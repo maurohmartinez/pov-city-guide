@@ -1,6 +1,6 @@
 <div class="card-surface rounded mb-3">
     <a href="#" class="text-decoration-none">
-        <div class="overflow-hidden ratio-5x3 rounded hover-effect-scale">
+        <div class="overflow-hidden ratio-{{ $ratio ?? '5x3' }} rounded hover-effect-scale">
             <div
                 class="image-container hover-effect-target"
                 style="background-image: url('{{ $article->medium_image }}');"
