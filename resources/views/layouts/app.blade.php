@@ -52,12 +52,16 @@
     <link rel="stylesheet" href="{{ asset('storefront/css/swiper-bundle.min.css?v='.app_version()) }}">
     <link rel="stylesheet" href="{{ asset('storefront/css/marketplace.css?v='.app_version()) }}"/>
 
-    <link rel="icon" type="image/png" href="{{ asset('favicon/favicon-96x96.png') }}" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}" />
+    <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}">
     <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}" />
-    <meta name="apple-mobile-web-app-title" content="POVT" />
-    <link rel="manifest" href="{{ asset('favicon/site.webmanifest') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('favicon/android-chrome-192x192.png') }}" sizes="96x96" />
+    <link rel="icon" type="image/png" href="{{ asset('favicon/android-chrome-512x512.png') }}" sizes="96x96" />
+    <meta name="apple-mobile-web-app-title" content="POVCityGuide" />
 
     @stack('styles')
     @stack('after_styles')
