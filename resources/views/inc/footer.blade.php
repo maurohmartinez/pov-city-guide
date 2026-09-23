@@ -1,7 +1,3 @@
-@php
-    $socialMediaLinks = json_decode(\Backpack\Settings\app\Models\Setting::get('social_media_links'), true);
-@endphp
-
 <footer>
     <div class="container">
         <div class="row">

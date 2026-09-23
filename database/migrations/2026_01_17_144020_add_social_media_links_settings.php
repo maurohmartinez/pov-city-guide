@@ -1,19 +1,19 @@
 <?php
 
+use App\Services\SettingService;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         DB::table(config('backpack.settings.table_name'))->insert(
             [
-                'key'         => 'social_media_links',
-                'name'        => 'Social Media Links',
+                'key' => SettingService::SOCIAL_MEDIA_LINKS,
+                'name' => 'Social Media Links',
                 'description' => 'Social media links to display.',
-                'value'       => null,
-                'field'       => json_encode([
+                'value' => null,
+                'field' => json_encode([
                     'name' => 'value',
                     'label' => 'Links',
                     'type' => 'repeatable',
@@ -42,7 +42,7 @@ return new class extends Migration
                         ],
                     ],
                 ]),
-                'active'      => 1,
+                'active' => 1,
             ]
         );
     }
@@ -50,7 +50,7 @@ return new class extends Migration
     public function down(): void
     {
         DB::table(config('backpack.settings.table_name'))
-            ->where('key', 'social_media_links')
+            ->where('key', SettingService::SOCIAL_MEDIA_LINKS)
             ->delete();
     }
 };

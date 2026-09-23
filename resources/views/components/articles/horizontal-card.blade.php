@@ -16,11 +16,8 @@
                         <small>{{ implode(', ', $article->categories->pluck('name')->toArray()) }}&nbsp;</small>
                     </p>
                     <p class="card-title text-truncate">{{ $article->title }}</p>
-                    <p class="card-description text-light text-truncate d-block d-lg-none">
-                        <small>Something</small>
-                    </p>
-                    <p class="card-description text-light d-none d-lg-block pe-4 lh-1">
-                        <small>{{ \Illuminate\Support\Str::words(strip_tags($article->content), 10) }}</small>
+                    <p class="card-description text-light pe-4 lh-1">
+                        <small>{{ \Illuminate\Support\Str::words(strip_tags($article->content), 7) }}</small>
                     </p>
                 </div>
                 <div class="card-arrow card-arrow-positioned text-dark bottom-0">

@@ -4,34 +4,9 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <!-- Inline light/dark theme script to prevent white flash in dark mode -->
-    <script>
-        (function() {
-{{--            @if(\App\Services\PageService::hasAvailableColorModes())--}}
-{{--            const theme = localStorage.getItem('theme') || 'light';--}}
-{{--            @else--}}
-{{--            const theme = '{{ \App\Services\PageService::getColorMode() }}';--}}
-            const theme = 'light';
-{{--            @endif--}}
-            if (theme === 'auto') {
-                const defaultTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                document.documentElement.setAttribute('data-bs-theme', defaultTheme);
-                localStorage.setItem('theme', defaultTheme);
-            } else {
-                document.documentElement.setAttribute('data-bs-theme', theme);
-                localStorage.setItem('theme', theme);
-            }
-        })();
-    </script>
-
     <title>@stack('title', config('app.name'))</title>
-    <meta name="description" content="@stack('meta-description', '')"/>
 
     @stack('metas')
-
-    {!! config('settings.custom_head_start_code') ?? '' !!}
-
     @stack('before_styles')
 
     <link rel="stylesheet" href="{{ asset('storefront/css/theme.min.css') }}" id="theme-styles">
@@ -65,16 +40,12 @@
 
     @stack('styles')
     @stack('after_styles')
-
-    {!! config('settings.custom_head_end_code') ?? '' !!}
 </head>
 <body>
 
-{!! config('settings.custom_body_start_code') ?? '' !!}
-
 @include('inc.header')
 
-<main>
+<main class="bg-primary">
     @yield('content')
     @include('inc.footer')
 </main>
@@ -90,7 +61,6 @@
 @stack('scripts')
 @stack('after_scripts')
 
-{!! config('settings.custom_body_end_code') ?? '' !!}
 <!-- scripts end -->
 </body>
 </html>

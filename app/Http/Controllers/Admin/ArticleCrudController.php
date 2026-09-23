@@ -7,6 +7,8 @@ use App\Models\Article;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\Paginator;
 
 class ArticleCrudController extends CrudController
 {
@@ -15,6 +17,7 @@ class ArticleCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+    use \Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 
     public function setup(): void
     {
@@ -87,5 +90,10 @@ class ArticleCrudController extends CrudController
     protected function setupReorderOperation(): void
     {
         CRUD::enableReorder('title', 1);
+    }
+
+    protected function fetchCategory(): JsonResponse|Paginator
+    {
+        return $this->fetch(\App\Models\Category::class);
     }
 }

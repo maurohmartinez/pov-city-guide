@@ -5,12 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreatePagesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         // TODO: use JSON data type for 'extras' instead of string
         Schema::create('pages', function (Blueprint $table) {
@@ -26,12 +21,7 @@ class CreatePagesTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::drop('pages');
     }
