@@ -15,7 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
-    use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations, UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable;
+    use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
+    use UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable;
 
     protected $fillable = ['name', 'slug'];
 

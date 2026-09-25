@@ -141,13 +141,7 @@ body {
 .tags {
     background-color: rgba(0,0,0,.2);
     color: black;
-    box-shadow: none;
-    border: none;
-}
-
-.tags:hover {
-    background-color: rgba(0,0,0,.6);
-    color: white;
+    padding: 10px 20px;
 }
 
 .custom-hero-container:not(.minimalistic) {
@@ -457,6 +451,10 @@ body {
 
 .card-surface {
     background: rgba(0,0,0,.6);
+}
+
+a.card-category:hover {
+    color: #a8c100;
 }
 
 @media (min-width: 769px) {

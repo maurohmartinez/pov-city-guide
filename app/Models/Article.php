@@ -12,6 +12,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,6 +56,21 @@ class Article extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function scopePublic(Builder $query)
+    {
+        return $query->where('visibility', VisibilityEnum::PUBLIC);
+    }
+
+    public function scopePrivate(Builder $query)
+    {
+        return $query->where('visibility', VisibilityEnum::PRIVATE);
+    }
+
+    public function scopeHidden(Builder $query)
+    {
+        return $query->where('visibility', VisibilityEnum::HIDDEN);
     }
 
     public function related(): Attribute
