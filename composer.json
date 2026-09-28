@@ -25,6 +25,7 @@
     "require-dev": {
         "backpack/generators": "^4.1",
         "fakerphp/faker": "^1.23",
+        "laravel/dusk": "^8.7",
         "laravel/pail": "^1.2.5",
         "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",
@@ -62,7 +63,7 @@
         ],
         "test": [
             "@php artisan config:clear --ansi @no_additional_args",
-            "@php artisan test"
+            "@php artisan test && php artisan dusk"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
