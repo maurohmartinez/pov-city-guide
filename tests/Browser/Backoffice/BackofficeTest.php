@@ -3,12 +3,11 @@
 namespace Tests\Browser\Backoffice;
 
 use Laravel\Dusk\Browser;
-use Tests\Browser\Utils\ChecksForConsoleErrors;
 use Tests\DuskTestCase;
 
 class BackofficeTest extends DuskTestCase
 {
-    use ChecksForConsoleErrors;
+    use \Tests\Browser\Utils\ChecksForConsoleErrors;
 
     public function setUp(): void
     {

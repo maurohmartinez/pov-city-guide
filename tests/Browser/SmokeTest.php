@@ -2,47 +2,53 @@
 
 namespace Tests\Browser;
 
-use Backpack\Settings\app\Models\Setting;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Throwable;
 
 class SmokeTest extends DuskTestCase
 {
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
+    /**
+     * @throws Throwable
+     */
     public function testRootUrlLoads(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSee('Terms and Conditions');
+                ->assertSee('The new kind of city guide');
         });
     }
 
-//    public function testTermsUrlLoads(): void
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $browser->visit('/terms-and-conditions')
-//                    ->assertSee('Terms and Conditions');
-//        });
-//    }
-//
-//    public function testPrivacyUrlLoads(): void
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $browser->visit('/privacy-policy')
-//                    ->assertSee('Privacy Policy');
-//        });
-//    }
-//
-//    public function testCookiesUrlLoads(): void
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $browser->visit('/cookie-policy')
-//                    ->assertSee('Cookie Policy');
-//        });
-//    }
+    /**
+     * @throws Throwable
+     */
+    public function testTermsUrlLoads(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/terms-and-conditions')
+                ->assertSee(__('common.terms_and_conditions'));
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testPrivacyUrlLoads(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/privacy-policy')
+                ->assertSee(__('common.privacy_policy'));
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testCookiesUrlLoads(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/cookie-policy')
+                ->assertSee(__('common.cookie_policy'));
+        });
+    }
 }

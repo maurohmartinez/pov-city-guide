@@ -23,9 +23,9 @@
             @endif
 
             <div class="col-lg-7 @if (!$socialMediaLinks) offset-lg-2 @endif text-center d-block d-lg-flex justify-content-between legal align-items-center px-5 my-2 my-lg-0 order-lg-1">
-                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('terms-and-conditions') }}">@lang('common.terms_and_conditions')</a></div>
-                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('privacy-policy') }}">@lang('common.privacy_policy')</a></div>
-                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ url('cookie-policy') }}">@lang('common.cookie_policy')</a></div>
+                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ route('terms-and-conditions') }}">@lang('common.terms_and_conditions')</a></div>
+                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ route('privacy-policy') }}">@lang('common.privacy_policy')</a></div>
+                <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ route('cookie-policy') }}">@lang('common.cookie_policy')</a></div>
             </div>
 
             @if (config('custom.currency_iso') === 'RON')

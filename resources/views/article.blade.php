@@ -17,7 +17,7 @@
     @include('inc.hero', ['minimalistic' => true])
     @include('inc.stripe-menu')
 
-    <section class="container my-5">
+    <section class="container my-5" dusk="top">
         <div class="card-surface rounded mb-3 overflow-hidden">
             <div class="row position-relative p-3">
                 <h5 class="card-category text-truncate">
@@ -50,7 +50,7 @@
 
     @php($relatedArticles = $article->related)
     @if($relatedArticles)
-        <section class="my-5 pt-3">
+        <section class="my-5 pt-3" dusk="related">
             <h5 class="container">{{ __('common.you_might_also_be_intered_in') }}</h5>
             <div class="container-lg p-0">
                 @include('components.articles.cards-sm-carousel', ['articles' => $relatedArticles])

@@ -12,7 +12,7 @@ trait ChecksForConsoleErrors
      *
      * @param Browser $browser
      */
-    public function assertNoConsoleErrors(Browser $browser)
+    public function assertNoConsoleErrors(Browser $browser): void
     {
         $logs = $browser->driver->manage()->getLog('browser');
 
@@ -22,7 +22,7 @@ trait ChecksForConsoleErrors
             ];
 
             foreach ($ignored_browser_console_errors as $error) {
-                if (strpos($log['message'], $error) !== false) {
+                if (str_contains($log['message'], $error)) {
                     return false;
                 }
             }
