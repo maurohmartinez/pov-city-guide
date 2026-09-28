@@ -27,7 +27,7 @@ class HomeController extends Controller
                         ->limit(10)
                         ->get(),
                 ];
-            }, json_decode(Setting::get(SettingService::HOMEPAGE_SECTIONS), true)),
+            }, json_decode(Setting::get(SettingService::HOMEPAGE_SECTIONS), true) ?? []),
         ]);
     }
 

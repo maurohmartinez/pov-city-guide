@@ -11,12 +11,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-7">
-                    @include('components.articles.hero', ['article' => $articles->first(), 'ratio' => '5x2'])
+                <div class="col-md-{{ $articles->count() > 1 ? 7 : 12 }}">
+                    @includeWhen($articles->isNotEmpty(), 'components.articles.hero', ['article' => $articles->first(), 'ratio' => '5x2'])
                 </div>
-                <div class="col-md-5">
-                    @include('components.articles.horizontal-card', ['articles' => $articles->slice(1)])
-                </div>
+                @if($articles->count() > 1)
+                    <div class="col-md-5">
+                        @include('components.articles.horizontal-card', ['articles' => $articles->slice(1)])
+                    </div>
+                @endif
             </div>
         </div>
         @foreach($sections as $section)

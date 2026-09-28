@@ -20,10 +20,12 @@
         "intervention/image-laravel": "^4.1",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
-        "livewire/livewire": "^4.4"
+        "livewire/livewire": "^4.4",
+        "ext-gd": "*"
     },
     "require-dev": {
         "backpack/generators": "^4.1",
+        "backpack/test-generators": "^1.0",
         "fakerphp/faker": "^1.23",
         "laravel/dusk": "^8.7",
         "laravel/pail": "^1.2.5",

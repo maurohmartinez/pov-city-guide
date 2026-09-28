@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 class ArticleFactory extends Factory
 {
     use \Database\Factories\Concerns\GeneratesRandomColoredImage;
+    use \App\Traits\HasImageFactory;
 
     public function configure(): static
     {

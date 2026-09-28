@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ad8e625a7d112497ba3f16ee5870f9e",
+    "content-hash": "22ada7943496a5e05b4c198fe692669f",
     "packages": [
         {
             "name": "backpack/auto-translate",
@@ -7501,6 +7501,48 @@
                 "source": "https://github.com/Laravel-Backpack/Generators/tree/v4.1.1"
             },
             "time": "2025-12-22T11:02:21+00:00"
+        },
+        {
+            "name": "backpack/test-generators",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:Laravel-Backpack/test-generators.git",
+                "reference": "fae1ee8a04793e3a2053c34fa0e4153fd0f9f43d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.backpackforlaravel.com/dist/backpack/test-generators/backpack-test-generators-fae1ee8a04793e3a2053c34fa0e4153fd0f9f43d-zip-851548.zip",
+                "reference": "fae1ee8a04793e3a2053c34fa0e4153fd0f9f43d",
+                "shasum": "12eca2e1e729232f874ee2fcee096f57cd5bd483"
+            },
+            "require": {
+                "backpack/crud": "^7.1.6",
+                "laravel/prompts": "^0.1 || ^0.2 || ^0.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Backpack\\TestGenerators\\BackpackTestGeneratorsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Backpack\\TestGenerators\\": "src/"
+                }
+            },
+            "description": "Test generators for Backpack",
+            "keywords": [
+                "backpack",
+                "laravel"
+            ],
+            "support": {
+                "source": "https://github.com/Laravel-Backpack/test-generators/tree/1.0.2",
+                "issues": "https://github.com/Laravel-Backpack/test-generators/issues"
+            },
+            "time": "2026-07-15T12:50:06+00:00"
         },
         {
             "name": "fakerphp/faker",
