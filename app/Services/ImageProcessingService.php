@@ -32,7 +32,9 @@ class ImageProcessingService
         self::processBySize($disk, self::SIZE_MEDIUM, $model);
         self::processBySize($disk, self::SIZE_SMALL, $model);
 
+        // Should we remove the original? Not for now... will see later.
         Storage::disk($disk)->move($model->image, $model->image);
+//        Storage::disk($disk)->delete($model->image);
     }
 
     public static function processBySize(string $disk, string $size, Category|Article $model): void

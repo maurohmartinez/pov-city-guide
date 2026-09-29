@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
  */
 class ArticleFactory extends Factory
 {
-    use \Database\Factories\Concerns\GeneratesRandomColoredImage;
     use \App\Traits\HasImageFactory;
 
     public function configure(): static
@@ -33,7 +32,7 @@ class ArticleFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title),
             'content' => fake()->paragraphs(2, true),
-            'image' => $this->generateRandomColoredImage(2400, 800, $title, storage_path('app/public/articles'), 'article'),
+            'image' => 'sample.jpg',
             'visibility' => fake()->randomElement(VisibilityEnum::options()),
         ];
     }

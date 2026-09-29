@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait EnumTrait
+trait Enum
 {
     public static function options(): array
     {

@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
  */
 class CategoryFactory extends Factory
 {
-    use \Database\Factories\Concerns\GeneratesRandomColoredImage;
     use \App\Traits\HasImageFactory;
 
     public function definition(): array
@@ -21,7 +20,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'image' => $this->generateRandomColoredImage(2400, 800, $name, storage_path('app/public/categories'), 'category'),
+            'image' => 'sample.jpg',
         ];
     }
 }

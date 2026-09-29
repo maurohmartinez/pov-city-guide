@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Traits\EnumTrait;
+use App\Traits\Enum;
 
 enum VisibilityEnum: string
 {
-    use EnumTrait;
+    use Enum;
 
     case PUBLIC = 'PUBLIC';
     case PRIVATE = 'PRIVATE';
