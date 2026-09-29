@@ -11,7 +11,7 @@
             'siteName' => config('app.name'),
         ])
 @endpush
-@push('meta-description', $article->title) {{--TODO!--}}
+@push('meta-description', \Illuminate\Support\Str::words(strip_tags($article->content), 40))
 
 @section('content')
     @include('inc.hero', ['minimalistic' => true])

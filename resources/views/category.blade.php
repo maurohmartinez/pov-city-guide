@@ -4,14 +4,14 @@
 @push('metas')
     @include('partials.meta-open-graph', [
             'title' => $category->name,
-            'description' => '', // TODO!
-            'image' => '', // TODO!?
+            'description' => 'The new kind of city guide :: ' . $category->name,
+            'image' => $category->medium_image,
             'type' => 'category',
             'url' => url()->current(),
             'siteName' => config('app.name'),
         ])
 @endpush
-@push('meta-description', $category->name) {{--TODO!--}}
+@push('meta-description', 'The new kind of city guide :: ' . $category->name)
 
 @section('content')
     @include('inc.hero', ['minimalistic' => true])
