@@ -3,7 +3,6 @@
 namespace Tests;
 
 use Closure;
-use Database\Seeders\DatabaseSeeder;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
@@ -36,14 +35,11 @@ abstract class DuskTestCase extends BaseTestCase
         Browser::$storeScreenshotsAt = __DIR__.'/Output/Browser/screenshots';
 
         // Run migrations and seeders only once for the entire test suite
-        if (! static::$migrationsRun) {
-            $this->artisan('migrate:fresh');
-
-            // Run your minimal seeder
-            (new DatabaseSeeder)();
-
-            static::$migrationsRun = true;
-        }
+//        if (! static::$migrationsRun) {
+//            $this->artisan('migrate:fresh --seed');
+//
+//            static::$migrationsRun = true;
+//        }
     }
 
     /**
