@@ -14,7 +14,7 @@ abstract class DefaultTestBase extends CrudFeatureTestCase
     {
         parent::setUp();
 
-        $user = User::factory()->create();
+        $user = User::first();
         $guard = config('backpack.base.guard') ?? config('auth.defaults.guard');
 
         $this->actingAs($user, $guard);

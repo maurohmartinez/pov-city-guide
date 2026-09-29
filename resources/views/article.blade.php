@@ -32,6 +32,7 @@
             </div>
             <div class="overflow-hidden ratio-5x2">
                 <div
+                    dusk="image"
                     class="image-container"
                     style="background-image: url('{{ $article->large_image }}');"
                 >

@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 class ArticleFactory extends Factory
 {
     use \App\Traits\HasImageFactory;
+    use \App\Traits\HasImageSample;
 
     public function configure(): static
     {
@@ -26,6 +27,8 @@ class ArticleFactory extends Factory
 
     public function definition(): array
     {
+        $this->addSampleImage('articles');
+
         $title = ucfirst(fake()->words(rand(1, 5), true));
 
         return [

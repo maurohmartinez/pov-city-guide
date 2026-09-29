@@ -7,11 +7,6 @@ use PHPUnit\Framework\Assert as PHPUnit;
 
 trait ChecksForConsoleErrors
 {
-    /**
-     * Assert that there are no JavaScript errors in the console.
-     *
-     * @param Browser $browser
-     */
     public function assertNoConsoleErrors(Browser $browser): void
     {
         $logs = $browser->driver->manage()->getLog('browser');

@@ -8,11 +8,13 @@ use Tests\Browser\Utils\Page;
 
 class CategoryPage extends Page
 {
+    use \Tests\Browser\Utils\ChecksForConsoleErrors;
+
     private Category $category;
 
     public function __construct()
     {
-        $this->category = Category::factory()->create();
+        $this->category = Category::withoutEvents(fn (): Category => Category::factory()->create());
     }
 
     public function url(): string
@@ -23,9 +25,12 @@ class CategoryPage extends Page
     public function assert(Browser $browser): void
     {
         $browser->assertPathIs($this->url())
-                ->assertSee($this->category->name)
-                ->assertVisible('@top')
-                ->assertVisible('@related');
+            ->assertSee($this->category->name)
+            ->assertVisible('@top')
+            ->assertVisible('@related')
+            ->assertVisible('@image');
+
+        $this->assertNoConsoleErrors($browser);
     }
 
     public function elements(): array
@@ -33,6 +38,7 @@ class CategoryPage extends Page
         return [
             '@top' => '[dusk="top"]',
             '@related' => '[dusk="related"]',
+            '@image' => '[dusk="image"]',
         ];
     }
 }

@@ -9,11 +9,6 @@ class BackofficeTest extends DuskTestCase
 {
     use \Tests\Browser\Utils\ChecksForConsoleErrors;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     protected function loginAsAdmin(Browser $browser): Browser
     {
         return $browser->visit('/backoffice/login')
