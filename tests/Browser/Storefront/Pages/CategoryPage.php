@@ -14,7 +14,7 @@ class CategoryPage extends Page
 
     public function __construct()
     {
-        $this->category = Category::withoutEvents(fn (): Category => Category::factory()->create());
+        $this->category = Category::factory()->create();
     }
 
     public function url(): string
@@ -27,8 +27,7 @@ class CategoryPage extends Page
         $browser->assertPathIs($this->url())
             ->assertSee($this->category->name)
             ->assertVisible('@top')
-            ->assertVisible('@related')
-            ->assertVisible('@image');
+            ->assertVisible('@related');
 
         $this->assertNoConsoleErrors($browser);
     }
@@ -38,7 +37,6 @@ class CategoryPage extends Page
         return [
             '@top' => '[dusk="top"]',
             '@related' => '[dusk="related"]',
-            '@image' => '[dusk="image"]',
         ];
     }
 }

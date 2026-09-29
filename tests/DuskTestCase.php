@@ -35,11 +35,11 @@ abstract class DuskTestCase extends BaseTestCase
         Browser::$storeScreenshotsAt = __DIR__.'/Output/Browser/screenshots';
 
         // Run migrations and seeders only once for the entire test suite
-//        if (! static::$migrationsRun) {
-//            $this->artisan('migrate:fresh --seed');
-//
-//            static::$migrationsRun = true;
-//        }
+        if (! static::$migrationsRun) {
+            $this->artisan('migrate:fresh --seed');
+
+            static::$migrationsRun = true;
+        }
     }
 
     /**

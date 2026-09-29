@@ -20,11 +20,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ObservedBy(CategoryObserver::class)]
-#[Fillable(['name', 'slug', 'image', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
+#[Fillable(['name', 'slug', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
 class Category extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
-    use UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable, HasImages;
+    use UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable;
 
     public array $translatable = ['name'];
 
@@ -73,6 +73,6 @@ class Category extends Model
 
     public function scopeOnlyForMenu(Builder $query): void
     {
-        $query->where('extras->showInMenu', true);
+        $query->where('extras->showInMenu', '1');
     }
 }

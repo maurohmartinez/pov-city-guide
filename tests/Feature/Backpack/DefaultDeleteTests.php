@@ -11,7 +11,7 @@ trait DefaultDeleteTests
     {
         $this->skipIfModelDoesNotHaveFactory();
 
-        $entry = $this->model::factory()->create();
+        $entry = $this->model::withoutEvents(fn () =>  $this->model::factory()->create());
 
         $response = $this->delete($this->testHelper->getCrudUrl($entry->getKey()));
         $response->assertStatus(200);

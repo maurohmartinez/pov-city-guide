@@ -24,28 +24,16 @@ class CategoryCrudController extends CrudController
 
     protected function setupListOperation(): void
     {
-        CRUD::column('small_image')->label(__('common.image'))->type('image');
         CRUD::column('name')->label(__('common.name'));
         CRUD::column('articles_count')->label(__('common.articles'));
     }
 
     protected function setupCreateOperation(): void
     {
-        CRUD::setValidation([
-            'name' => 'required|max:100',
-            'image' => 'required',
-        ]);
+        CRUD::setValidation(['name' => 'required|max:100']);
 
         CRUD::field('name')->label(__('common.name'))->type('text');
-
-        CRUD::field('image')
-            ->label(__('common.image'))
-            ->type('image')
-            ->withFiles(['disk' => 'categories'])
-            ->crop(true)
-            ->aspect_ratio(16/9)
-            ->hint('Ideal size 2400×800px.');
-
+        CRUD::field('showInMenu')->label('Show in menu')->type('switch')->fake(true);
         CRUD::autoTranslateConfirmationField();
     }
 

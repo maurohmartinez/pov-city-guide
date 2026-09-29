@@ -17,7 +17,7 @@ class DefaultCategorySeeder extends Seeder
             'lft' => 2,
             'rgt' => 3,
             'depth' => 1,
-            'extras' => ['showInMenu' => true],
+            'extras' => ['showInMenu' => '1'],
         ]);
 
         Category::factory()->create([
@@ -26,7 +26,7 @@ class DefaultCategorySeeder extends Seeder
             'lft' => 4,
             'rgt' => 5,
             'depth' => 1,
-            'extras' => ['showInMenu' => true],
+            'extras' => ['showInMenu' => '1'],
         ]);
 
         Category::factory()->create([
@@ -35,7 +35,7 @@ class DefaultCategorySeeder extends Seeder
             'lft' => 5,
             'rgt' => 7,
             'depth' => 1,
-            'extras' => ['showInMenu' => true],
+            'extras' => ['showInMenu' => '1'],
         ]);
 
         Category::factory()->create([
@@ -44,7 +44,7 @@ class DefaultCategorySeeder extends Seeder
             'lft' => 8,
             'rgt' => 9,
             'depth' => 1,
-            'extras' => ['showInMenu' => true],
+            'extras' => ['showInMenu' => '1'],
         ]);
 
         Category::factory()->create([
@@ -53,7 +53,7 @@ class DefaultCategorySeeder extends Seeder
             'lft' => 10,
             'rgt' => 11,
             'depth' => 1,
-            'extras' => ['showInMenu' => true],
+            'extras' => ['showInMenu' => '1'],
         ]);
 
         Category::factory()->create([
@@ -62,7 +62,7 @@ class DefaultCategorySeeder extends Seeder
             'lft' => 12,
             'rgt' => 13,
             'depth' => 1,
-            'extras' => ['showInMenu' => true],
+            'extras' => ['showInMenu' => '1'],
         ]);
     }
 }

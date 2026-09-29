@@ -15,7 +15,7 @@ class AuthTest extends BackofficeTest
     public function test_login_page_loads()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(new LoginPage())
+            $browser->visit(new LoginPage)
                 ->assertSee(__('backpack::base.login'))
                 ->assertSee(__('backpack::base.password'));
         });
@@ -27,7 +27,7 @@ class AuthTest extends BackofficeTest
     public function test_login_page_no_JS_errors()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(new LoginPage());
+            $browser->visit(new LoginPage);
 
             $this->assertNoConsoleErrors($browser);
         });
@@ -41,7 +41,7 @@ class AuthTest extends BackofficeTest
         $this->browse(function (Browser $browser) {
             $browser = $this->loginAsAdmin($browser);
 
-            $browser->visit(new DashboardPage())
+            $browser->visit(new DashboardPage)
                 ->waitFor('@page', 10)
                 ->assertSee(__('backpack::base.logout'));
 

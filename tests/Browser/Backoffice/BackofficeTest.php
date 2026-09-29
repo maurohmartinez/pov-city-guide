@@ -18,9 +18,4 @@ class BackofficeTest extends DuskTestCase
             ->pause(2000) // Add a pause to wait for the redirect to complete
             ->assertPathIs('/backoffice/dashboard');
     }
-
-    public function test_mock()
-    {
-        $this->assertTrue(true);
-    }
 }

@@ -5,7 +5,6 @@
     @include('partials.meta-open-graph', [
             'title' => $category->name,
             'description' => 'The new kind of city guide :: ' . $category->name,
-            'image' => $category->medium_image,
             'type' => 'category',
             'url' => url()->current(),
             'siteName' => config('app.name'),

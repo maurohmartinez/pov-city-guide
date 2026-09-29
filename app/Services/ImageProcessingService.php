@@ -49,10 +49,21 @@ class ImageProcessingService
 
     public static function deleteAllSizes(string $path, string $disk): void
     {
-        Storage::disk($disk)->delete(self::SIZE_LARGE . '/' . $path . '.jpg');
-        Storage::disk($disk)->delete(self::SIZE_MEDIUM . '/' . $path . '.jpg');
-        Storage::disk($disk)->delete(self::SIZE_SMALL . '/' . $path . '.jpg');
-        Storage::disk($disk)->delete($path . '.jpg');
+        if (Storage::disk($disk)->exists(self::SIZE_LARGE . '/' . $path . '.jpg')) {
+            Storage::disk($disk)->delete(self::SIZE_LARGE . '/' . $path . '.jpg');
+        }
+
+        if (Storage::disk($disk)->exists(self::SIZE_MEDIUM . '/' . $path . '.jpg')) {
+            Storage::disk($disk)->delete(self::SIZE_MEDIUM . '/' . $path . '.jpg');
+        }
+
+        if (Storage::disk($disk)->exists(self::SIZE_SMALL . '/' . $path . '.jpg')) {
+            Storage::disk($disk)->delete(self::SIZE_SMALL . '/' . $path . '.jpg');
+        }
+
+        if (Storage::disk($disk)->exists($path . '.jpg')) {
+            Storage::disk($disk)->delete($path . '.jpg');
+        }
     }
 
     public static function getSmallPath(Category|Article $model): string

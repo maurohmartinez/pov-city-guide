@@ -27,7 +27,7 @@ trait DefaultCreateTests
         $this->skipIfModelDoesNotHaveFactory();
 
         $data = $this->model::factory()
-            ->when(in_array(HasImages::class, class_uses_recursive($this->model), true), fn (Factory $factory) => $factory->prepareImageForTesting())
+            ->when(method_exists($this->model::factory(), 'prepareImageForTesting'), fn (Factory $factory) => $factory->prepareImageForTesting())
             ->raw();
 
         $response = $this->post($this->testHelper->getCrudUrl(), $data);

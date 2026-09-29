@@ -11,19 +11,13 @@ use Illuminate\Support\Str;
  */
 class CategoryFactory extends Factory
 {
-    use \App\Traits\HasImageFactory;
-    use \App\Traits\HasImageSample;
-
     public function definition(): array
     {
-        $this->addSampleImage('categories');
-
         $name = fake()->words(1, true);
 
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'image' => 'sample.jpg',
         ];
     }
 }
