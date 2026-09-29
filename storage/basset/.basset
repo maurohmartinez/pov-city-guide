@@ -2446,5 +2446,17 @@
         "asset_path": "https://www.gravatar.com/avatar/6d4836d897f0b9921e2fa25495923ffb781a6007ece9fa54f43943c06058f071.jpg?s=80&d=blank&r=g",
         "asset_disk_path": "basset/www.gravatar.com/avatar/6d4836d897f0b9921e2fa25495923ffb781a6007ece9fa54f43943c06058f071.jpg",
         "asset_attributes": []
+    },
+    "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js": {
+        "asset_name": "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js",
+        "asset_path": "https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js",
+        "asset_disk_path": "basset/cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js",
+        "asset_attributes": []
+    },
+    "/Users/mauromartinez/Sites/digitally-happy/pov-city-guide/vendor/backpack/crud/src/resources/assets/libs/jquery.mjs.nestedSortable2.js": {
+        "asset_name": "/Users/mauromartinez/Sites/digitally-happy/pov-city-guide/vendor/backpack/crud/src/resources/assets/libs/jquery.mjs.nestedSortable2.js",
+        "asset_path": "/Users/mauromartinez/Sites/digitally-happy/pov-city-guide/vendor/backpack/crud/src/resources/assets/libs/jquery.mjs.nestedSortable2.js",
+        "asset_disk_path": "basset/vendor/backpack/crud/src/resources/assets/libs/jquery.mjs.nestedSortable2.js",
+        "asset_attributes": []
     }
 }

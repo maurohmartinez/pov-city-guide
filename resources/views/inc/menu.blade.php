@@ -3,7 +3,7 @@
     // switches, so it hosts them in the offcanvas instead. Shops keep them in the navbar.
     $switchesInOffcanvas = $switchesInOffcanvas ?? false;
 @endphp
-@unless($menuItems->isEmpty() && !$switchesInOffcanvas)
+@unless($categoriesMenuItems->isEmpty() && !$switchesInOffcanvas)
     <!-- Navbar with offcanvas menu on screens smaller than 500px (xs) -->
     <header class="navbar @if(!($alwaysExpanded ?? false)) navbar-expand-lg @endif">
         {{-- When always expanded the toggler sits inline with other navbar icons, so strip the
@@ -20,14 +20,12 @@
                 </div>
                 <div class="offcanvas-body pt-0">
                     <ul class="navbar-nav">
-                        @include('inc.menu-item', ['items' => $menuItems, 'depth' => 0])
+                        @include('inc.menu-item', ['categories' => $categoriesMenuItems, 'depth' => 0])
                     </ul>
                     @if($switchesInOffcanvas)
-                        <div class="d-flex align-items-center flex-wrap gap-2 @unless($menuItems->isEmpty()) border-top pt-3 mt-3 @endunless">
+                        <div class="d-flex align-items-center flex-wrap gap-2 @unless($categoriesMenuItems->isEmpty()) border-top pt-3 mt-3 @endunless">
                             <x-component::select-language :light-color="false"/>
-{{--                            @if(\App\Services\PageService::hasAvailableColorModes())--}}
-{{--                                <x-component::select-theme :light-color="false" :with-label="true"/>--}}
-{{--                            @endif--}}
+{{--                            <x-component::select-theme :light-color="false" :with-label="true"/>--}}
                         </div>
                     @endif
                 </div>

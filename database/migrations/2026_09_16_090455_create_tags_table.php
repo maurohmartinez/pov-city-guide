@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->json('name');
             $table->string('slug');
+            $table->json('extras')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
         });

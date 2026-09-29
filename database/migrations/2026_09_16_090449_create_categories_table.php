@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('lft')->default(0);
             $table->integer('rgt')->default(0);
             $table->integer('depth')->default(0);
+            $table->json('extras')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
         });

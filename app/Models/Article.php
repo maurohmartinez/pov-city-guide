@@ -11,6 +11,7 @@ use Backpack\AutoTranslate\Traits\HasAutoTranslations;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -21,12 +22,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 #[ObservedBy(ArticleObserver::class)]
+#[Fillable(['title', 'content', 'slug', 'image', 'visibility', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
 class Article extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
     use UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable, HasImages;
-
-    protected $fillable = ['title', 'content', 'slug', 'image', 'visibility', 'parent_id', 'lft', 'rgt', 'depth', 'extras'];
 
     public array $translatable = ['title', 'content'];
 
