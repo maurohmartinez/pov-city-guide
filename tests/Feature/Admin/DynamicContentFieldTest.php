@@ -99,6 +99,23 @@ class DynamicContentFieldTest extends TestCase
         Storage::disk('articles')->assertMissing($path);
     }
 
+    public function test_removing_a_row_deletes_its_images_and_reindexes(): void
+    {
+        $component = Livewire::test(self::COMPONENT)
+            ->call('addRow')                       // row 0 (text)
+            ->call('addRow')                       // row 1
+            ->set('content.1.type', 'images')
+            ->set('photos.1', [UploadedFile::fake()->image('a.jpg')]);
+
+        $path = $component->get('content.1.value')[0];
+        Storage::disk('articles')->assertExists($path);
+
+        $component->call('removeRow', 1);
+
+        Storage::disk('articles')->assertMissing($path);
+        $this->assertCount(1, $component->get('content'));
+    }
+
     public function test_content_is_stored_as_clean_nested_json(): void
     {
         Queue::fake();

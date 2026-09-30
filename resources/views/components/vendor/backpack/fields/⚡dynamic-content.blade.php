@@ -2,6 +2,7 @@
 
 use App\Services\ImageProcessingService;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -51,15 +52,46 @@ new class extends Component {
 
         $decoded = is_array($value) ? $value : json_decode((string)$value, true);
         $this->content = is_array($decoded) ? $decoded : [];
+
+        // Give every row a stable key so Livewire can track rows across add/remove.
+        // Keys are stripped from the submitted JSON (see the hidden input), so they
+        // never reach the database.
+        foreach ($this->content as $i => $row) {
+            if (empty($row['key'])) {
+                $this->content[$i]['key'] = (string) Str::uuid();
+            }
+        }
     }
 
     public function addRow(): void
     {
         $this->content[] = [
+            'key' => (string) Str::uuid(),
             'type' => 'text',
             'size' => '12',
             'value' => null,
         ];
+    }
+
+    public function removeRow(int $index): void
+    {
+        if (! isset($this->content[$index])) {
+            return;
+        }
+
+        $row = $this->content[$index];
+
+        // Clean up any images this row uploaded so they don't linger on disk.
+        if (($row['type'] ?? null) === self::IMAGES && is_array($row['value'] ?? null)) {
+            foreach ($row['value'] as $path) {
+                if (is_string($path) && $path !== '') {
+                    Storage::disk(self::IMAGES_DISK)->delete($path);
+                }
+            }
+        }
+
+        unset($this->content[$index]);
+        $this->content = array_values($this->content);
     }
 
     // Fires when a row's file input changes. Moves the freshly uploaded files to the
@@ -122,37 +154,52 @@ new class extends Component {
 ?>
 
 <div x-data="{ content: $wire.entangle('content') }">
-    {{-- Mirrors $content into the Backpack form as JSON so the plain POST submit picks it up. --}}
-    <input type="hidden" name="{{ $fieldName }}" :value="JSON.stringify(content)">
+    {{-- Mirrors $content into the Backpack form as JSON so the plain POST submit picks it up.
+         The per-row `key` is stripped here so it never gets persisted. --}}
+    <input type="hidden" name="{{ $fieldName }}" :value="JSON.stringify(content.map(({ key, ...row }) => row))">
 
     <div class="row">
         @foreach($content as $index => $el)
-            <div class="col-md-{{ $el['size'] }} px-2 mb-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <select class="form-control type" wire:model.live="content.{{ $index }}.type">
-                            @foreach(self::TYPES_MAPPED as $type => $name)
-                                <option value="{{ $type }}">{{ $name }}</option>
-                            @endforeach
-                        </select>
+            <div class="col-md-{{ $el['size'] }} px-2 mb-4" wire:key="row-{{ $el['key'] }}">
+                <div class="d-flex align-items-start gap-2">
+                    <div class="row flex-grow-1">
+                        <div class="col-md-6">
+                            <select class="form-control type" wire:model.live="content.{{ $index }}.type">
+                                @foreach(self::TYPES_MAPPED as $type => $name)
+                                    <option value="{{ $type }}">{{ $name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-control size" wire:model.live="content.{{ $index }}.size">
+                                @foreach(self::SIZES_MAPPED as $size => $name)
+                                    <option value="{{ $size }}">{{ $name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <select class="form-control size" wire:model.live="content.{{ $index }}.size">
-                            @foreach(self::SIZES_MAPPED as $size => $name)
-                                <option value="{{ $size }}">{{ $name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                        title="Delete this content block"
+                        wire:click="removeRow({{ $index }})"
+                        wire:confirm="Delete this content block?"
+                    ><i class="la la-trash"></i></button>
                 </div>
 
                 @if($el['type'] === self::TEXT)
                     <div
                         class="col-12 mt-2"
-                        wire:key="ckeditor-{{ $index }}"
+                        wire:key="ckeditor-{{ $el['key'] }}"
                         wire:ignore
                         x-data="{
                         init() {
-                            const setData = (html) => $wire.set('content.{{ $index }}.value', html, false);
+                            // Resolve the row's *current* index by its stable key so edits keep
+                            // targeting the right row after other rows are added/removed.
+                            const setData = (html) => {
+                                const i = $wire.content.findIndex(r => r.key === @js($el['key']));
+                                if (i !== -1) $wire.set('content.' + i + '.value', html, false);
+                            };
                             const create = () => window.ClassicEditor
                                 .create($refs.input, @js($this->ckeditorConfig()))
                                 .then(editor => {
@@ -179,7 +226,7 @@ new class extends Component {
                 @endif
 
                 @if($el['type'] === self::IMAGES)
-                    <div class="mt-2" wire:key="images-{{ $index }}">
+                    <div class="mt-2" wire:key="images-{{ $el['key'] }}">
                         <input
                             type="file"
                             class="form-control"
@@ -221,9 +268,9 @@ new class extends Component {
                 @if($el['type'] === self::VIDEO)
                     <div
                         class="mt-2"
-                        wire:key="video-{{ $index }}"
+                        wire:key="video-{{ $el['key'] }}"
                         wire:ignore
-                        x-data="videoField({ index: {{ $index }}, value: @js($el['value']) })"
+                        x-data="videoField({ key: @js($el['key']), value: @js($el['value']) })"
                     >
                         <div class="input-group">
                             <input
@@ -385,9 +432,14 @@ new class extends Component {
             };
         }
 
-        // Alpine factory: bridges the parsed video object into content[index].value.
+        // Alpine factory: bridges the parsed video object into the row's value, resolving the
+        // row's current index by its stable key (robust to rows being added/removed).
         window.videoField = (config) => ({
             preview: {},
+            setValue(val) {
+                const i = this.$wire.content.findIndex(r => r.key === config.key);
+                if (i !== -1) this.$wire.set('content.' + i + '.value', val, false);
+            },
             init() {
                 const v = config.value;
                 if (v && v.url) {
@@ -398,14 +450,14 @@ new class extends Component {
             onChange(url) {
                 if (!url.length) {
                     this.preview = {};
-                    this.$wire.set('content.' + config.index + '.value', null, false);
+                    this.setValue(null);
                     return;
                 }
                 window.parseVideoLink(url, (res) => {
                     if (res.success) {
                         this.preview = res.data;
                         this.$refs.link.value = res.data.url;
-                        this.$wire.set('content.' + config.index + '.value', res.data, false);
+                        this.setValue(res.data);
                     } else {
                         console.error('Video field:', res.message);
                     }
