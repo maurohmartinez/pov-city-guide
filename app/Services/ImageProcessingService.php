@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -45,6 +46,26 @@ class ImageProcessingService
             ->scaleDown(width: self::MAX_WIDTHS[$size])
             ->encode(new JpegEncoder(quality: self::JPEG_QUALITY))
             ->save(Storage::disk($disk)->path($size . '/' . $model->image . '.jpg'));
+    }
+
+    /**
+     * Compress a freshly uploaded image down to the "large" width/quality and store it
+     * on the given disk, returning its relative path. Used for standalone uploads (e.g. the
+     * dynamic_content images rows) where we keep a single compressed file instead of the
+     * original, to speed up loading when users upload very large images.
+     */
+    public static function storeCompressedLarge(string $sourcePath, string $disk): string
+    {
+        $path = Str::uuid() . '.jpg';
+
+        $encoded = Image::decode($sourcePath)
+            ->scaleDown(width: self::MAX_WIDTHS[self::SIZE_LARGE])
+            ->encode(new JpegEncoder(quality: self::JPEG_QUALITY));
+
+        // Storage::put goes through Flysystem, which creates the directory if missing.
+        Storage::disk($disk)->put($path, (string) $encoded);
+
+        return $path;
     }
 
     public static function deleteAllSizes(string $path, string $disk): void

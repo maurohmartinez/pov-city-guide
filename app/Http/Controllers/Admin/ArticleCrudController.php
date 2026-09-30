@@ -59,26 +59,28 @@ class ArticleCrudController extends CrudController
             'tags' => 'sometimes|nullable|exists:tags,id',
         ]);
 
-        CRUD::field('title')->label(__('common.title'));
-        CRUD::field('categories')->label(__('common.categories'))->size(6);
-        CRUD::field('tags')->label(__('common.tags'))->size(6);
+        CRUD::field('title')->label(__('common.title'))
+            ->tab('General');
+        CRUD::field('categories')->label(__('common.categories'))->size(6)
+            ->tab('General');
+        CRUD::field('tags')->label(__('common.tags'))->size(6)
+            ->tab('General');
 
         CRUD::field('image')
             ->label(__('common.image'))
             ->type('image')
             ->withFiles(['disk' => 'articles'])
             ->crop(true)
-//            ->aspect_ratio(16 / 9)
-            ->hint('Ideal size 2400×800px.');
-
-        CRUD::field('content')
-            ->type('ckeditor')
-            ->label(__('common.content'));
+            ->hint('Ideal size 2400×800px.')
+            ->tab('General');
 
         CRUD::field('visibility')
             ->type('enum')
             ->label(__('common.visibility'))
-            ->default(VisibilityEnum::PRIVATE);
+            ->default(VisibilityEnum::PRIVATE)
+            ->tab('General');
+
+        CRUD::field('content')->type('dynamic_content')->label(__('common.content'))->tab('Content');
 
         CRUD::autoTranslateConfirmationField();
     }
