@@ -35,7 +35,7 @@ class ArticleFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title),
             'content' => $this->content(),
-            'description' => fake()->words(300, true),
+            'description' => fake()->words(100, true),
             'image' => 'sample.jpg',
             'visibility' => fake()->randomElement(VisibilityEnum::options()),
         ];
@@ -46,12 +46,17 @@ class ArticleFactory extends Factory
         return [
             [
                 'type' => 'text',
-                'size' => '8',
-                'value' => implode('<br>', fake()->paragraphs(rand(3, 6))),
+                'size' => '12',
+                'value' => implode('<br>', fake()->paragraphs(rand(1, 2))),
+            ],
+            [
+                'type' => 'text',
+                'size' => '9',
+                'value' => implode('<br>', fake()->paragraphs(6)),
             ],
             [
                 'type' => 'video',
-                'size' => '4',
+                'size' => '3',
                 'value' => [
                     'provider' => 'youtube',
                     'id' => 'DZ2sOfI-RuA',
@@ -63,7 +68,7 @@ class ArticleFactory extends Factory
             [
                 'type' => 'text',
                 'size' => '12',
-                'value' => implode('<br>', fake()->paragraphs(rand(2, 4))),
+                'value' => implode('<br>', fake()->paragraphs(rand(2, 3))),
             ],
             [
                 'type' => 'images',
@@ -80,7 +85,7 @@ class ArticleFactory extends Factory
             [
                 'type' => 'text',
                 'size' => '12',
-                'value' => implode('<br><br>', fake()->paragraphs(rand(2, 5))),
+                'value' => implode('<br>', fake()->paragraphs(rand(2, 4))),
             ],
         ];
     }

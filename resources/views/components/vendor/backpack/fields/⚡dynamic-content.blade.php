@@ -58,7 +58,7 @@ new class extends Component {
         // never reach the database.
         foreach ($this->content as $i => $row) {
             if (empty($row['key'])) {
-                $this->content[$i]['key'] = (string) Str::uuid();
+                $this->content[$i]['key'] = (string)Str::uuid();
             }
         }
     }
@@ -66,7 +66,7 @@ new class extends Component {
     public function addRow(): void
     {
         $this->content[] = [
-            'key' => (string) Str::uuid(),
+            'key' => (string)Str::uuid(),
             'type' => 'text',
             'size' => '12',
             'value' => null,
@@ -75,7 +75,7 @@ new class extends Component {
 
     public function removeRow(int $index): void
     {
-        if (! isset($this->content[$index])) {
+        if (!isset($this->content[$index])) {
             return;
         }
 
@@ -91,7 +91,7 @@ new class extends Component {
     {
         $target = $index + $direction;
 
-        if (! isset($this->content[$index], $this->content[$target])) {
+        if (!isset($this->content[$index], $this->content[$target])) {
             return;
         }
 
@@ -104,7 +104,7 @@ new class extends Component {
     // new type never tries to parse data left over from the previous one.
     public function changeType(string $key, string $type): void
     {
-        if (! array_key_exists($type, self::TYPES_MAPPED)) {
+        if (!array_key_exists($type, self::TYPES_MAPPED)) {
             return;
         }
 
@@ -118,6 +118,22 @@ new class extends Component {
 
         $this->content[$index]['type'] = $type;
         $this->content[$index]['value'] = null;
+    }
+
+    // Set a row's size by its stable key (index-based binding breaks when rows are reordered).
+    public function changeSize(string $key, string $size): void
+    {
+        if (!array_key_exists($size, self::SIZES_MAPPED)) {
+            return;
+        }
+
+        $index = array_search($key, array_column($this->content, 'key'), true);
+
+        if ($index === false) {
+            return;
+        }
+
+        $this->content[$index]['size'] = $size;
     }
 
     // Delete image files referenced by a row value (a plain list of paths). Video values are
@@ -137,7 +153,7 @@ new class extends Component {
     // images disk and appends their paths to content[index]['value'].
     public function updatedPhotos(mixed $value, ?string $key = null): void
     {
-        $index = (int) $key;
+        $index = (int)$key;
 
         $this->validate([
             "photos.$index.*" => ['image', 'mimes:jpeg,png,webp,gif', 'max:5120'], // 5 MB per file
@@ -168,7 +184,7 @@ new class extends Component {
     {
         $files = $this->content[$index]['value'] ?? [];
 
-        if (! is_array($files) || ! isset($files[$photoIndex])) {
+        if (!is_array($files) || !isset($files[$photoIndex])) {
             return;
         }
 
@@ -224,9 +240,13 @@ new class extends Component {
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <select class="form-control size" wire:model.live="content.{{ $index }}.size">
+                            <select
+                                class="form-control size"
+                                x-on:change="$wire.changeSize(@js($el['key']), $event.target.value)"
+                            >
                                 @foreach(self::SIZES_MAPPED as $size => $name)
-                                    <option value="{{ $size }}">{{ $name }}</option>
+                                    {{-- cast both sides: numeric-string array keys become ints in PHP --}}
+                                    <option value="{{ $size }}" @selected((string) $size === (string) $el['size'])>{{ $name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -383,12 +403,12 @@ new class extends Component {
         // field-init loop, neither of which are available inside a Livewire component.
         if (typeof window.parseVideoLink !== 'function') {
             window.tryYouTube = function (link) {
-                var id = null;
-                var youtubeStandardExpr = /^https?:\/\/(www\.)?youtube.com\/watch\?v=([^?&]+)/i;
-                var youtubeAlternateExpr = /^https?:\/\/(www\.)?youtube.com\/v\/([^\/\?]+)/i;
-                var youtubeShortExpr = /^https?:\/\/youtu.be\/([^\/]+)/i;
-                var youtubeEmbedExpr = /^https?:\/\/(www\.)?youtube.com\/embed\/([^\/]+)/i;
-                var match = link.match(youtubeStandardExpr);
+                let id = null;
+                let youtubeStandardExpr = /^https?:\/\/(www\.)?youtube.com\/watch\?v=([^?&]+)/i;
+                let youtubeAlternateExpr = /^https?:\/\/(www\.)?youtube.com\/v\/([^\/\?]+)/i;
+                let youtubeShortExpr = /^https?:\/\/youtu.be\/([^\/]+)/i;
+                let youtubeEmbedExpr = /^https?:\/\/(www\.)?youtube.com\/embed\/([^\/]+)/i;
+                let match = link.match(youtubeStandardExpr);
                 if (match != null) {
                     id = match[2];
                 } else {
@@ -411,9 +431,9 @@ new class extends Component {
             };
 
             window.tryVimeo = function (link) {
-                var id = null;
-                var regExp = /(http|https):\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
-                var match = link.match(regExp);
+                let id = null;
+                let regExp = /(http|https):\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
+                let match = link.match(regExp);
                 if (match) {
                     id = match[3];
                 }
@@ -421,7 +441,7 @@ new class extends Component {
             };
 
             window.fetchYouTube = function (videoId, callback, apiKey) {
-                var video = {
+                let video = {
                     provider: 'youtube',
                     id: videoId,
                     title: null,
@@ -432,14 +452,14 @@ new class extends Component {
                     video.image = 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg';
                     return callback(video);
                 }
-                var api = 'https://www.googleapis.com/youtube/v3/videos?id=' + videoId + '&key=' + apiKey + '&part=snippet';
+                let api = 'https://www.googleapis.com/youtube/v3/videos?id=' + videoId + '&key=' + apiKey + '&part=snippet';
                 $.ajax({
                     dataType: "jsonp",
                     url: api,
                     crossDomain: true,
                     success: function (data) {
                         if (typeof (data.items[0]) != "undefined") {
-                            var v = data.items[0].snippet;
+                            let v = data.items[0].snippet;
                             video.title = v.title;
                             video.image = v.thumbnails.maxres ? v.thumbnails.maxres.url : v.thumbnails.default.url;
                             callback(video);
@@ -449,8 +469,8 @@ new class extends Component {
             };
 
             window.fetchVimeo = function (videoId, callback) {
-                var api = 'https://vimeo.com/api/v2/video/' + videoId + '.json';
-                var video = {provider: 'vimeo', id: null, title: null, image: null, url: null};
+                let api = 'https://vimeo.com/api/v2/video/' + videoId + '.json';
+                let video = {provider: 'vimeo', id: null, title: null, image: null, url: null};
                 fetch(api).then(function (response) {
                     if (response.ok) {
                         response.json().then(function (v) {
@@ -467,7 +487,7 @@ new class extends Component {
 
             window.parseVideoLink = function (link, callback, apiKey, messages) {
                 messages = messages || {};
-                var response = {success: false, message: messages.unknownError || '', data: []};
+                let response = {success: false, message: messages.unknownError || '', data: []};
                 try {
                     document.createElement('a');
                 } catch (e) {
@@ -475,7 +495,7 @@ new class extends Component {
                     return response;
                 }
 
-                var id = window.tryYouTube(link, apiKey);
+                let id = window.tryYouTube(link, apiKey);
                 if (id) {
                     return window.fetchYouTube(id, function (video) {
                         if (video) {

@@ -157,6 +157,37 @@ class DynamicContentFieldTest extends TestCase
         Storage::disk('articles')->assertMissing($path);
     }
 
+    public function test_changing_size_targets_the_right_row_by_key_after_reorder(): void
+    {
+        $component = Livewire::test(self::COMPONENT)
+            ->call('addRow')
+            ->call('addRow');
+
+        $key1 = $component->get('content.1.key');
+
+        // Reorder so indices shift, then change the size of the row identified by key.
+        $component->call('moveRow', 1, -1);   // that row is now at index 0
+        $component->call('changeSize', $key1, '6');
+
+        $row = collect($component->get('content'))->firstWhere('key', $key1);
+        $this->assertSame('6', $row['size']);
+
+        // An unknown size is ignored.
+        $component->call('changeSize', $key1, '7');
+        $this->assertSame('6', collect($component->get('content'))->firstWhere('key', $key1)['size']);
+    }
+
+    public function test_size_dropdown_reflects_the_stored_value(): void
+    {
+        $component = Livewire::test(self::COMPONENT)->call('addRow');
+        $key = $component->get('content.0.key');
+
+        $component->call('changeSize', $key, '6');
+
+        // The stored size (6 => "2/4") must be the selected option, not the default 4/4.
+        $component->assertSeeHtml('<option value="6" selected>2/4</option>');
+    }
+
     public function test_content_is_stored_as_clean_nested_json(): void
     {
         Queue::fake();
