@@ -4,14 +4,14 @@
 @push('metas')
     @include('partials.meta-open-graph', [
             'title' => $article->title,
-            'description' => \Illuminate\Support\Str::words(strip_tags($article->content), 20),
+            'description' => \Illuminate\Support\Str::words($article->description, 30),
             'image' => $article->large_image,
             'type' => 'article',
             'url' => url()->current(),
             'siteName' => config('app.name'),
         ])
 @endpush
-@push('meta-description', \Illuminate\Support\Str::words(strip_tags($article->content), 40))
+@push('meta-description', \Illuminate\Support\Str::words($article->description, 30))
 
 @section('content')
     @include('inc.hero', ['minimalistic' => true])
@@ -39,8 +39,12 @@
                 </div>
             </div>
         </div>
-        <div class="my-5">
-            <p>{!! $article->content !!}</p>
+        <div class="my-5 row">
+            @foreach(json_decode($article->content ?? [], true) as $content)
+                <div class="col-md-{{ $content['size'] }} mb-4">
+                    @include('components.articles.content.' . $content['type'], ['value' => $content['value']])
+                </div>
+            @endforeach
         </div>
         <div class="my-5">
             @foreach($article->tags as $tag)

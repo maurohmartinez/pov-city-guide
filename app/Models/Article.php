@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 #[ObservedBy(ArticleObserver::class)]
-#[Fillable(['title', 'content', 'slug', 'image', 'visibility', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
+#[Fillable(['title', 'content', 'description', 'slug', 'image', 'visibility', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
 class Article extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
@@ -37,6 +37,24 @@ class Article extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * The dynamic_content field submits its rows as a JSON string. Decode it to an array
+     * so Spatie stores clean nested JSON ({"en":[{...}]}) instead of an escaped string
+     * ({"en":"[{\"type\":...}]"}). Non-JSON values (e.g. plain text) are left untouched.
+     */
+    public function setContentAttribute(mixed $value, ?string $locale = null): void
+    {
+        if (is_string($value)) {
+            $decoded = json_decode($value, true);
+
+            if (is_array($decoded)) {
+                $value = $decoded;
+            }
+        }
+
+        $this->attributes['content'] = $value;
     }
 
     public function sluggable(): array

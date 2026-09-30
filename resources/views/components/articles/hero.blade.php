@@ -19,7 +19,7 @@
             </h5>
             <h5 class="card-title text-truncate">{{ $article->title }}</h5>
             <p class="card-description text-light pe-4 lh-1 text-truncate-2">
-                <small>{{ \Illuminate\Support\Str::words(strip_tags($article->content), $words ?? 20) }}</small>
+                <small>{{ \Illuminate\Support\Str::words($article->description, $words ?? 20) }}</small>
             </p>
             <hr class="card-separator">
             <div class="w-100 d-flex justify-content-end">

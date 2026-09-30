@@ -76,7 +76,7 @@ new class extends \Livewire\Component {
                     <a href="{{ route('article', $paginatedArticle->slug) }}" class="text-decoration-none">
                         <p class="card-title fs-5 mb-2">{{ $paginatedArticle->title }}</p>
                         <p class="card-description text-light pe-4 lh-1">
-                            {{ \Illuminate\Support\Str::words(strip_tags($paginatedArticle->content), 7) }}
+                            {{ \Illuminate\Support\Str::words($paginatedArticle->description, 7) }}
                         </p>
                     </a>
                 </div>

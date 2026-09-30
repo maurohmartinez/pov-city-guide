@@ -52,7 +52,8 @@ class ArticleCrudController extends CrudController
     {
         CRUD::setValidation([
             'title' => 'required|max:200',
-            'content' => 'required|max:3000',
+            'content' => 'required|max:10000',
+            'description' => 'required|max:500',
             'image' => 'required',
             'visibility' => 'required|in:' . VisibilityEnum::toString(),
             'categories' => 'required|exists:categories,id',
@@ -64,6 +65,8 @@ class ArticleCrudController extends CrudController
         CRUD::field('categories')->label(__('common.categories'))->size(6)
             ->tab('General');
         CRUD::field('tags')->label(__('common.tags'))->size(6)
+            ->tab('General');
+        CRUD::field('description')->label(__('common.description'))->type('textarea')
             ->tab('General');
 
         CRUD::field('image')

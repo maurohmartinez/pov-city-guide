@@ -99,6 +99,34 @@ class DynamicContentFieldTest extends TestCase
         Storage::disk('articles')->assertMissing($path);
     }
 
+    public function test_content_is_stored_as_clean_nested_json(): void
+    {
+        Queue::fake();
+
+        $rows = [
+            ['type' => 'text', 'size' => '12', 'value' => '<p>hi</p>'],
+            ['type' => 'video', 'size' => '6', 'value' => ['provider' => 'youtube', 'url' => 'x']],
+        ];
+
+        $article = new Article([
+            'title' => 'Test',
+            'slug' => 'test-'.uniqid(),
+            'description' => 'Test description',
+            'visibility' => VisibilityEnum::PRIVATE,
+        ]);
+        $article->image = 'sample.jpg';
+        // Simulate the form submit: content arrives as a JSON string.
+        $article->content = json_encode($rows);
+        $article->save();
+
+        $raw = \DB::table('articles')->where('id', $article->id)->value('content');
+
+        // Clean: the locale maps to a real JSON array, not an escaped string.
+        $this->assertStringContainsString('"en":[{', str_replace(' ', '', $raw));
+        $this->assertStringNotContainsString('\\"type\\"', $raw);
+        $this->assertSame($rows, json_decode($raw, true)['en']);
+    }
+
     private function articleWithContentImage(?string &$path): Article
     {
         $path = UploadedFile::fake()->image('kept.jpg')->store('/', 'articles');
@@ -107,6 +135,7 @@ class DynamicContentFieldTest extends TestCase
         $article = new Article([
             'title' => 'Test',
             'slug' => 'test-'.uniqid(),
+            'description' => 'Test description',
             'visibility' => VisibilityEnum::PRIVATE,
         ]);
         $article->image = 'sample.jpg';

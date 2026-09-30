@@ -35,6 +35,7 @@ class ArticleFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title),
             'content' => fake()->paragraphs(2, true),
+            'description' => fake()->words(300, true),
             'image' => 'sample.jpg',
             'visibility' => fake()->randomElement(VisibilityEnum::options()),
         ];

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('content');
+            $table->text('description');
             $table->string('slug');
             $table->string('image');
             $table->json('extras')->nullable()->default(null);
