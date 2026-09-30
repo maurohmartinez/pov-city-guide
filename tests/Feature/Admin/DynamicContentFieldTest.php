@@ -116,6 +116,47 @@ class DynamicContentFieldTest extends TestCase
         $this->assertCount(1, $component->get('content'));
     }
 
+    public function test_moving_rows_reorders_content_and_ignores_out_of_bounds(): void
+    {
+        $component = Livewire::test(self::COMPONENT)
+            ->call('addRow')
+            ->call('addRow')
+            ->set('content.0.value', 'first')
+            ->set('content.1.value', 'second');
+
+        // Move the second row up -> it becomes first.
+        $component->call('moveRow', 1, -1);
+        $this->assertSame(['second', 'first'], array_column($component->get('content'), 'value'));
+
+        // Move it back down.
+        $component->call('moveRow', 0, 1);
+        $this->assertSame(['first', 'second'], array_column($component->get('content'), 'value'));
+
+        // Out-of-bounds moves are no-ops.
+        $component->call('moveRow', 0, -1);
+        $component->call('moveRow', 1, 1);
+        $this->assertSame(['first', 'second'], array_column($component->get('content'), 'value'));
+    }
+
+    public function test_changing_type_clears_value_and_deletes_old_images(): void
+    {
+        $component = Livewire::test(self::COMPONENT)
+            ->call('addRow')
+            ->set('content.0.type', 'images')
+            ->set('photos.0', [UploadedFile::fake()->image('a.jpg')]);
+
+        $path = $component->get('content.0.value')[0];
+        Storage::disk('articles')->assertExists($path);
+
+        // Switching away from images clears the value and removes the uploaded file.
+        $key = $component->get('content.0.key');
+        $component->call('changeType', $key, 'text');
+
+        $this->assertSame('text', $component->get('content.0.type'));
+        $this->assertNull($component->get('content.0.value'));
+        Storage::disk('articles')->assertMissing($path);
+    }
+
     public function test_content_is_stored_as_clean_nested_json(): void
     {
         Queue::fake();

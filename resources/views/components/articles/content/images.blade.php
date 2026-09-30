@@ -119,9 +119,9 @@
         <div class="d-none d-lg-block">
             <div class="row g-3 g-lg-4 pb-sm-2">
                 @if(count($thumbImages) > 0)
-                    <div class="col-md-4">
-                        <div class="row row-cols-12 g-3 g-lg-4">
-                            @foreach(array_slice($thumbImages, 0, 4) as $image)
+                    <div class="col-12">
+                        <div class="row row-cols-6 g-3 g-lg-4">
+                            @foreach($thumbImages as $image)
                                 <div class="col">
                                     <a class="hover-effect-scale hover-effect-opacity position-relative d-flex rounded overflow-hidden"
                                        href="{{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}" data-glightbox data-gallery="image-gallery">
@@ -138,7 +138,7 @@
                 @endif
 
                 {{-- Hidden links for images beyond the 4 displayed thumbs, so they appear in the lightbox --}}
-                @foreach(array_slice($thumbImages, 4) as $image)
+                @foreach($thumbImages as $image)
                     <a href="{{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}" data-glightbox data-gallery="image-gallery" style="display:none"></a>
                 @endforeach
             </div>

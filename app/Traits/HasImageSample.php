@@ -17,11 +17,16 @@ trait HasImageSample
 
     private function addImageSampleSizeIfNeeded(string $disk, string $size): void
     {
-        if (Storage::disk($disk)->exists($size . '/sample.jpg.jpg')) {
-            return;
+        if (!Storage::disk($disk)->exists($size . '/sample.jpg.jpg') || !Storage::disk($disk)->exists($size . '/sample.jpg')) {
+            Storage::disk($disk)->makeDirectory($size);
         }
 
-        Storage::disk($disk)->makeDirectory($size);
-        File::copy(public_path('images/sample.jpg'), Storage::disk($disk)->path($size . '/sample.jpg.jpg'));
+        if (!Storage::disk($disk)->exists($size . '/sample.jpg.jpg')) {
+            File::copy(public_path('images/sample.jpg'), Storage::disk($disk)->path($size . '/sample.jpg.jpg'));
+        }
+
+        if (!Storage::disk($disk)->exists('/sample.jpg')) {
+            File::copy(public_path('images/sample.jpg'), Storage::disk($disk)->path('/sample.jpg'));
+        }
     }
 }

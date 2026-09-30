@@ -39,7 +39,7 @@ new class extends Component {
         self::SIZE_1_4 => '1/4',
     ];
 
-    public array $content = []; // ['type', 'size', 'value']
+    public array $content = [];
 
     public string $fieldName = 'content';
 
@@ -79,19 +79,58 @@ new class extends Component {
             return;
         }
 
-        $row = $this->content[$index];
-
         // Clean up any images this row uploaded so they don't linger on disk.
-        if (($row['type'] ?? null) === self::IMAGES && is_array($row['value'] ?? null)) {
-            foreach ($row['value'] as $path) {
+        $this->deleteRowImages($this->content[$index]['value'] ?? null);
+
+        unset($this->content[$index]);
+        $this->content = array_values($this->content);
+    }
+
+    // Swap a row with its neighbour. $direction is -1 (up/before) or +1 (down/after).
+    public function moveRow(int $index, int $direction): void
+    {
+        $target = $index + $direction;
+
+        if (! isset($this->content[$index], $this->content[$target])) {
+            return;
+        }
+
+        [$this->content[$index], $this->content[$target]] = [$this->content[$target], $this->content[$index]];
+
+        $this->content = array_values($this->content);
+    }
+
+    // Changing a row's type clears its value (the admin confirms this client-side), so the
+    // new type never tries to parse data left over from the previous one.
+    public function changeType(string $key, string $type): void
+    {
+        if (! array_key_exists($type, self::TYPES_MAPPED)) {
+            return;
+        }
+
+        $index = array_search($key, array_column($this->content, 'key'), true);
+
+        if ($index === false) {
+            return;
+        }
+
+        $this->deleteRowImages($this->content[$index]['value'] ?? null);
+
+        $this->content[$index]['type'] = $type;
+        $this->content[$index]['value'] = null;
+    }
+
+    // Delete image files referenced by a row value (a plain list of paths). Video values are
+    // associative arrays, so array_is_list keeps them from being treated as files to delete.
+    private function deleteRowImages(mixed $value): void
+    {
+        if (is_array($value) && array_is_list($value)) {
+            foreach ($value as $path) {
                 if (is_string($path) && $path !== '') {
                     Storage::disk(self::IMAGES_DISK)->delete($path);
                 }
             }
         }
-
-        unset($this->content[$index]);
-        $this->content = array_values($this->content);
     }
 
     // Fires when a row's file input changes. Moves the freshly uploaded files to the
@@ -164,9 +203,23 @@ new class extends Component {
                 <div class="d-flex align-items-start gap-2">
                     <div class="row flex-grow-1">
                         <div class="col-md-6">
-                            <select class="form-control type" wire:model.live="content.{{ $index }}.type">
+                            <select
+                                class="form-control type"
+                                x-on:change="
+                                    const newType = $event.target.value;
+                                    const row = $wire.content.find(r => r.key === @js($el['key']));
+                                    const current = row ? row.type : newType;
+                                    const hasValue = row && row.value != null && row.value !== ''
+                                        && ! (Array.isArray(row.value) && row.value.length === 0);
+                                    if (hasValue && ! confirm('Changing the block type will clear its current content. Continue?')) {
+                                        $event.target.value = current;
+                                        return;
+                                    }
+                                    $wire.changeType(@js($el['key']), newType);
+                                "
+                            >
                                 @foreach(self::TYPES_MAPPED as $type => $name)
-                                    <option value="{{ $type }}">{{ $name }}</option>
+                                    <option value="{{ $type }}" @selected($type === $el['type'])>{{ $name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -178,6 +231,20 @@ new class extends Component {
                             </select>
                         </div>
                     </div>
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        title="Move up"
+                        wire:click="moveRow({{ $index }}, -1)"
+                        @disabled($index === 0)
+                    ><i class="la la-arrow-up"></i></button>
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        title="Move down"
+                        wire:click="moveRow({{ $index }}, 1)"
+                        @disabled($index === count($content) - 1)
+                    ><i class="la la-arrow-down"></i></button>
                     <button
                         type="button"
                         class="btn btn-outline-danger"
@@ -197,6 +264,9 @@ new class extends Component {
                             // Resolve the row's *current* index by its stable key so edits keep
                             // targeting the right row after other rows are added/removed.
                             const setData = (html) => {
+                                // Don't write back while tearing down (e.g. on a type switch that
+                                // just cleared this row's value) — that would resurrect stale data.
+                                if ($el._destroying) return;
                                 const i = $wire.content.findIndex(r => r.key === @js($el['key']));
                                 if (i !== -1) $wire.set('content.' + i + '.value', html, false);
                             };
@@ -216,6 +286,7 @@ new class extends Component {
                             })();
                         },
                         destroy() {
+                            $el._destroying = true;
                             $el._ckeditor?.destroy();
                             $el._ckeditor = null;
                         },
@@ -299,7 +370,7 @@ new class extends Component {
     </div>
 
     <button class="btn btn-outline-primary mt-5" type="button" wire:click="addRow">
-        <i class="la la-plus"></i> Add content
+        <i class="la la-plus"></i> Add block
     </button>
 </div>
 
