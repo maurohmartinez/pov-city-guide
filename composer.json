@@ -9,7 +9,7 @@
     ],
     "license": "proprietary",
     "require": {
-        "php": "^8.3",
+        "php": "^8.5",
         "backpack/auto-translate": "^0.4.5",
         "backpack/ckeditor-field": "^1.0",
         "backpack/crud": "^7.0",

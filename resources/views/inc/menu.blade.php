@@ -24,6 +24,7 @@
                     </ul>
                     @if($switchesInOffcanvas)
                         <div class="d-flex align-items-center flex-wrap gap-2 @unless($categoriesMenuItems->isEmpty()) border-top pt-3 mt-3 @endunless">
+                            <img class="px-3" src="{{ asset('/storefront/images/pov.svg') }}" width="80px" alt="{{ config('app.name') }}" />
                             <x-component::select-language :light-color="false"/>
 {{--                            <x-component::select-theme :light-color="false" :with-label="true"/>--}}
                         </div>

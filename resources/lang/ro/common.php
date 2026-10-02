@@ -68,4 +68,8 @@ return array(
     'content' => 'Conținut',
     'name' => 'Nume',
     'you_might_also_be_intered_in' => 'Te-ar mai putea interesa și',
+
+    'confirm_change_block_type' => 'Schimbarea tipului de bloc va șterge conținutul curent. Continuă?',
+    'delete_block' => 'Șterge bloc de conținut',
+    'confirm_delete_block' => 'Sigur dorești să ștergi acest bloc de conținut?',
 );

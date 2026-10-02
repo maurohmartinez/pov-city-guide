@@ -22,12 +22,12 @@
                 </a>
             </div>
             <div class="d-flex align-items-center ms-auto">
-                <div class="animate-shake">
-                    <i class="fi-search animate-target text-custom-accent fs-3 mx-1"></i>
-                </div>
-                <a href="#" class="mx-3 animate-shake text-custom-accent">
-                    <i class="fi-user animate-target fs-3"></i>
-                </a>
+{{--                <div class="animate-shake">--}}
+{{--                    <i class="fi-search animate-target text-custom-accent fs-3 mx-1"></i>--}}
+{{--                </div>--}}
+{{--                <a href="#" class="mx-3 animate-shake text-custom-accent">--}}
+{{--                    <i class="fi-user animate-target fs-3"></i>--}}
+{{--                </a>--}}
                 @include('inc.menu', ['alwaysExpanded' => true, 'switchesInOffcanvas' => true])
             </div>
         </div>

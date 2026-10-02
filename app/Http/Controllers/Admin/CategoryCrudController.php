@@ -30,7 +30,7 @@ class CategoryCrudController extends CrudController
 
     protected function setupCreateOperation(): void
     {
-        CRUD::setValidation(['name' => 'required|max:100']);
+        CRUD::setValidation(['name' => 'required|max:100', 'showInMenu' => 'required|boolean']);
 
         CRUD::field('name')->label(__('common.name'))->type('text');
         CRUD::field('showInMenu')->label('Show in menu')->type('switch')->fake(true);

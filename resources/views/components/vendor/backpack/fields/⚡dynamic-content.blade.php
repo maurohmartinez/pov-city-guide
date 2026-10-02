@@ -227,7 +227,7 @@ new class extends Component {
                                     const current = row ? row.type : newType;
                                     const hasValue = row && row.value != null && row.value !== ''
                                         && ! (Array.isArray(row.value) && row.value.length === 0);
-                                    if (hasValue && ! confirm('Changing the block type will clear its current content. Continue?')) {
+                                    if (hasValue && ! confirm('{{ __('backoffice.confirm_change_block_type') }}')) {
                                         $event.target.value = current;
                                         return;
                                     }
@@ -268,9 +268,9 @@ new class extends Component {
                     <button
                         type="button"
                         class="btn btn-outline-danger"
-                        title="Delete this content block"
+                        title="{{ __('backoffice.delete_block') }}"
                         wire:click="removeRow({{ $index }})"
-                        wire:confirm="Delete this content block?"
+                        wire:confirm="{{ __('backoffice.confirm_delete_block') }}"
                     ><i class="la la-trash"></i></button>
                 </div>
 

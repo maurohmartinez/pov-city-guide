@@ -46,9 +46,9 @@
                 </div>
             @endforeach
         </div>
-        <div class="my-5">
+        <div class="my-5 d-flex flex-wrap">
             @foreach($article->tags as $tag)
-                <span class="tags rounded-pill me-2">{{ $tag->name }}</span>
+                <div class="mb-4"><span class="tags rounded-pill mb-1 d-inline me-2">{{ $tag->name }}</span></div>
             @endforeach
         </div>
     </section>

@@ -104,4 +104,8 @@ return [
 
     'view_all_should_link_to_hint' => '"View all" button in categories section should link to',
     'show_upcoming_events_in' => 'Show Upcoming Events in',
+
+    'confirm_change_block_type' => 'Changing the block type will clear its current content. Continue?',
+    'delete_block' => 'Delete content block',
+    'confirm_delete_block' => 'Are you sure you want to delete this content block?',
 ];

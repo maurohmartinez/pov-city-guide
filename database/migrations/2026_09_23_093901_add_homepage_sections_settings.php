@@ -48,7 +48,7 @@ return new class extends Migration {
                             ],
                             'allows_null' => false,
                             'wrapper' => ['class' => 'form-group col-md-6'],
-                            'validationRules' => 'required|in:cards-sm,cards-md,cards-lg',
+                            'validationRules' => 'required|in:cards-sm-carousel,cards-md-carousel,cards-lg',
                         ],
                     ],
                 ]),

@@ -28,28 +28,28 @@
                 <div><a class="text-decoration-none hover-effect-underline text-dark" href="{{ route('cookie-policy') }}">@lang('common.cookie_policy')</a></div>
             </div>
 
-            @if (config('custom.currency_iso') === 'RON')
-                <div class="col-12 mb-4 mt-2 order-3">
-                    {{-- Only show this footer if it will show something --}}
-                    <div class="d-flex flex-column justify-content-center align-items-center">
-                        {{-- Only show Romanian regulatory logos if currency is RON --}}
-                        @if(config('custom.currency_iso') === 'RON')
-                            <div class="d-flex px-3">
-                                <div class="m-2">
-                                    <a href="https://anpc.ro/ce-este-sal/" target="_blank">
-                                        <img src="{{ asset('storefront/imgs/regulatory/pictogramaSAL.png') }}" width="200px">
-                                    </a>
-                                </div>
-                                <div class="m-2">
-                                    <a href="https://ec.europa.eu/consumers/odr" target="_blank">
-                                        <img src="{{ asset('storefront/imgs/regulatory/pictogramaSOL.png') }}" width="200px">
-                                    </a>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endif
+{{--            @if (config('custom.currency_iso') === 'RON')--}}
+{{--                <div class="col-12 mb-4 mt-2 order-3">--}}
+{{--                    --}}{{-- Only show this footer if it will show something --}}
+{{--                    <div class="d-flex flex-column justify-content-center align-items-center">--}}
+{{--                        --}}{{-- Only show Romanian regulatory logos if currency is RON --}}
+{{--                        @if(config('custom.currency_iso') === 'RON')--}}
+{{--                            <div class="d-flex px-3">--}}
+{{--                                <div class="m-2">--}}
+{{--                                    <a href="https://anpc.ro/ce-este-sal/" target="_blank">--}}
+{{--                                        <img src="{{ asset('storefront/imgs/regulatory/pictogramaSAL.png') }}" width="200px">--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                <div class="m-2">--}}
+{{--                                    <a href="https://ec.europa.eu/consumers/odr" target="_blank">--}}
+{{--                                        <img src="{{ asset('storefront/imgs/regulatory/pictogramaSOL.png') }}" width="200px">--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endif--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            @endif--}}
         </div>
 
     </div>
