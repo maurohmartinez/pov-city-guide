@@ -9,6 +9,6 @@ class MenuComposer
 {
     public function compose(View $view): void
     {
-        $view->with('categoriesMenuItems', Category::onlyParents()->onlyForMenu()->with('children')->get());
+        $view->with('categoriesMenuItems', Category::onlyParents()->onlyForMenu()->orderBy('rgt')->with('children')->get());
     }
 }
