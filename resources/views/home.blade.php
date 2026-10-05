@@ -5,11 +5,13 @@
     @include('inc.stripe-menu')
     <section class="background-spin">
         <div class="container mt-5">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h5 class="m-0">{{ __('common.articles') }}</h5>
+            @if($articles->isNotEmpty())
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h5 class="m-0">{{ __('common.articles') }}</h5>
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="row">
                 <div class="col-md-{{ $articles->count() > 1 ? 7 : 12 }}">
                     @includeWhen($articles->isNotEmpty(), 'components.articles.hero', ['article' => $articles->first(), 'ratio' => '5x2'])

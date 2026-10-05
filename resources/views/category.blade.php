@@ -30,7 +30,7 @@
         @endif
     </section>
 
-    @if($relatedArticles)
+    @if($relatedArticles->isNotEmpty())
         <section class="my-5" dusk="related">
             <h5 class="container">{{ __('common.you_might_also_be_intered_in') }}</h5>
             <div class="container-lg p-0">
