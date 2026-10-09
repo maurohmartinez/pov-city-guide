@@ -8,59 +8,6 @@
 @endphp
 
 @if(count($allImages) > 0)
-    @once
-        @push('styles')
-            <link rel="stylesheet" href="{{ asset('storefront/css/swiper-bundle.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('storefront/css/glightbox.css') }}">
-            <style>
-                .gallery-narrow-bar-fill {
-                    height: 100%;
-                    transform-origin: left center;
-                    transform: scaleX(0);
-                    background: rgba(255, 255, 255, 0.9);
-                    transition: none;
-                }
-                .gallery-narrow-bar-fill.is-done {
-                    transform: scaleX(1);
-                }
-                .gallery-narrow-bar-fill.is-active {
-                    animation: gallery-narrow-fill var(--gallery-narrow-delay, 5s) linear forwards;
-                }
-                @keyframes gallery-narrow-fill {
-                    from { transform: scaleX(0); }
-                    to   { transform: scaleX(1); }
-                }
-            </style>
-        @endpush
-        @push('before_scripts')
-            <script src="{{ asset('storefront/js/swiper-bundle.min.js') }}"></script>
-            <script src="{{ asset('storefront/js/glightbox.min.js') }}"></script>
-        @endpush
-        @push('scripts')
-            <script>
-                // theme.min.js initialises GLightbox with closeOnOutsideClick: false and doesn't expose the
-                // instance, so we close it ourselves when a click starts AND ends on the backdrop. Requiring
-                // both prevents a drag/swipe that ends outside the image from closing the lightbox.
-                (function () {
-                    const isBackdrop = (el) => el.closest('.glightbox-container')
-                        && !el.closest('.ginner-container')
-                        && !el.closest('.gbtn');
-                    let startedOnBackdrop = false;
-
-                    document.addEventListener('pointerdown', (e) => {
-                        startedOnBackdrop = isBackdrop(e.target);
-                    }, true);
-
-                    document.addEventListener('click', (e) => {
-                        if (!startedOnBackdrop || !isBackdrop(e.target)) return;
-                        const close = e.target.closest('.glightbox-container').querySelector('.gclose');
-                        if (close) close.click();
-                    });
-                })();
-            </script>
-        @endpush
-    @endonce
-
     <div data-pov-component="gallery" class="mt-2 mb-2 mb-md-5 pov-gallery">
         {{-- Narrow: carousel with stories progress bars + thumbnails row (mobile & tablet) --}}
         <div class="d-block d-lg-none">
@@ -120,7 +67,7 @@
             <div class="row g-3 g-lg-4 pb-sm-2">
                 @if(count($thumbImages) > 0)
                     <div class="col-12">
-                        <div class="row row-cols-6 g-3 g-lg-4">
+                        <div class="row">
                             @foreach($thumbImages as $image)
                                 <div class="col">
                                     <a class="hover-effect-scale hover-effect-opacity position-relative d-flex rounded overflow-hidden"
@@ -180,7 +127,7 @@
                         },
                     });
 
-                    const swiper = new Swiper('#{{ $galleryId }}', {
+                    new Swiper('#{{ $galleryId }}', {
                         loop: false,
                         observer: true,
                         observeParents: true,
@@ -205,5 +152,58 @@
             </script>
         @endpush
     @endif
+
+    @once
+        @push('styles')
+            <link rel="stylesheet" href="{{ asset('storefront/css/swiper-bundle.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('storefront/css/glightbox.css') }}">
+            <style>
+                .gallery-narrow-bar-fill {
+                    height: 100%;
+                    transform-origin: left center;
+                    transform: scaleX(0);
+                    background: rgba(255, 255, 255, 0.9);
+                    transition: none;
+                }
+                .gallery-narrow-bar-fill.is-done {
+                    transform: scaleX(1);
+                }
+                .gallery-narrow-bar-fill.is-active {
+                    animation: gallery-narrow-fill var(--gallery-narrow-delay, 5s) linear forwards;
+                }
+                @keyframes gallery-narrow-fill {
+                    from { transform: scaleX(0); }
+                    to   { transform: scaleX(1); }
+                }
+            </style>
+        @endpush
+        @push('before_scripts')
+            <script src="{{ asset('storefront/js/swiper-bundle.min.js') }}"></script>
+            <script src="{{ asset('storefront/js/glightbox.min.js') }}"></script>
+        @endpush
+        @push('scripts')
+            <script>
+                // theme.min.js initialises GLightbox with closeOnOutsideClick: false and doesn't expose the
+                // instance, so we close it ourselves when a click starts AND ends on the backdrop. Requiring
+                // both prevents a drag/swipe that ends outside the image from closing the lightbox.
+                (function () {
+                    const isBackdrop = (el) => el.closest('.glightbox-container')
+                        && !el.closest('.ginner-container')
+                        && !el.closest('.gbtn');
+                    let startedOnBackdrop = false;
+
+                    document.addEventListener('pointerdown', (e) => {
+                        startedOnBackdrop = isBackdrop(e.target);
+                    }, true);
+
+                    document.addEventListener('click', (e) => {
+                        if (!startedOnBackdrop || !isBackdrop(e.target)) return;
+                        const close = e.target.closest('.glightbox-container').querySelector('.gclose');
+                        if (close) close.click();
+                    });
+                })();
+            </script>
+        @endpush
+    @endonce
 
 @endif
