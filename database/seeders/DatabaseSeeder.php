@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DefaultCategorySeeder::class,
             TagSeeder::class,
+            AuthorSeeder::class,
             ArticleSeeder::class,
             SettingSeeder::class,
         ]);

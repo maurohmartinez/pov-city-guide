@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Article;
+use App\Models\Author;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -25,9 +26,9 @@ class ImageProcessingService
         self::SIZE_SMALL => 550,
     ];
 
-    public static function processAllSizes(Category|Article $model): void
+    public static function processAllSizes(Category|Article|Author $model): void
     {
-        $disk = $model instanceof Category ? 'categories' : 'articles';
+        $disk = self::getDiskName($model);
 
         self::processBySize($disk, self::SIZE_LARGE, $model);
         self::processBySize($disk, self::SIZE_MEDIUM, $model);
@@ -38,7 +39,7 @@ class ImageProcessingService
 //        Storage::disk($disk)->delete($model->image);
     }
 
-    public static function processBySize(string $disk, string $size, Category|Article $model): void
+    public static function processBySize(string $disk, string $size, Category|Article|Author $model): void
     {
         Storage::disk($disk)->makeDirectory($size);
 
@@ -87,23 +88,32 @@ class ImageProcessingService
         }
     }
 
-    public static function getSmallPath(Category|Article $model): string
+    public static function getSmallPath(Category|Article|Author $model): string
     {
-        return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('small/' . $model->image . '.jpg');
+        return Storage::disk(self::getDiskName($model))->url('small/' . $model->image . '.jpg');
     }
 
-    public static function getMediumPath(Category|Article $model): string
+    public static function getMediumPath(Category|Article|Author $model): string
     {
-        return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('medium/' . $model->image . '.jpg');
+        return Storage::disk(self::getDiskName($model))->url('medium/' . $model->image . '.jpg');
     }
 
-    public static function getLargePath(Category|Article $model): string
+    public static function getLargePath(Category|Article|Author $model): string
     {
-        return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('large/' . $model->image . '.jpg');
+        return Storage::disk(self::getDiskName($model))->url('large/' . $model->image . '.jpg');
     }
 
-    public static function getOriginalPath(Category|Article $model): string
+    public static function getOriginalPath(Category|Article|Author $model): string
     {
-        return Storage::disk($model instanceof Category ? 'categories' : 'articles')->url('originals/' . $model->image . '.jpg');
+        return Storage::disk(self::getDiskName($model))->url('originals/' . $model->image . '.jpg');
+    }
+
+    private static function getDiskName(Category|Article|Author $model): string
+    {
+        return match (true) {
+            $model instanceof Category => 'categories',
+            $model instanceof Article => 'articles',
+            $model instanceof Author => 'authors',
+        };
     }
 }

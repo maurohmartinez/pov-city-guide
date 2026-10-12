@@ -72,4 +72,7 @@ return array(
     'confirm_change_block_type' => 'Schimbarea tipului de bloc va șterge conținutul curent. Continuă?',
     'delete_block' => 'Șterge bloc de conținut',
     'confirm_delete_block' => 'Sigur dorești să ștergi acest bloc de conținut?',
+
+    'author' => 'Autor',
+    'authors' => 'Autori',
 );

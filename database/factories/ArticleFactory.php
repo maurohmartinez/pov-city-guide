@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\VisibilityEnum;
 use App\Models\Article;
+use App\Models\Author;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -36,6 +37,7 @@ class ArticleFactory extends Factory
             'slug' => Str::slug($title),
             'content' => $this->content(),
             'description' => fake()->words(100, true),
+            'author_id' => Author::query()->exists() ? Author::query()->inRandomOrder()->first() : Author::factory(),
             'image' => 'sample.jpg',
             'visibility' => fake()->randomElement(VisibilityEnum::options()),
         ];

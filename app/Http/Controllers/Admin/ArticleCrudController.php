@@ -58,6 +58,7 @@ class ArticleCrudController extends CrudController
             'visibility' => 'required|in:' . VisibilityEnum::toString(),
             'categories' => 'required|exists:categories,id',
             'tags' => 'sometimes|nullable|exists:tags,id',
+            'author' => 'sometimes|nullable|exists:authors,id',
         ]);
 
         CRUD::field('title')->label(__('common.title'))
@@ -68,6 +69,7 @@ class ArticleCrudController extends CrudController
             ->tab('General');
         CRUD::field('description')->label(__('common.description'))->type('textarea')
             ->tab('General');
+        CRUD::field('author')->tab('General')->inline_create(true);
 
         CRUD::field('image')
             ->label(__('common.image'))

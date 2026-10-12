@@ -68,4 +68,7 @@ return [
     'content' => 'Content',
     'name' => 'Name',
     'you_might_also_be_intered_in' => 'You might also be interested in',
+
+    'author' => 'Author',
+    'authors' => 'Authors',
 ];

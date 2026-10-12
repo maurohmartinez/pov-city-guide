@@ -15,14 +15,14 @@ class HomeController extends Controller
     public function index(): View
     {
         return view('home', [
-            'articles' => Article::query()->public()->with(['categories', 'tags'])->limit(4)->get(),
+            'articles' => Article::query()->public()->with(['categories', 'tags', 'author'])->limit(4)->get(),
             'sections' => array_map(function (array $value) {
                 return [
                     'category' => Category::query()->whereId($value['category_id'])->firstOrFail(),
                     'layout_type' => $value['layout_type'],
                     'articles' => Article::query()
                         ->public()
-                        ->with('categories', 'tags')
+                        ->with(['categories', 'tags', 'author'])
                         ->whereHas('categories', fn ($query) => $query->where('categories.id', $value['category_id']))
                         ->limit(10)
                         ->get(),
@@ -50,7 +50,7 @@ class HomeController extends Controller
                 ->get(),
             'relatedArticles' => Article::query()
                 ->public()
-                ->with('tags', 'categories')
+                ->with(['tags', 'categories', 'author'])
                 ->whereDoesntHave('categories', fn ($query) => $query->where('categories.id', $category->id))
                 ->inRandomOrder()
                 ->limit(10)

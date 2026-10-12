@@ -39,6 +39,14 @@
                 </div>
             </div>
         </div>
+        @if($article->author)
+            <div class="d-flex align-items-center">
+                <img class="img-fluid rounded-circle" style="width: 35px; height: 35px;" src="{{ $article->author->small_image }}" alt="Author">
+                <div class="ms-2">
+                    <strong>{{ $article->author->name }}</strong> | {{ $article->created_at->isoFormat('L') }}
+                </div>
+            </div>
+        @endif
         <div class="my-5 row">
             @foreach(json_decode($article->content ?? [], true) as $content)
                 <div class="col-md-{{ $content['size'] }} mb-4">

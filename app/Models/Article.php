@@ -17,12 +17,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 #[ObservedBy(ArticleObserver::class)]
-#[Fillable(['title', 'content', 'description', 'slug', 'image', 'visibility', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
+#[Fillable(['title', 'content', 'description', 'slug', 'author_id', 'image', 'visibility', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
 class Article extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
@@ -66,6 +67,11 @@ class Article extends Model
         ];
     }
 
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(Author::class);
+    }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
@@ -99,13 +105,13 @@ class Article extends Model
                 $relatedByCategory = self::query()
                     ->whereHas('categories', fn ($query) => $query->whereIn('categories.id', $this->categories->pluck('id')))
                     ->limit(5)
-                    ->with('categories', 'tags')
+                    ->with(['categories', 'tags', 'author'])
                     ->get();
 
                 $relatedByTags = self::query()
                     ->whereHas('tags', fn ($query) => $query->whereIn('tags.id', $this->tags->pluck('id')))
                     ->limit(5)
-                    ->with('categories', 'tags')
+                    ->with(['categories', 'tags', 'author'])
                     ->get();
 
                 $collection->push(...$relatedByCategory, ...$relatedByTags);

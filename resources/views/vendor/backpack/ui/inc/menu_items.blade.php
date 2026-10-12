@@ -4,4 +4,5 @@
 <x-backpack::menu-item title="Articles" icon="la la-file-o" :link="route('article.index')" />
 <x-backpack::menu-item title="Categories" icon="la la-file-o" :link="route('category.index')" />
 <x-backpack::menu-item title="Tags" icon="la la-file-o" :link="route('tag.index')" />
+<x-backpack::menu-item title="Authors" icon="la la-users" :link="route('author.index')" />
 <x-backpack::menu-item title="Settings" icon="la la-cog" :link="route('setting.index')" />
