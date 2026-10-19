@@ -20,7 +20,7 @@
     @unless($minimalistic ?? false)
         <div class="custom-hero">
             <div class="custom-hero-media">
-                <img src="{{ asset('images/hero-1.jpg') }}"/>
+                <img src="{{ asset('images/hero-1.1.jpg') }}"/>
 {{--                <video autoplay loop muted webkit-playsinline playsinline id="hero-video"></video>--}}
             </div>
             <div class="custom-hero-mask"></div>
