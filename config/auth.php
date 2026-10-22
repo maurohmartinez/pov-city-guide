@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Admin;
 use App\Models\User;
 
 return [
@@ -38,9 +39,17 @@ return [
     */
 
     'guards' => [
+        // Storefront customers log in through Laravel's default "web" guard.
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        // The Backpack admin panel authenticates against its own "backpack" guard.
+        // This value is referenced by config/backpack/base.php ('guard' => 'backpack').
+        'backpack' => [
+            'driver' => 'session',
+            'provider' => 'admins',
         ],
     ],
 
@@ -64,13 +73,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => Admin::class,
+        ],
     ],
 
     /*
@@ -93,9 +102,19 @@ return [
     */
 
     'passwords' => [
+        // Storefront (User) password recovery.
         'users' => [
             'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'table' => 'password_reset_tokens_users',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        // Backpack (Admin) password recovery. The key must stay "backpack" to
+        // match config/backpack/base.php ('passwords' => 'backpack').
+        'backpack' => [
+            'provider' => 'admins',
+            'table' => 'password_reset_tokens_admins',
             'expire' => 60,
             'throttle' => 60,
         ],

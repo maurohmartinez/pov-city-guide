@@ -18,12 +18,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
+        Schema::create('password_reset_tokens_users', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
+        // Single shared session store (SESSION_DRIVER=database, SESSION_TABLE=sessions).
+        // Guard isolation (web vs. backpack) happens via per-guard session keys, not
+        // via separate session tables.
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -37,7 +40,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('password_reset_tokens_users');
         Schema::dropIfExists('sessions');
     }
 };

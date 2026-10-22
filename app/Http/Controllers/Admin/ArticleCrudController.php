@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\VisibilityEnum;
 use App\Models\Article;
 use App\Models\Category;
+use App\Services\RoleAndPermissionService;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -13,6 +14,7 @@ use Illuminate\Pagination\Paginator;
 
 class ArticleCrudController extends CrudController
 {
+    use \App\Traits\HasCrudPermissions;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -25,6 +27,13 @@ class ArticleCrudController extends CrudController
         CRUD::setModel(Article::class);
         CRUD::setRoute(route: config('backpack.base.route_prefix') . '/article');
         CRUD::setEntityNameStrings(singular: __('common.article'), plural: __('common.articles'));
+
+        $this->checkPermissions([
+            RoleAndPermissionService::PERMISSION_ARTICLE_READ => ['list', 'fetch'],
+            RoleAndPermissionService::PERMISSION_ARTICLE_CREATE => ['create'],
+            RoleAndPermissionService::PERMISSION_ARTICLE_UPDATE => ['update', 'reorder'],
+            RoleAndPermissionService::PERMISSION_ARTICLE_DELETE => ['delete'],
+        ]);
     }
 
     protected function setupListOperation(): void
