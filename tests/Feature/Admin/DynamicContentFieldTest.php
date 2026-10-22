@@ -4,7 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\Enums\VisibilityEnum;
 use App\Models\Article;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Queue;
@@ -16,7 +16,7 @@ class DynamicContentFieldTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const COMPONENT = 'vendor.backpack.fields.dynamic-content';
+    private const string COMPONENT = 'vendor.backpack.fields.dynamic-content';
 
     protected function setUp(): void
     {
@@ -24,7 +24,7 @@ class DynamicContentFieldTest extends TestCase
 
         Storage::fake('articles');
 
-        $user = User::factory()->create();
+        $user = Admin::factory()->create();
         $guard = config('backpack.base.guard') ?? config('auth.defaults.guard');
         $this->actingAs($user, $guard);
     }

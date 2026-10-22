@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Backpack;
 
-use App\Models\User;
+use App\Models\Admin;
 use Backpack\TestGenerators\CrudFeatureTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,7 +14,7 @@ abstract class DefaultTestBase extends CrudFeatureTestCase
     {
         parent::setUp();
 
-        $user = User::factory()->create();
+        $user = Admin::factory()->create();
         $guard = config('backpack.base.guard') ?? config('auth.defaults.guard');
 
         $this->actingAs($user, $guard);
