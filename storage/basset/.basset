@@ -3256,5 +3256,23 @@
         "asset_path": "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js",
         "asset_disk_path": "basset/cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js",
         "asset_attributes": []
+    },
+    "https://www.gravatar.com/avatar/bfa4176985a9e62de0481e598758479b8a6caa7028c300a68a3c06b102187bd8.jpg?s=80&d=blank&r=g": {
+        "asset_name": "https://www.gravatar.com/avatar/bfa4176985a9e62de0481e598758479b8a6caa7028c300a68a3c06b102187bd8.jpg?s=80&d=blank&r=g",
+        "asset_path": "https://www.gravatar.com/avatar/bfa4176985a9e62de0481e598758479b8a6caa7028c300a68a3c06b102187bd8.jpg?s=80&d=blank&r=g",
+        "asset_disk_path": "basset/www.gravatar.com/avatar/bfa4176985a9e62de0481e598758479b8a6caa7028c300a68a3c06b102187bd8.jpg",
+        "asset_attributes": []
+    },
+    "https://www.gravatar.com/avatar/bc15ce5d4fa97606bf6987d111db7d744e04fda69d93ca4653ec189387e02fb3.jpg?s=80&d=blank&r=g": {
+        "asset_name": "https://www.gravatar.com/avatar/bc15ce5d4fa97606bf6987d111db7d744e04fda69d93ca4653ec189387e02fb3.jpg?s=80&d=blank&r=g",
+        "asset_path": "https://www.gravatar.com/avatar/bc15ce5d4fa97606bf6987d111db7d744e04fda69d93ca4653ec189387e02fb3.jpg?s=80&d=blank&r=g",
+        "asset_disk_path": "basset/www.gravatar.com/avatar/bc15ce5d4fa97606bf6987d111db7d744e04fda69d93ca4653ec189387e02fb3.jpg",
+        "asset_attributes": []
+    },
+    "https://www.gravatar.com/avatar/0ad80c7f6dff0dceded893acb06a69e86b27b9f978bc164cee272714dc4cac9b.jpg?s=80&d=blank&r=g": {
+        "asset_name": "https://www.gravatar.com/avatar/0ad80c7f6dff0dceded893acb06a69e86b27b9f978bc164cee272714dc4cac9b.jpg?s=80&d=blank&r=g",
+        "asset_path": "https://www.gravatar.com/avatar/0ad80c7f6dff0dceded893acb06a69e86b27b9f978bc164cee272714dc4cac9b.jpg?s=80&d=blank&r=g",
+        "asset_disk_path": "basset/www.gravatar.com/avatar/0ad80c7f6dff0dceded893acb06a69e86b27b9f978bc164cee272714dc4cac9b.jpg",
+        "asset_attributes": []
     }
 }

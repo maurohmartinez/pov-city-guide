@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Author;
+use App\Services\RoleAndPermissionService;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class AuthorCrudController extends CrudController
 {
+    use \App\Traits\HasCrudPermissions;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -20,6 +23,13 @@ class AuthorCrudController extends CrudController
         CRUD::setRoute(route: config('backpack.base.route_prefix').'/author');
         CRUD::setEntityNameStrings(singular: __('common.author'), plural: __('common.authors'));
         CRUD::addBaseClause('withCount', 'articles');
+
+        $this->checkPermissions([
+            RoleAndPermissionService::PERMISSION_AUTHOR_READ => ['list', 'show'],
+            RoleAndPermissionService::PERMISSION_AUTHOR_CREATE => ['create', 'inline-create'],
+            RoleAndPermissionService::PERMISSION_AUTHOR_UPDATE => ['update'],
+            RoleAndPermissionService::PERMISSION_AUTHOR_DELETE => ['delete'],
+        ]);
     }
 
     protected function setupListOperation(): void
