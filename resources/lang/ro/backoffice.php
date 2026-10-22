@@ -107,4 +107,13 @@ return [
 
     'map_search_placeholder' => 'Caută un loc sau o adresă',
     'map_locate' => 'Locația mea',
+
+    // Places block
+    'places_empty' => 'Caută un loc sau dă click pe hartă pentru a adăuga locuri în această listă.',
+    'places_name' => 'Numele locului',
+    'places_note' => 'Notă (opțional)',
+    'places_remove' => 'Elimină locul',
+    'places_move_up' => 'Mută mai sus',
+    'places_move_down' => 'Mută mai jos',
+    'places_focus' => 'Arată acest loc pe hartă',
 ];

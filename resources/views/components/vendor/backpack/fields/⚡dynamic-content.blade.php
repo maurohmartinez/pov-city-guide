@@ -20,11 +20,14 @@ new class extends Component {
 
     private const string MAP = 'map';
 
+    private const string PLACES = 'places';
+
     private const array TYPES_MAPPED = [
         self::TEXT => 'Text',
         self::IMAGES => 'Images',
         self::VIDEO => 'Video',
         self::MAP => 'Map',
+        self::PLACES => 'Places',
     ];
 
     private const string SIZE_4_4 = '12';
@@ -424,6 +427,99 @@ new class extends Component {
                         </p>
                     </div>
                 @endif
+
+                @if($el['type'] === self::PLACES)
+                    <div
+                        class="mt-2"
+                        wire:key="places-{{ $el['key'] }}"
+                        wire:ignore
+                        x-data="placesField({
+                            key: @js($el['key']),
+                            value: @js($el['value']),
+                            defaultLat: @js((float) config('services.google_places.default_lat', 44.4267674)),
+                            defaultLng: @js((float) config('services.google_places.default_lng', 26.1025384)),
+                        })"
+                    >
+                        <div class="d-flex gap-2 align-items-center">
+                            {{-- Places Autocomplete (New) web component is injected here at runtime,
+                                 same as the single MAP block. Selecting a result appends a place. --}}
+                            <div x-ref="searchContainer" class="flex-grow-1"></div>
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                title="{{ __('backoffice.map_locate') }}"
+                                x-on:click="locate()"
+                            ><i class="la la-map-marker"></i></button>
+                        </div>
+                        <div x-ref="map" class="mt-2 rounded border" style="width: 100%; height: 350px;"></div>
+
+                        <p class="text-muted small mt-2 mb-1" x-show="places.length === 0" x-cloak>
+                            {{ __('backoffice.places_empty') }}
+                        </p>
+
+                        <ul class="list-group mt-2" x-show="places.length > 0" x-cloak>
+                            <template x-for="(place, i) in places" :key="place.key">
+                                <li
+                                    class="list-group-item places-row-item"
+                                    :class="{ 'border border-primary': active === i }"
+                                    x-on:mouseenter="emphasize(i, true)"
+                                    x-on:mouseleave="emphasize(i, false)"
+                                >
+                                    <div class="d-flex align-items-start gap-2">
+                                        <span
+                                            class="badge bg-danger rounded-pill mt-1"
+                                            style="cursor: pointer;"
+                                            title="{{ __('backoffice.places_focus') }}"
+                                            x-text="i + 1"
+                                            x-on:click="focusMarker(i)"
+                                        ></span>
+                                        <div class="flex-grow-1">
+                                            <input
+                                                type="text"
+                                                class="form-control form-control-sm mb-1"
+                                                placeholder="{{ __('backoffice.places_name') }}"
+                                                x-model="place.name"
+                                                x-on:input="save()"
+                                            >
+                                            <input
+                                                type="text"
+                                                class="form-control form-control-sm"
+                                                placeholder="{{ __('backoffice.places_note') }}"
+                                                x-model="place.note"
+                                                x-on:input="save()"
+                                            >
+                                            <small class="text-muted d-block mt-1" x-show="place.formatted_address" x-cloak>
+                                                <i class="la la-map-marker"></i> <span x-text="place.formatted_address"></span>
+                                            </small>
+                                        </div>
+                                        <div class="d-flex flex-column gap-1">
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-secondary"
+                                                title="{{ __('backoffice.places_move_up') }}"
+                                                x-on:click="move(i, -1)"
+                                                :disabled="i === 0"
+                                            ><i class="la la-arrow-up"></i></button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-secondary"
+                                                title="{{ __('backoffice.places_move_down') }}"
+                                                x-on:click="move(i, 1)"
+                                                :disabled="i === places.length - 1"
+                                            ><i class="la la-arrow-down"></i></button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="{{ __('backoffice.places_remove') }}"
+                                                x-on:click="remove(i)"
+                                            ><i class="la la-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                @endif
             </div>
 
         @endforeach
@@ -716,6 +812,193 @@ new class extends Component {
                 }
                 this.address = address || '';
                 this.setValue({ lat, lng, formatted_address: address || '' });
+            },
+            reverseGeocode(latlng) {
+                return new Promise(resolve => {
+                    const geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ location: latlng }, (results, status) => {
+                        resolve(status === 'OK' && results[0] ? results[0].formatted_address : '');
+                    });
+                });
+            },
+        });
+
+        // Alpine factory: a multi-place picker. Renders one Google Map with a draggable marker
+        // per place, a Places Autocomplete (New) search box and a geolocate button; map clicks
+        // add a place too. The value is stored as an ordered list of
+        // {name, note, formatted_address, lat, lng}, keyed to the row by its stable key — the
+        // same persistence pattern as mapField. Reuses window.loadGoogleMaps() from above.
+        window.placesField = (config) => ({
+            map: null,
+            markers: [],
+            places: [],
+            active: null,
+            uid() {
+                // Local-only stable key for x-for; stripped before persisting (see save()).
+                return 'p-' + this.markers.length + '-' + (this._seq = (this._seq || 0) + 1);
+            },
+            async init() {
+                await window.loadGoogleMaps();
+
+                const seed = Array.isArray(config.value) ? config.value : [];
+                this.places = seed.map((p) => ({
+                    key: this.uid(),
+                    name: p.name || '',
+                    note: p.note || '',
+                    formatted_address: p.formatted_address || '',
+                    lat: p.lat != null ? parseFloat(p.lat) : null,
+                    lng: p.lng != null ? parseFloat(p.lng) : null,
+                }));
+
+                const first = this.places.find(p => p.lat != null && p.lng != null);
+                const center = first
+                    ? { lat: first.lat, lng: first.lng }
+                    : { lat: config.defaultLat, lng: config.defaultLng };
+
+                this.map = new google.maps.Map(this.$refs.map, {
+                    center,
+                    zoom: first ? 12 : 11,
+                    mapTypeId: 'roadmap',
+                    mapId: 'dynamic-places-' + config.key,
+                });
+
+                this.map.addListener('click', ({ latLng }) => this.addFromLatLng(latLng));
+
+                const autocomplete = new google.maps.places.PlaceAutocompleteElement();
+                autocomplete.style.width = '100%';
+                this.$refs.searchContainer.appendChild(autocomplete);
+                autocomplete.addEventListener('gmp-select', async ({ placePrediction }) => {
+                    const place = placePrediction.toPlace();
+                    await place.fetchFields({ fields: ['location', 'formattedAddress', 'displayName'] });
+                    const loc = place.location;
+                    if (!loc) return;
+                    this.pushPlace({
+                        name: place.displayName || '',
+                        formatted_address: place.formattedAddress || '',
+                        lat: loc.lat(),
+                        lng: loc.lng(),
+                    });
+                    this.map.panTo(loc);
+                    this.map.setZoom(14);
+                });
+
+                this.renderMarkers();
+            },
+            locate() {
+                if (!navigator.geolocation) return;
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const loc = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    this.addFromLatLng(loc);
+                    this.map.panTo(loc);
+                    this.map.setZoom(14);
+                });
+            },
+            async addFromLatLng(latLng) {
+                const lat = typeof latLng.lat === 'function' ? latLng.lat() : latLng.lat;
+                const lng = typeof latLng.lng === 'function' ? latLng.lng() : latLng.lng;
+                const address = await this.reverseGeocode({ lat, lng });
+                this.pushPlace({ name: '', formatted_address: address || '', lat, lng });
+            },
+            pushPlace(p) {
+                this.places.push({
+                    key: this.uid(),
+                    name: p.name || '',
+                    note: '',
+                    formatted_address: p.formatted_address || '',
+                    lat: p.lat,
+                    lng: p.lng,
+                });
+                this.renderMarkers();
+                this.save();
+            },
+            remove(i) {
+                this.places.splice(i, 1);
+                this.renderMarkers();
+                this.save();
+            },
+            move(i, dir) {
+                const t = i + dir;
+                if (t < 0 || t >= this.places.length) return;
+                [this.places[i], this.places[t]] = [this.places[t], this.places[i]];
+                this.renderMarkers();
+                this.save();
+            },
+            renderMarkers() {
+                (this.markers || []).forEach(m => { if (m) m.map = null; });
+                this.markers = [];
+                const bounds = new google.maps.LatLngBounds();
+                let count = 0;
+                this.places.forEach((place, i) => {
+                    // Keep marker indices aligned with place indices (null slot for coordless rows).
+                    if (place.lat == null || place.lng == null) { this.markers[i] = null; return; }
+                    const pos = { lat: place.lat, lng: place.lng };
+                    const marker = new google.maps.marker.AdvancedMarkerElement({
+                        map: this.map,
+                        position: pos,
+                        gmpDraggable: true,
+                        gmpClickable: true,
+                        content: this.makePin(i + 1),
+                    });
+                    marker.addListener('dragend', async () => {
+                        const np = marker.position;
+                        const lat = typeof np.lat === 'function' ? np.lat() : np.lat;
+                        const lng = typeof np.lng === 'function' ? np.lng() : np.lng;
+                        place.lat = lat;
+                        place.lng = lng;
+                        place.formatted_address = await this.reverseGeocode({ lat, lng });
+                        this.save();
+                    });
+                    // Clicking a marker highlights and scrolls to its row.
+                    marker.addListener('click', () => this.setActive(i));
+                    this.markers[i] = marker;
+                    bounds.extend(pos);
+                    count++;
+                });
+                if (count > 1) {
+                    this.map.fitBounds(bounds);
+                }
+            },
+            // Numbered teardrop pin, matching the number badge on each list row, so the editor
+            // can tell which marker is which when several places are on the map.
+            makePin(n) {
+                const wrap = document.createElement('div');
+                wrap.style.transition = 'transform .15s ease';
+                wrap.style.transformOrigin = 'bottom center';
+                wrap.style.cursor = 'pointer';
+                wrap.innerHTML = '<svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg">'
+                    + '<path d="M15 0C6.7 0 0 6.7 0 15c0 11.25 15 27 15 27s15-15.75 15-27C30 6.7 23.3 0 15 0z" fill="#e4572e"/>'
+                    + '<circle cx="15" cy="15" r="9" fill="#ffffff"/>'
+                    + '<text x="15" y="19" text-anchor="middle" font-size="12" font-weight="700" fill="#e4572e" font-family="sans-serif">' + n + '</text>'
+                    + '</svg>';
+                return wrap;
+            },
+            // Marker clicked → highlight and scroll to its row.
+            setActive(i) {
+                this.active = i;
+                const rows = this.$root.querySelectorAll('.places-row-item');
+                if (rows[i]) rows[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            },
+            // Row number clicked → pan the map to that marker and emphasize it.
+            focusMarker(i) {
+                const marker = this.markers[i];
+                if (!marker) return;
+                this.map.panTo(marker.position);
+                this.active = i;
+                this.emphasize(i, true);
+                setTimeout(() => this.emphasize(i, false), 1200);
+            },
+            // Row hovered → enlarge and raise its marker.
+            emphasize(i, on) {
+                const marker = this.markers[i];
+                if (!marker || !marker.content) return;
+                marker.content.style.transform = on ? 'scale(1.4)' : 'scale(1)';
+                marker.zIndex = on ? 1000 : null;
+            },
+            save() {
+                const i = this.$wire.content.findIndex(r => r.key === config.key);
+                if (i === -1) return;
+                const clean = this.places.map(({ key, ...rest }) => rest);
+                this.$wire.set('content.' + i + '.value', clean, false);
             },
             reverseGeocode(latlng) {
                 return new Promise(resolve => {

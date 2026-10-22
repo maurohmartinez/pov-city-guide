@@ -3256,5 +3256,17 @@
         "asset_path": "https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js",
         "asset_disk_path": "basset/cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js",
         "asset_attributes": []
+    },
+    "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css": {
+        "asset_name": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+        "asset_path": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+        "asset_disk_path": "basset/unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+        "asset_attributes": []
+    },
+    "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js": {
+        "asset_name": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+        "asset_path": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+        "asset_disk_path": "basset/unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+        "asset_attributes": []
     }
 }

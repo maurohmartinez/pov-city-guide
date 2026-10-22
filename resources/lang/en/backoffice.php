@@ -110,4 +110,13 @@ return [
     'confirm_delete_block' => 'Are you sure you want to delete this content block?',
     'map_search_placeholder' => 'Search for a place or address',
     'map_locate' => 'Locate me',
+
+    // Places block
+    'places_empty' => 'Search for a place or click the map to add places to this list.',
+    'places_name' => 'Place name',
+    'places_note' => 'Note (optional)',
+    'places_remove' => 'Remove place',
+    'places_move_up' => 'Move up',
+    'places_move_down' => 'Move down',
+    'places_focus' => 'Show this place on the map',
 ];
