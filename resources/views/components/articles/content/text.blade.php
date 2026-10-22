@@ -1,3 +1,3 @@
-<div class="text-dark">
+<div class="article-text">
     {!! $value !!}
 </div>

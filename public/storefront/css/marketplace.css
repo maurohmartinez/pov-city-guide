@@ -642,3 +642,8 @@ footer .container {
 header {
     z-index: 9999;
 }
+
+
+.article-text, .article-text a {
+    color: black;
+}
