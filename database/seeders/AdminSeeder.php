@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create([
+        Admin::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('admin'),
