@@ -108,4 +108,6 @@ return [
     'confirm_change_block_type' => 'Changing the block type will clear its current content. Continue?',
     'delete_block' => 'Delete content block',
     'confirm_delete_block' => 'Are you sure you want to delete this content block?',
+    'map_search_placeholder' => 'Search for a place or address',
+    'map_locate' => 'Locate me',
 ];

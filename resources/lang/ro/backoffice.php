@@ -104,4 +104,7 @@ return [
 
     'view_all_should_link_to_hint' => '"Vezi toate" buton din secțiunea „Categorii” ar trebui să conducă către',
     'show_upcoming_events_in' => 'Afișează evenimentele viitoare din',
+
+    'map_search_placeholder' => 'Caută un loc sau o adresă',
+    'map_locate' => 'Locația mea',
 ];

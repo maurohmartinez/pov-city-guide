@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'google_places' => [
+        'key' => 'AIzaSyDzfrHsQgpoeSog75-nt6eKDEjNzWy4iJs',
+        'default_lat' => 44.4267674, // Bucharest, Romania
+        'default_lng' => 26.1025384,
+    ],
+
 ];

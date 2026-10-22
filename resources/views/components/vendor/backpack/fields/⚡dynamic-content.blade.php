@@ -18,10 +18,13 @@ new class extends Component {
 
     private const string VIDEO = 'video';
 
+    private const string MAP = 'map';
+
     private const array TYPES_MAPPED = [
         self::TEXT => 'Text',
         self::IMAGES => 'Images',
         self::VIDEO => 'Video',
+        self::MAP => 'Map',
     ];
 
     private const string SIZE_4_4 = '12';
@@ -208,31 +211,37 @@ new class extends Component {
 };
 ?>
 
-<div x-data="{ content: $wire.entangle('content') }">
+<div x-data="{
+    content: $wire.entangle('content'),
+    confirmMsg: @js(__('backoffice.confirm_change_block_type')),
+    // Confirm before switching a block's type when it holds data. Reads the reactive `content`
+    // (not $wire.content) so values written by deferred $wire.set(..., false) — map/video/CKEditor —
+    // are seen, otherwise the prompt would only fire for values loaded from the server.
+    changeType(key, newType, event) {
+        const row = this.content.find(r => r.key === key);
+        const current = row ? row.type : newType;
+        const hasValue = row && row.value != null && row.value !== ''
+            && ! (Array.isArray(row.value) && row.value.length === 0);
+        if (hasValue && ! confirm(this.confirmMsg)) {
+            event.target.value = current;
+            return;
+        }
+        $wire.changeType(key, newType);
+    },
+}">
     {{-- Mirrors $content into the Backpack form as JSON so the plain POST submit picks it up.
          The per-row `key` is stripped here so it never gets persisted. --}}
     <input type="hidden" name="{{ $fieldName }}" :value="JSON.stringify(content.map(({ key, ...row }) => row))">
 
     <div class="row">
         @foreach($content as $index => $el)
-            <div class="col-md-{{ $el['size'] }} px-2 mb-4" wire:key="row-{{ $el['key'] }}">
+            <div class="col-md-{{ $el['size'] }} px-2 my-5" wire:key="row-{{ $el['key'] }}">
                 <div class="d-flex align-items-start gap-2">
                     <div class="row flex-grow-1">
                         <div class="col-md-6">
                             <select
                                 class="form-control type"
-                                x-on:change="
-                                    const newType = $event.target.value;
-                                    const row = $wire.content.find(r => r.key === @js($el['key']));
-                                    const current = row ? row.type : newType;
-                                    const hasValue = row && row.value != null && row.value !== ''
-                                        && ! (Array.isArray(row.value) && row.value.length === 0);
-                                    if (hasValue && ! confirm('{{ __('backoffice.confirm_change_block_type') }}')) {
-                                        $event.target.value = current;
-                                        return;
-                                    }
-                                    $wire.changeType(@js($el['key']), newType);
-                                "
+                                x-on:change="changeType(@js($el['key']), $event.target.value, $event)"
                             >
                                 @foreach(self::TYPES_MAPPED as $type => $name)
                                     <option value="{{ $type }}" @selected($type === $el['type'])>{{ $name }}</option>
@@ -382,6 +391,37 @@ new class extends Component {
                             <img :src="preview.image" :alt="preview.title" style="max-height: 72px;" x-show="preview.image">
                             <small class="text-muted" x-text="preview.title"></small>
                         </div>
+                    </div>
+                @endif
+
+                @if($el['type'] === self::MAP)
+                    <div
+                        class="mt-2"
+                        wire:key="map-{{ $el['key'] }}"
+                        wire:ignore
+                        x-data="mapField({
+                            key: @js($el['key']),
+                            value: @js($el['value']),
+                            defaultLat: @js((float) config('services.google_places.default_lat', 44.4267674)),
+                            defaultLng: @js((float) config('services.google_places.default_lng', 26.1025384)),
+                        })"
+                    >
+                        <div class="d-flex gap-2 align-items-center">
+                            {{-- The Places Autocomplete (New) web component is injected here at runtime.
+                                 The legacy SearchBox/Autocomplete need the legacy Places API, which is
+                                 disabled on the project — the new element uses Places API (New). --}}
+                            <div x-ref="searchContainer" class="flex-grow-1"></div>
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                title="{{ __('backoffice.map_locate') }}"
+                                x-on:click="locate()"
+                            ><i class="la la-map-marker"></i></button>
+                        </div>
+                        <div x-ref="map" class="mt-2 rounded border" style="width: 100%; height: 350px;"></div>
+                        <p class="text-muted small mt-1 mb-0" x-show="address" x-cloak>
+                            <i class="la la-map-marker"></i> <span x-text="address"></span>
+                        </p>
                     </div>
                 @endif
             </div>
@@ -553,6 +593,137 @@ new class extends Component {
                         console.error('Video field:', res.message);
                     }
                 }, '', {});
+            },
+        });
+
+        // Loads the Google Maps JS API once per page, regardless of how many map rows exist.
+        // Returns a promise that resolves when `google.maps` is ready. The Backpack native
+        // google_map field relies on $crud and a jQuery init loop that aren't available inside
+        // a Livewire component, so the map is reimplemented here (same reason the video helpers
+        // above are redefined).
+        if (typeof window.loadGoogleMaps !== 'function') {
+            window.loadGoogleMaps = function () {
+                if (window._googleMapsPromise) {
+                    return window._googleMapsPromise;
+                }
+                window._googleMapsPromise = new Promise((resolve, reject) => {
+                    if (typeof google !== 'undefined' && google.maps) {
+                        resolve();
+                        return;
+                    }
+                    // If a Maps script is already on the page (e.g. a Backpack google_map field),
+                    // wait for it instead of injecting a second copy — a double include is itself
+                    // a cause of the "This page can't load Google Maps correctly" overlay.
+                    if (document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]')) {
+                        const poll = setInterval(() => {
+                            if (typeof google !== 'undefined' && google.maps) {
+                                clearInterval(poll);
+                                resolve();
+                            }
+                        }, 100);
+                        return;
+                    }
+                    window._googleMapsInit = () => resolve();
+                    const script = document.createElement('script');
+                    const params = new URLSearchParams({
+                        key: @js(config('services.google_places.key')),
+                        libraries: 'places,marker',
+                        callback: '_googleMapsInit',
+                        loading: 'async',
+                        language: @js(app()->getLocale()),
+                    });
+                    script.src = 'https://maps.googleapis.com/maps/api/js?' + params.toString();
+                    script.async = true;
+                    script.defer = true;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+                return window._googleMapsPromise;
+            };
+        }
+
+        // Alpine factory: renders a Google Map with a draggable marker, a Places Autocomplete (New)
+        // search box and a geolocate button. The value is stored as {lat, lng, formatted_address} —
+        // the same shape Backpack's google_map field persists — keyed to the row by its stable key.
+        window.mapField = (config) => ({
+            map: null,
+            marker: null,
+            address: '',
+            setValue(val) {
+                const i = this.$wire.content.findIndex(r => r.key === config.key);
+                if (i !== -1) this.$wire.set('content.' + i + '.value', val, false);
+            },
+            async init() {
+                await window.loadGoogleMaps();
+
+                const v = config.value || {};
+                const hasValue = v && v.lat != null && v.lng != null;
+                const center = hasValue
+                    ? { lat: parseFloat(v.lat), lng: parseFloat(v.lng) }
+                    : { lat: config.defaultLat, lng: config.defaultLng };
+
+                this.address = hasValue ? (v.formatted_address || '') : '';
+
+                this.map = new google.maps.Map(this.$refs.map, {
+                    center,
+                    zoom: hasValue ? 16 : 12,
+                    mapTypeId: 'roadmap',
+                    mapId: 'dynamic-map-' + config.key,
+                });
+
+                this.marker = new google.maps.marker.AdvancedMarkerElement({
+                    map: this.map,
+                    position: center,
+                    gmpDraggable: true,
+                });
+
+                this.marker.addListener('dragend', () => this.savePosition(this.marker.position));
+                this.map.addListener('click', ({ latLng }) => {
+                    this.marker.position = latLng;
+                    this.savePosition(latLng);
+                });
+
+                // Places Autocomplete (New) — a web component appended into the search container.
+                const autocomplete = new google.maps.places.PlaceAutocompleteElement();
+                autocomplete.style.width = '100%';
+                this.$refs.searchContainer.appendChild(autocomplete);
+                autocomplete.addEventListener('gmp-select', async ({ placePrediction }) => {
+                    const place = placePrediction.toPlace();
+                    await place.fetchFields({ fields: ['location', 'formattedAddress'] });
+                    const loc = place.location;
+                    if (!loc) return;
+                    this.map.panTo(loc);
+                    this.map.setZoom(16);
+                    this.marker.position = loc;
+                    this.savePosition(loc, place.formattedAddress);
+                });
+            },
+            locate() {
+                if (!navigator.geolocation) return;
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const loc = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    this.map.panTo(loc);
+                    this.map.setZoom(16);
+                    this.marker.position = loc;
+                    this.savePosition(loc);
+                });
+            },
+            async savePosition(pos, address) {
+                const lat = typeof pos.lat === 'function' ? pos.lat() : pos.lat;
+                const lng = typeof pos.lng === 'function' ? pos.lng() : pos.lng;
+                if (address === undefined) {
+                    address = await this.reverseGeocode({ lat, lng });
+                }
+                this.address = address || '';
+                this.setValue({ lat, lng, formatted_address: address || '' });
+            },
+            reverseGeocode(latlng) {
+                return new Promise(resolve => {
+                    const geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ location: latlng }, (results, status) => {
+                        resolve(status === 'OK' && results[0] ? results[0].formatted_address : '');
+                    });
+                });
             },
         });
     </script>
