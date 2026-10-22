@@ -42,7 +42,7 @@
         @if($article->author)
             <div class="d-flex align-items-center">
                 <img class="img-fluid rounded-circle" style="width: 35px; height: 35px;" src="{{ $article->author->small_image }}" alt="Author">
-                <div class="ms-2">
+                <div class="ms-2 text-dark">
                     <strong>{{ $article->author->name }}</strong> | {{ $article->created_at->isoFormat('L') }}
                 </div>
             </div>
