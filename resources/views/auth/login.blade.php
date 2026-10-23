@@ -1,17 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @push('title', __('auth.login') ?? 'Log in')
 
 @section('content')
-    @include('inc.hero', ['minimalistic' => true])
-    @include('inc.stripe-menu')
-
     <section class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="mb-4">{{ __('Log in') }}</h3>
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('storefront/images/pov.svg') }}" alt="POV" style="max-width: 100px;" class="mb-3">
+                        </a>
 
                         @if (session('status'))
                             <div class="alert alert-success">{{ session('status') }}</div>
@@ -26,7 +25,7 @@
                                        class="form-control @error('email') is-invalid @enderror"
                                        required autofocus autocomplete="username">
                                 @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -36,7 +35,7 @@
                                        class="form-control @error('password') is-invalid @enderror"
                                        required autocomplete="current-password">
                                 @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -47,16 +46,16 @@
 
                             <div class="d-flex align-items-center justify-content-between">
                                 @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a>
+                                    <a class="text-custom-accent" href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a>
                                 @endif
-                                <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
+                                <button type="submit" class="btn btn-primary text-dark">{{ __('Log in') }}</button>
                             </div>
                         </form>
 
-                        @if (Route::has('register'))
+                        @if(Route::has('register'))
                             <p class="mt-4 mb-0 text-center">
                                 {{ __("Don't have an account?") }}
-                                <a href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="text-custom-accent" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </p>
                         @endif
                     </div>

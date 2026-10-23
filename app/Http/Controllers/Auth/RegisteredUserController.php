@@ -47,4 +47,9 @@ class RegisteredUserController extends Controller
 
         return redirect()->route('verification.notice');
     }
+
+    public function profile(): View
+    {
+        return view('auth.profile');
+    }
 }
