@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\Article;
+use App\Models\Tag;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -12,7 +15,7 @@ new class extends Component {
 
     public int $limit;
 
-    public int $total;
+    public array $filterByTagsId = [];
 
     public bool $reverseOrder = false;
 
@@ -20,21 +23,45 @@ new class extends Component {
     {
         $this->perPage = 4;
         $this->limit = $this->perPage;
-        $this->total = Article::query()->public()->with(['categories', 'tags', 'author'])->get()->count();
     }
 
     #[Computed]
-    public function items(): \Illuminate\Database\Eloquent\Collection
+    public function query(): Builder
     {
-        $direction = $this->reverseOrder ? 'asc' : 'desc';
-
         return Article::query()
             ->public()
-            ->orderBy('created_at', $direction)
-            ->orderBy('id', $direction)
             ->with(['categories', 'tags', 'author'])
+            ->when(!empty($this->filterByTagsId), function (Builder $query) {
+                $query->whereHas('tags', fn (Builder $query) => $query->whereIn('tags.id', $this->filterByTagsId));
+            });
+    }
+
+    #[Computed]
+    public function total(): int
+    {
+        return $this->query
+            ->when(!empty($this->filterByTagsId), function (Builder $query) {
+                $query->whereHas('tags', fn (Builder $query) => $query->whereIn('tags.id', $this->filterByTagsId));
+            })
+            ->count();
+    }
+
+    #[Computed]
+    public function items(): Collection
+    {
+        return $this->query
+            ->orderBy('created_at', $this->reverseOrder ? 'asc' : 'desc')
+            ->orderBy('id', $this->reverseOrder ? 'asc' : 'desc')
             ->limit($this->limit)
             ->get();
+    }
+
+    #[Computed]
+    public function tags(): Collection
+    {
+        return Tag::query()->whereHas('articles', function (Builder $query) {
+            $query->whereIn('articles.id', Article::query()->public()->get()->pluck('id')->toArray());
+        })->get();
     }
 
     public function toggleShowFilters(): void
@@ -51,22 +78,40 @@ new class extends Component {
     {
         $this->reverseOrder = !$this->reverseOrder;
     }
+
+    public function toggleFilterTag(int $id): void
+    {
+        if (in_array($id, $this->filterByTagsId)) {
+            unset($this->filterByTagsId[array_find_key($this->filterByTagsId, fn ($value) => $value === $id)]);
+
+            return;
+        }
+
+        $this->filterByTagsId []= $id;
+    }
 };
 ?>
 
 <div>
-    @if($this->items->isNotEmpty())
+    @if($this->total > 0)
         <div class="container my-5">
 
             {{--Title--}}
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h5 class="m-0">{{ __('common.articles') }}</h5>
+                <div class="d-flex align-items-center">
+                    <h5 class="m-0 me-2">{{ __('common.articles') }}</h5>
+                    <div wire:loading>
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <button class="btn btn-link px-2 text-decoration-none" wire:click="toggleShowFilters">
-                        <i class="fi-sliders text-custom-accent fs-3"></i>
-                    </button>
+                    @if($this->tags->count() > 0)
+                        <button class="btn btn-link px-2 text-decoration-none" wire:click="toggleShowFilters">
+                            <i class="fi-sliders text-custom-accent fs-3"></i>
+                        </button>
+                    @endif
                     <button class="btn btn-link px-2 text-decoration-none" wire:click="toggleOrder">
                         <i class="fi-sort text-custom-accent fs-3"></i>
                     </button>
@@ -74,11 +119,13 @@ new class extends Component {
             </div>
 
             {{--Filters--}}
-            <div class="row">
-                @if($showFilters)
-
-                @endif
-            </div>
+            @if($showFilters)
+                <div class="d-flex flex-wrap mb-3">
+                    @foreach($this->tags as $tag)
+                        <button class="btn tags rounded-pill mb-1 d-inline me-2 @if(in_array($tag->id, $this->filterByTagsId)) active @endif" wire:click="toggleFilterTag({{ $tag->id }})">{{ $tag->name }}</button>
+                    @endforeach
+                </div>
+            @endif
 
             {{--Articles Main--}}
             <div class="row mb-3">
@@ -102,11 +149,11 @@ new class extends Component {
             {{--Action Load More--}}
             @if($this->total > $this->items->count())
                 <div class="text-center my-4">
-                    <div class="cursor-pointer" wire:click="loadItems" wire:loading.remove>
+                    <div wire:loading.remove wire:target="loadItems" class="cursor-pointer" wire:click="loadItems">
                         <p class="mb-0">{{ __('common.load_more') }}</p>
                         <i class="fi-arrow-down fs-4 text-secondary"></i>
                     </div>
-                    <div wire:loading class="mt-3 mb-1">
+                    <div wire:loading class="mt-3 mb-1" wire:target="loadItems">
                         <div class="spinner-border" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
