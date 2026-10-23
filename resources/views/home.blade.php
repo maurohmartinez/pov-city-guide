@@ -4,25 +4,7 @@
     @include('inc.hero')
     @include('inc.stripe-menu')
     <section class="background-spin">
-        <div class="container mt-5">
-            @if($articles->isNotEmpty())
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <h5 class="m-0">{{ __('common.articles') }}</h5>
-                    </div>
-                </div>
-            @endif
-            <div class="row">
-                <div class="col-md-{{ $articles->count() > 1 ? 7 : 12 }}">
-                    @includeWhen($articles->isNotEmpty(), 'components.articles.hero', ['article' => $articles->first(), 'ratio' => '5x2'])
-                </div>
-                @if($articles->count() > 1)
-                    <div class="col-md-5">
-                        @include('components.articles.horizontal-card', ['articles' => $articles->slice(1)])
-                    </div>
-                @endif
-            </div>
-        </div>
+        <livewire:article-home />
         @foreach($sections as $section)
             <div class="py-3">
                 <div class="container">
