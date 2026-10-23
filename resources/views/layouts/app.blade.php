@@ -39,6 +39,8 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon/android-chrome-512x512.png') }}" sizes="96x96" />
     <meta name="apple-mobile-web-app-title" content="POVCityGuide" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/line-awesome@2/dist/line-awesome/css/line-awesome.min.css" />
+
     @stack('styles')
     @stack('after_styles')
 </head>

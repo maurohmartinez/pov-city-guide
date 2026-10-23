@@ -61,7 +61,7 @@ class ArticleCrudController extends CrudController
     {
         CRUD::setValidation([
             'title' => 'required|max:200',
-            'content' => 'required|max:10000',
+            'content' => 'required|max:20000',
             'description' => 'required|max:1000',
             'image' => 'required',
             'visibility' => 'required|in:' . VisibilityEnum::toString(),
