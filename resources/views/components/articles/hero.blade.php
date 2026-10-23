@@ -1,4 +1,4 @@
-<div class="card-surface rounded mb-3">
+<div class="card-surface rounded">
     <a href="{{ route('article', $article) }}" class="text-decoration-none">
         <div class="overflow-hidden ratio-{{ $ratio ?? '5x3' }} rounded hover-effect-scale">
             <div

@@ -1,9 +1,9 @@
 @foreach($articles as $article)
-    <div class="card-surface card-variant-sm p-2 rounded mb-3">
+    <div class="card-surface card-variant-sm p-2 rounded {{ !$loop->last ? 'mb-3' : '' }}">
         <div class="row position-relative">
             <div class="col-5 col-lg-4">
                 <a href="{{ route('article', $article) }}" class="text-decoration-none">
-                    <div class="overflow-hidden ratio-5x4 rounded hover-effect-scale">
+                    <div class="overflow-hidden {{ $ratio ?? 'ratio-5x4' }} rounded hover-effect-scale">
                         <div
                             class="image-container hover-effect-target"
                             style="background-image: url('{{ $article->small_image }}');"
