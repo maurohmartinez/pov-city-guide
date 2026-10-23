@@ -15,7 +15,6 @@ class HomeController extends Controller
     public function index(): View
     {
         return view('home', [
-            'articles' => Article::query()->public()->with(['categories', 'tags', 'author'])->limit(4)->get(),
             'sections' => array_map(function (array $value) {
                 return [
                     'category' => Category::query()->whereId($value['category_id'])->firstOrFail(),

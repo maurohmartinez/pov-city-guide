@@ -145,6 +145,16 @@ body {
     padding: 10px 20px;
 }
 
+.tags.active {
+    background-color: black;
+    color: white;
+}
+
+button.tags:hover {
+    background-color: rgba(0,0,0,.8);
+    color: white;
+}
+
 .custom-hero-container:not(.minimalistic) {
     padding-bottom: 50px;
 }
