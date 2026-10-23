@@ -133,7 +133,7 @@ new class extends Component {
                     @includeWhen($this->items->isNotEmpty(), 'components.articles.hero', ['article' => $this->items->first(), 'ratio' => '5x2'])
                 </div>
                 @if($this->items->count() > 1)
-                    <div class="col-lg-5 d-flex flex-column justify-content-between">
+                    <div class="col-lg-5 d-flex flex-column @if($this->items->count() > 2) justify-content-between @endif">
                         @include('components.articles.horizontal-card', ['articles' => $this->items->take(4)->slice(1)])
                     </div>
                 @endif
