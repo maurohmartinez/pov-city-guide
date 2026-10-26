@@ -39,6 +39,7 @@ new class extends \Livewire\Component {
             ->public()
             ->with('categoriesToDisplay')
             ->limit($this->limit)
+            ->orderBy('rgt')
             ->get();
     }
 
