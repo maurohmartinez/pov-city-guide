@@ -33,7 +33,8 @@ new class extends Component {
             ->with(['categoriesToDisplay', 'tags', 'author'])
             ->when(!empty($this->filterByTagsId), function (Builder $query) {
                 $query->whereHas('tags', fn (Builder $query) => $query->whereIn('tags.id', $this->filterByTagsId));
-            });
+            })
+            ->orderBy('rgt');
     }
 
     #[Computed]

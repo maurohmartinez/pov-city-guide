@@ -24,6 +24,7 @@ class HomeController extends Controller
                         ->with(['categoriesToDisplay', 'tags', 'author'])
                         ->whereHas('categories', fn ($query) => $query->where('categories.id', $value['category_id']))
                         ->limit(10)
+                        ->orderBy('rgt')
                         ->get(),
                 ];
             }, json_decode(Setting::get(SettingService::HOMEPAGE_SECTIONS), true) ?? []),
@@ -53,6 +54,7 @@ class HomeController extends Controller
                 ->whereDoesntHave('categories', fn ($query) => $query->where('categories.id', $category->id))
                 ->inRandomOrder()
                 ->limit(10)
+                ->orderBy('rgt')
                 ->get(),
         ]);
     }
