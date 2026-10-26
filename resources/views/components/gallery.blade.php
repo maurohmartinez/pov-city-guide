@@ -124,7 +124,7 @@
                                     <i class="fi-zoom-in hover-effect-target fs-3 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
                                     <span class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1"></span>
                                     <div class="ratio hover-effect-target bg-body-tertiary rounded {{ $imageClass }}"
-                                         style="--fn-aspect-ratio: calc(204 / 196 * 100%); background-image: url({{ url('storage/'.$image) }}); background-size: cover; background-position: center;">
+                                         style="--fn-aspect-ratio: calc(482 / 856 * 100%); background-image: url({{ url('storage/'.$image) }}); background-size: cover; background-position: center;">
                                     </div>
                                 </a>
                             </div>
