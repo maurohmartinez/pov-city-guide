@@ -13,7 +13,7 @@
                 </a>
             </div>
             <div class="col-7 col-lg-8 my-auto ps-0">
-                @foreach($article->categories as $category)
+                @foreach($article->categoriesToDisplay as $category)
                     @if(!$loop->first) <span class="fw-light card-category">-</span> @endif
                     <a class="card-category text-decoration-none" href="{{ route('category', $category) }}">
                         <small>{{ $category->name }}</small>
