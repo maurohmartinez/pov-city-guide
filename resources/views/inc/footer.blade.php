@@ -1,4 +1,4 @@
-<footer>
+<footer class="mt-auto">
     <div class="container">
         <div class="row">
             {{-- Only show this footer section if it will show something --}}

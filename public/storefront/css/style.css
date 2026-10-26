@@ -296,3 +296,20 @@ footer {
 .object-fit-cover {
     object-fit: cover;
 }
+
+.article-like-action {
+    position: absolute;
+    right: .6em;
+    top: .6em;
+}
+
+.article-like-action i {
+    color: var(--fn-primary);
+    font-size: 1.5rem;
+}
+
+.article-like-action span {
+    color: var(--fn-light);
+    font-size: .9rem;
+    margin-right: 5px;
+}

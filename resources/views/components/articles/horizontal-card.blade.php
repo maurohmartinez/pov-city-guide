@@ -2,15 +2,20 @@
     <div class="card-surface card-variant-sm p-2 rounded {{ !$loop->last ? 'mb-3' : '' }}">
         <div class="row position-relative">
             <div class="col-5 col-lg-4">
-                <a href="{{ route('article', $article) }}" class="text-decoration-none">
-                    <div class="overflow-hidden {{ $ratio ?? 'ratio-5x4' }} rounded hover-effect-scale">
+                <div class="overflow-hidden {{ $ratio ?? 'ratio-5x4' }} rounded hover-effect-scale">
+                    <a href="{{ route('article', $article) }}" class="text-decoration-none">
                         <div
                             class="image-container hover-effect-target"
                             style="background-image: url('{{ $article->small_image }}');"
                         >
                         </div>
-                    </div>
-                </a>
+                    </a>
+                    <livewire:article-user-favourite
+                        :article-id="$article->id"
+                        :favourite-count="$article->favourites_count"
+                        :is-favourite="in_array($article->id, $userFavourites)"
+                    />
+                </div>
             </div>
             <div class="col-7 col-lg-8 my-auto ps-0">
                 @foreach($article->categories as $category)

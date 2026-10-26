@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
@@ -82,6 +83,11 @@ class Article extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function favourites(): HasMany
+    {
+        return $this->hasMany(ArticleUserFavourite::class);
+    }
+
     public function scopePublic(Builder $query)
     {
         return $query->where('visibility', VisibilityEnum::PUBLIC);
@@ -106,12 +112,14 @@ class Article extends Model
                     ->whereHas('categories', fn ($query) => $query->whereIn('categories.id', $this->categories->pluck('id')))
                     ->limit(5)
                     ->with(['categories', 'tags', 'author'])
+                    ->withCount('favourites')
                     ->get();
 
                 $relatedByTags = self::query()
                     ->whereHas('tags', fn ($query) => $query->whereIn('tags.id', $this->tags->pluck('id')))
                     ->limit(5)
                     ->with(['categories', 'tags', 'author'])
+                    ->withCount('favourites')
                     ->get();
 
                 $collection->push(...$relatedByCategory, ...$relatedByTags);

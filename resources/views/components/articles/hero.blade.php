@@ -1,12 +1,20 @@
 <div class="card-surface rounded">
-    <a href="{{ route('article', $article) }}" class="text-decoration-none">
-        <div class="overflow-hidden ratio-{{ $ratio ?? '5x3' }} rounded hover-effect-scale">
-            <div
-                dusk="image"
-                class="image-container hover-effect-target"
-                style="background-image: url('{{ $article->medium_image }}');"
-            >
-            </div>
+        <div class="position-relative">
+            <a href="{{ route('article', $article) }}" class="text-decoration-none">
+                <div class="overflow-hidden ratio-{{ $ratio ?? '5x3' }} rounded hover-effect-scale">
+                    <div
+                        dusk="image"
+                        class="image-container hover-effect-target"
+                        style="background-image: url('{{ $article->medium_image }}');"
+                    >
+                    </div>
+                </div>
+            </a>
+            <livewire:article-user-favourite
+                :article-id="$article->id"
+                :favourite-count="$article->favourites_count"
+                :is-favourite="in_array($article->id, $userFavourites)"
+            />
         </div>
         <div class="row position-relative p-3">
             <h5 class="card-category text-truncate">
@@ -17,10 +25,12 @@
                     <a class="card-category text-decoration-none fw-bold" href="{{ route('category', $category) }}"><small>{{ $category->name }}</small></a>
                 @endforeach
             </h5>
-            <h5 class="card-title text-truncate">{{ $article->title }}</h5>
-            <p class="card-description text-light pe-4 lh-1 text-truncate-2">
-                <small>{{ \Illuminate\Support\Str::words($article->description, $words ?? 20) }}</small>
-            </p>
+            <a href="{{ route('article', $article) }}" class="text-decoration-none">
+                <h5 class="card-title text-truncate">{{ $article->title }}</h5>
+                <p class="card-description text-light pe-4 lh-1 text-truncate-2">
+                    <small>{{ \Illuminate\Support\Str::words($article->description, $words ?? 20) }}</small>
+                </p>
+            </a>
             <hr class="card-separator">
             <div class="w-100 d-flex justify-content-{{ ($ratio ?? null) === '5x2' ? 'between' : 'end'}}">
                 @if($article->author && ($ratio ?? null) === '5x2')
@@ -39,5 +49,5 @@
                 </a>
             </div>
         </div>
-    </a>
+
 </div>

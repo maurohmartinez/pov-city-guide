@@ -17,8 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
 class Admin extends Authenticatable
 {
     /** @use HasFactory<AdminFactory> */
-    use HasFactory, Notifiable, HasRoles, CrudTrait;
-//    use SoftDeletes;
+    use HasFactory, Notifiable, HasRoles, CrudTrait, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
