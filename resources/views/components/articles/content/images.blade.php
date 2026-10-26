@@ -4,7 +4,6 @@
     $galleryId    = 'gallery-narrow-' . str_replace('.', '', microtime(true));
     $thumbsId     = 'gallery-narrow-thumbs-' . str_replace('.', '', microtime(true));
     $autoplayDelay = 5000;
-    $imageClass   = ($grayscale ?? false) ? 'grayscale' : '';
 @endphp
 
 @if(count($allImages) > 0)
@@ -15,7 +14,7 @@
                 <div class="swiper-wrapper">
                     @foreach($allImages as $image)
                         <div class="swiper-slide no-opacity">
-                            <div class="ratio bg-body-tertiary {{ $imageClass }}"
+                            <div class="ratio bg-body-tertiary"
                                  style="--fn-aspect-ratio: calc(482 / 856 * 100%); background-image: url({{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}); background-size: cover; background-position: center;">
                             </div>
                         </div>
@@ -53,7 +52,7 @@
                     <div class="swiper-wrapper">
                         @foreach($allImages as $image)
                             <div class="swiper-slide swiper-thumb overflow-hidden rounded no-opacity">
-                                <div class="ratio bg-body-tertiary {{ $imageClass }}" style="--fn-aspect-ratio: calc(115 / 156 * 100%); background-image: url({{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}); background-size: cover; background-position: center;">
+                                <div class="ratio bg-body-tertiary" style="--fn-aspect-ratio: calc(115 / 156 * 100%); background-image: url({{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}); background-size: cover; background-position: center;">
                                 </div>
                             </div>
                         @endforeach
@@ -74,8 +73,8 @@
                                        href="{{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}" data-glightbox data-gallery="image-gallery">
                                         <i class="fi-zoom-in hover-effect-target fs-3 text-white position-absolute top-50 start-50 translate-middle opacity-0 z-2"></i>
                                         <span class="hover-effect-target position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-25 opacity-0 z-1"></span>
-                                        <div class="ratio hover-effect-target bg-body-tertiary rounded {{ $imageClass }}"
-                                             style="--fn-aspect-ratio: calc(204 / 196 * 100%); background-image: url({{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}); background-size: cover; background-position: center;">
+                                        <div class="ratio hover-effect-target bg-body-tertiary rounded"
+                                             style="--fn-aspect-ratio: calc(482 / 856 * 100%); background-image: url({{ \Illuminate\Support\Facades\Storage::disk('articles')->url($image) }}); background-size: cover; background-position: center;">
                                         </div>
                                     </a>
                                 </div>
