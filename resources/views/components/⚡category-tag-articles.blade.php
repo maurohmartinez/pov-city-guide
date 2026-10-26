@@ -37,7 +37,7 @@ new class extends \Livewire\Component {
             ->whereHas('categories', fn (Builder $query) => $query->whereKey($this->category->id))
             ->latest()
             ->public()
-            ->with('categories')
+            ->with('categoriesToDisplay')
             ->limit($this->limit)
             ->get();
     }
@@ -65,7 +65,7 @@ new class extends \Livewire\Component {
                     </a>
                 </div>
                 <div class="col-7 col-lg-8 my-auto ps-0">
-                    @foreach($paginatedArticle->categories as $category)
+                    @foreach($paginatedArticle->categoriesToDisplay as $category)
                         @if(!$loop->first)
                             <span class="fw-light card-category">-</span>
                         @endif

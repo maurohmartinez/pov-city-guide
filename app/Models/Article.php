@@ -24,7 +24,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 #[ObservedBy(ArticleObserver::class)]
-#[Fillable(['title', 'content', 'description', 'slug', 'author_id', 'image', 'visibility', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
+#[Fillable([
+    'title',
+    'content',
+    'description',
+    'slug',
+    'author_id',
+    'image',
+    'visibility',
+    'parent_id',
+    'lft',
+    'rgt',
+    'depth',
+    'extras',
+])]
 class Article extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
@@ -76,6 +89,11 @@ class Article extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function categoriesToDisplay(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class)->whereDoesntHave('children');
     }
 
     public function tags(): BelongsToMany

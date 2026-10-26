@@ -18,7 +18,7 @@
         </div>
         <div class="row position-relative p-3">
             <h5 class="card-category text-truncate">
-                @foreach($article->categories as $category)
+                @foreach($article->categoriesToDisplay as $category)
                     @if(!$loop->first)
                         <span class="fw-light">-</span>
                     @endif

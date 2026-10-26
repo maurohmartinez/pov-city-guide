@@ -21,7 +21,7 @@ class HomeController extends Controller
                     'layout_type' => $value['layout_type'],
                     'articles' => Article::query()
                         ->public()
-                        ->with(['categories', 'tags', 'author'])
+                        ->with(['categoriesToDisplay', 'tags', 'author'])
                         ->withCount('favourites')
                         ->whereHas('categories', fn ($query) => $query->where('categories.id', $value['category_id']))
                         ->limit(10)
@@ -50,7 +50,7 @@ class HomeController extends Controller
                 ->get(),
             'relatedArticles' => Article::query()
                 ->public()
-                ->with(['tags', 'categories', 'author'])
+                ->with(['tags', 'categoriesToDisplay', 'author'])
                 ->withCount('favourites')
                 ->whereDoesntHave('categories', fn ($query) => $query->where('categories.id', $category->id))
                 ->inRandomOrder()
