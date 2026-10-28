@@ -7,10 +7,11 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 return new class extends Migration {
+
+    use \App\Traits\MigrationTrait;
+
     public function up(): void
     {
-        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-
         $guardName = config('backpack.base.guard');
         $timestamps = ['created_at' => now(), 'updated_at' => now()];
 
@@ -22,7 +23,16 @@ return new class extends Migration {
         // Permissions
         DB::table(config('permission.table_names')['permissions'])
             ->insert(array_map(fn (string $permission) => ['name' => $permission, 'guard_name' => $guardName, ...$timestamps],
-                RoleAndPermissionService::PERMISSIONS));
+                [
+                    ...RoleAndPermissionService::PERMISSIONS_ARTICLE,
+                    ...RoleAndPermissionService::PERMISSIONS_CATEGORY,
+                    ...RoleAndPermissionService::PERMISSIONS_TAG,
+                    ...RoleAndPermissionService::PERMISSIONS_AUTHOR,
+                    ...RoleAndPermissionService::PERMISSIONS_CUSTOMER,
+                    ...RoleAndPermissionService::PERMISSIONS_ADMIN,
+                    ...RoleAndPermissionService::PERMISSIONS_SETTING
+                ],
+            ));
 
         $superAdminRole = Role::findByName(RoleAndPermissionService::ROLE_SUPERADMIN, $guardName);
         $adminRole = Role::findByName(RoleAndPermissionService::ROLE_ADMIN, $guardName);
@@ -170,18 +180,6 @@ return new class extends Migration {
 
         // ADMIN
         $this->addRoleHasPermissions($adminRole, [$settingPermissionToViewId, $settingPermissionToUpdateId]);
-    }
-
-    private function addRoleHasPermissions(Role $role, array $permissionsId): void
-    {
-        array_map(fn (int $permissionId) => DB::table(config('permission.table_names')['role_has_permissions'])
-            ->insert(['permission_id' => $permissionId, 'role_id' => $role->id]),
-            $permissionsId);
-    }
-
-    private function getPermissionId(string $permission): int
-    {
-        return Permission::findByName($permission, config('backpack.base.guard'))->id;
     }
 
     public function down(): void

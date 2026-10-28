@@ -17,6 +17,10 @@
 <x-backpack::menu-item title="Tags" icon="la la-file-o" :link="route('tag.index')" />
 @endcan
 
+@can(\App\Services\RoleAndPermissionService::PERMISSION_VIDEO_READ)
+    <x-backpack::menu-item title="Videos" icon="la la-video" :link="route('video.index')" />
+@endcan
+
 @can(\App\Services\RoleAndPermissionService::PERMISSION_AUTHOR_READ)
 <x-backpack::menu-item title="Authors" icon="la la-users" :link="route('author.index')" />
 @endcan

@@ -31,20 +31,20 @@
 @unless($minimalistic ?? false)
     @push('after_scripts')
         <script>
-            (function () {
-                const videoUrl = '{{ asset('storefront/images/hero.mp4') }}';
-                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && !window.chrome;
+            {{--(function () {--}}
+            {{--    const videoUrl = '{{ asset('storefront/images/hero.mp4') }}';--}}
+            {{--    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && !window.chrome;--}}
 
-                if (isSafari) {
-                    document.getElementById('hero-video').poster = videoUrl;
-                    return;
-                }
+            {{--    if (isSafari) {--}}
+            {{--        document.getElementById('hero-video').poster = videoUrl;--}}
+            {{--        return;--}}
+            {{--    }--}}
 
-                const s = document.createElement('source');
-                s.src = videoUrl;
-                s.type = 'video/mp4';
-                document.getElementById('hero-video').appendChild(s);
-            })();
+            {{--    const s = document.createElement('source');--}}
+            {{--    s.src = videoUrl;--}}
+            {{--    s.type = 'video/mp4';--}}
+            {{--    document.getElementById('hero-video').appendChild(s);--}}
+            {{--})();--}}
         </script>
     @endpush
 @endunless
