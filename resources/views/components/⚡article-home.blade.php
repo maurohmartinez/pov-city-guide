@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Article;
-use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
@@ -15,7 +15,7 @@ new class extends Component {
 
     public int $limit;
 
-    public array $filterByTagsId = [];
+    public array $filterByCategoriesId = [];
 
     public bool $reverseOrder = false;
 
@@ -30,9 +30,9 @@ new class extends Component {
     {
         return Article::query()
             ->public()
-            ->with(['categoriesToDisplay', 'tags', 'author'])
-            ->when(!empty($this->filterByTagsId), function (Builder $query) {
-                $query->whereHas('tags', fn (Builder $query) => $query->whereIn('tags.id', $this->filterByTagsId));
+            ->with(['categoriesToDisplay', 'author'])
+            ->when(!empty($this->filterByCategoriesId), function (Builder $query) {
+                $query->whereHas('categoriesToDisplay', fn (Builder $query) => $query->whereIn('categories.id', $this->filterByCategoriesId));
             })
             ->orderBy('rgt');
     }
@@ -40,11 +40,7 @@ new class extends Component {
     #[Computed]
     public function total(): int
     {
-        return $this->query
-            ->when(!empty($this->filterByTagsId), function (Builder $query) {
-                $query->whereHas('tags', fn (Builder $query) => $query->whereIn('tags.id', $this->filterByTagsId));
-            })
-            ->count();
+        return $this->query->count();
     }
 
     #[Computed]
@@ -58,11 +54,14 @@ new class extends Component {
     }
 
     #[Computed]
-    public function tags(): Collection
+    public function categoriesToDisplay(): Collection
     {
-        return Tag::query()->whereHas('articles', function (Builder $query) {
-            $query->whereIn('articles.id', Article::query()->public()->get()->pluck('id')->toArray());
-        })->get();
+        return Category::query()
+            ->whereHas('articles', function (Builder $query) {
+                $query->whereIn('articles.id', Article::query()->public()->get()->pluck('id')->toArray());
+            })
+            ->whereDoesntHave('children')
+            ->get();
     }
 
     public function toggleShowFilters(): void
@@ -80,15 +79,15 @@ new class extends Component {
         $this->reverseOrder = !$this->reverseOrder;
     }
 
-    public function toggleFilterTag(int $id): void
+    public function toggleFilterCategory(int $id): void
     {
-        if (in_array($id, $this->filterByTagsId)) {
-            unset($this->filterByTagsId[array_find_key($this->filterByTagsId, fn ($value) => $value === $id)]);
+        if (in_array($id, $this->filterByCategoriesId)) {
+            unset($this->filterByCategoriesId[array_find_key($this->filterByCategoriesId, fn ($value) => $value === $id)]);
 
             return;
         }
 
-        $this->filterByTagsId []= $id;
+        $this->filterByCategoriesId [] = $id;
     }
 };
 ?>
@@ -108,7 +107,7 @@ new class extends Component {
                     </div>
                 </div>
                 <div>
-                    @if($this->tags->count() > 0)
+                    @if($this->categoriesToDisplay->count() > 0)
                         <button class="btn btn-link px-2 text-decoration-none" wire:click="toggleShowFilters">
                             <i class="fi-sliders text-custom-accent fs-3"></i>
                         </button>
@@ -122,8 +121,8 @@ new class extends Component {
             {{--Filters--}}
             @if($showFilters)
                 <div class="d-flex flex-wrap mb-3">
-                    @foreach($this->tags as $tag)
-                        <button class="btn tags rounded-pill mb-1 d-inline me-2 @if(in_array($tag->id, $this->filterByTagsId)) active @endif" wire:click="toggleFilterTag({{ $tag->id }})">{{ $tag->name }}</button>
+                    @foreach($this->categoriesToDisplay as $category)
+                        <button class="btn tags rounded-pill mb-1 d-inline me-2 @if(in_array($category->id, $this->filterByCategoriesId)) active @endif" wire:click="toggleFilterCategory({{ $category->id }})">{{ $category->name }}</button>
                     @endforeach
                 </div>
             @endif
