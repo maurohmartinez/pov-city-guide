@@ -56,21 +56,21 @@ class VideoCrudController extends CrudController
         CRUD::field('title')->label(__('common.title'))->type('text');
         CRUD::field('description')->label(__('common.description'))->type('text');
         CRUD::field('data')->label('URL')->type('video');
-        CRUD::field('categories')->label(__('common.categories'))->size(6)->tab('General');
-        CRUD::field('tags')->label(__('common.tags'))->size(6)->tab('General')->inline_create(['entity' => 'tag']);
+        CRUD::field('categories')->label(__('common.categories'))->size(6);
+        CRUD::field('tags')->label(__('common.tags'))->size(6)->inline_create(['entity' => 'tag']);
 
         CRUD::field('image')
             ->label(__('common.image'))
             ->type('image')
             ->withFiles(['disk' => 'videos'])
             ->crop(true)
-            ->aspect_ratio(16/9);
+            ->aspect_ratio(16/9)
+            ->hint('We will try to automatically fetch the image if this field is left empty.');
 
         CRUD::field('visibility')
             ->type('enum')
             ->label(__('common.visibility'))
-            ->default(VisibilityEnum::PRIVATE)
-            ->tab('General');
+            ->default(VisibilityEnum::PRIVATE);
 
         CRUD::autoTranslateConfirmationField();
     }

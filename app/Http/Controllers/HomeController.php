@@ -43,28 +43,25 @@ class HomeController extends Controller
     {
         $template = $category->template;
 
-        // Override template if category has no subcategories
-        if ($template === CategoryTemplateEnum::WITH_SUBCATEGORIES) {
-            $children = Category::query()
-                ->where('parent_id', $category->id)
-                ->where('id', array_column($category->extras['subcategories'], 'category_id'))
-                ->get();
+            // Override template if category has no subcategories
+            if ($template === CategoryTemplateEnum::WITH_SUBCATEGORIES) {
+                $subcategoryIds = array_column($category->extras['subcategories'], 'category_id');
 
-            $category->setRelation('children', $children);
+                $children = Category::query()
+                    ->where('parent_id', $category->id)
+                    ->whereIn('id', $subcategoryIds)
+                    ->orderByRaw('FIELD(id, ' . implode(',', array_map('intval', $subcategoryIds)) . ')')
+                    ->get();
 
-            if (!$children) {
+                $category->setRelation('children', $children);
+
+                if (!$children || $children->isEmpty()) {
                 $template = CategoryTemplateEnum::SIMPLE;
             }
         }
 
         return view('category.' . $template->value, [
             'category' => $category,
-            'tags' => Tag::query()
-                ->whereHas('articles', fn (Builder $query) => $query
-                    ->public()
-                    ->whereHas('categories', fn (Builder $q) => $q->whereKey($category->id))
-                )
-                ->get(),
             'relatedArticles' => Article::query()
                 ->public()
                 ->with(['tags', 'categoriesToDisplay', 'author'])

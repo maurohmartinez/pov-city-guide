@@ -18,16 +18,7 @@
 
     <section dusk="top" class="container my-5">
         <h3>{{ $category->name }}</h3>
-        @if($tags->isEmpty())
-            <livewire:category-tag-articles :category="$category"/>
-        @else
-            @foreach($tags as $tag)
-                <div>
-                    <h5>{{ $tag->name }}</h5>
-                    <livewire:category-tag-articles :category="$category" :tag="$tag" />
-                </div>
-            @endforeach
-        @endif
+        <livewire:category-articles :category="$category"/>
     </section>
 
     @if($relatedArticles->isNotEmpty())
