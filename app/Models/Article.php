@@ -127,16 +127,16 @@ class Article extends Model
             get: function () {
                 $collection = new Collection();
                 $relatedByCategory = self::query()
-                    ->whereHas('categories', fn ($query) => $query->whereIn('categories.id', $this->categories->pluck('id')))
+                    ->whereHas('categoriesToDisplay', fn ($query) => $query->whereIn('categories.id', $this->categories->pluck('id')))
                     ->limit(5)
-                    ->with(['categories', 'tags', 'author'])
+                    ->with(['categoriesToDisplay', 'tags', 'author'])
                     ->withCount('favourites')
                     ->get();
 
                 $relatedByTags = self::query()
                     ->whereHas('tags', fn ($query) => $query->whereIn('tags.id', $this->tags->pluck('id')))
                     ->limit(5)
-                    ->with(['categories', 'tags', 'author'])
+                    ->with(['categoriesToDisplay', 'tags', 'author'])
                     ->withCount('favourites')
                     ->get();
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\VisibilityEnum;
 use App\Models\Article;
+use App\Models\Author;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Services\RoleAndPermissionService;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
@@ -70,14 +72,10 @@ class ArticleCrudController extends CrudController
             'author' => 'sometimes|nullable|exists:authors,id',
         ]);
 
-        CRUD::field('title')->label(__('common.title'))
-            ->tab('General');
-        CRUD::field('categories')->label(__('common.categories'))->size(6)
-            ->tab('General');
-        CRUD::field('tags')->label(__('common.tags'))->size(6)
-            ->tab('General');
-        CRUD::field('description')->label(__('common.description'))->type('textarea')
-            ->tab('General');
+        CRUD::field('title')->label(__('common.title'))->tab('General');
+        CRUD::field('categories')->label(__('common.categories'))->size(6)->tab('General');
+        CRUD::field('tags')->label(__('common.tags'))->size(6)->tab('General')->inline_create(['entity' => 'tag']);
+        CRUD::field('description')->label(__('common.description'))->type('textarea')->tab('General');
         CRUD::field('author')->tab('General')->inline_create(true);
 
         CRUD::field('image')
@@ -112,5 +110,15 @@ class ArticleCrudController extends CrudController
     protected function fetchCategory(): JsonResponse|Paginator
     {
         return $this->fetch(Category::class);
+    }
+
+    protected function fetchTag(): JsonResponse|Paginator
+    {
+        return $this->fetch(Tag::class);
+    }
+
+    protected function fetchAuthor(): JsonResponse|Paginator
+    {
+        return $this->fetch(Author::class);
     }
 }
