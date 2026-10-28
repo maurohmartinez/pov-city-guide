@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ObservedBy(CategoryObserver::class)]
-#[Fillable(['name', 'slug', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
+#[Fillable(['name', 'template', 'slug', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
 class Category extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;

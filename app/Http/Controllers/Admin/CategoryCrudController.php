@@ -24,7 +24,7 @@ class CategoryCrudController extends CrudController
     public function setup(): void
     {
         CRUD::setModel(Category::class);
-        CRUD::setRoute(route: config('backpack.base.route_prefix').'/category');
+        CRUD::setRoute(route: config('backpack.base.route_prefix') . '/category');
         CRUD::setEntityNameStrings(singular: __('common.category'), plural: __('common.categories'));
         CRUD::addBaseClause('withCount', 'articles');
 
@@ -48,14 +48,20 @@ class CategoryCrudController extends CrudController
         CRUD::setValidation([
             'name' => 'required|max:100',
             'template' => 'required|in:' . CategoryTemplateEnum::toString(),
+            'description_top' => 'sometimes|nullable|max:2000',
+            'description_bottom' => 'sometimes|nullable|max:2000',
             'showInMenu' => 'required|boolean',
+            'subcategories.*.category_id' => 'sometimes|nullable|exists:categories,id',
         ]);
 
-        CRUD::field('name')->label(__('common.name'))->type('text')->size( 7);
-        CRUD::field('template')->label('Template')->size(5)->type('enum');
+        CRUD::field('name')->label(__('common.name'))->type('text')->size(6);
+        CRUD::field('template')->label('Template')->size(6)->type('enum');
 
         CRUD::field('description_top')->label('Top description')->type('textarea')->fake(true);
         CRUD::field('description_bottom')->label('Bottom description')->type('textarea')->fake(true);
+
+        CRUD::field('hint_html')->type('custom_html')
+            ->value('<div class="alert alert-info d-flex align-items-center"><i class="la la-warning"></i>If no subcategories are assigned, the TEMPLATE will default to "SIMPLE".</div>');
 
         CRUD::field('subcategories')
             ->label('Subcategories')
@@ -97,7 +103,7 @@ class CategoryCrudController extends CrudController
         $subcategories = array_column(backpack_form_input()['subcategories'] ?? [], 'category_id');
 
         return Category::query()
-            ->where('parent_id', (int) backpack_form_input()['id'])
+            ->where('parent_id', (int)backpack_form_input()['id'])
             ->when(count($subcategories) > 0, fn (Builder $query) => $query->whereNotIn('id', $subcategories))
             ->paginate(10);
     }

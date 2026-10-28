@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CategoryTemplateEnum;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
@@ -40,7 +41,23 @@ class HomeController extends Controller
 
     public function category(Category $category): View
     {
-        return view('category', [
+        $template = $category->template;
+
+        // Override template if category has no subcategories
+        if ($template === CategoryTemplateEnum::WITH_SUBCATEGORIES) {
+            $children = Category::query()
+                ->where('parent_id', $category->id)
+                ->where('id', array_column($category->extras['subcategories'], 'category_id'))
+                ->get();
+
+            $category->setRelation('children', $children);
+
+            if (!$children) {
+                $template = CategoryTemplateEnum::SIMPLE;
+            }
+        }
+
+        return view('category.' . $template->value, [
             'category' => $category,
             'tags' => Tag::query()
                 ->whereHas('articles', fn (Builder $query) => $query
