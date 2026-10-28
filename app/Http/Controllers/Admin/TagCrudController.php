@@ -14,6 +14,7 @@ class TagCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\Pro\Http\Controllers\Operations\InlineCreateOperation;
 
     public function setup(): void
     {
@@ -24,7 +25,7 @@ class TagCrudController extends CrudController
 
         $this->checkPermissions([
             RoleAndPermissionService::PERMISSION_TAG_READ => ['list'],
-            RoleAndPermissionService::PERMISSION_TAG_CREATE => ['create'],
+            RoleAndPermissionService::PERMISSION_TAG_CREATE => ['create', 'inline-create'],
             RoleAndPermissionService::PERMISSION_TAG_UPDATE => ['update'],
             RoleAndPermissionService::PERMISSION_TAG_DELETE => ['delete'],
         ]);
