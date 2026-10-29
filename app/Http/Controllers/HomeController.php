@@ -43,19 +43,21 @@ class HomeController extends Controller
     {
         $template = $category->template;
 
-            // Override template if category has no subcategories
-            if ($template === CategoryTemplateEnum::WITH_SUBCATEGORIES) {
-                $subcategoryIds = array_column($category->extras['subcategories'], 'category_id');
+        // Override template if category has no subcategories
+        if ($template === CategoryTemplateEnum::WITH_SUBCATEGORIES) {
+            $subcategoryIds = array_map('intval', array_column($category->extras['subcategories'] ?? [], 'category_id'));
 
-                $children = Category::query()
+            $children = empty($subcategoryIds)
+                ? collect()
+                : Category::query()
                     ->where('parent_id', $category->id)
                     ->whereIn('id', $subcategoryIds)
-                    ->orderByRaw('FIELD(id, ' . implode(',', array_map('intval', $subcategoryIds)) . ')')
+                    ->orderByRaw('FIELD(id, ' . implode(',', $subcategoryIds) . ')')
                     ->get();
 
-                $category->setRelation('children', $children);
+            $category->setRelation('children', $children);
 
-                if (!$children || $children->isEmpty()) {
+            if ($children->isEmpty()) {
                 $template = CategoryTemplateEnum::SIMPLE;
             }
         }

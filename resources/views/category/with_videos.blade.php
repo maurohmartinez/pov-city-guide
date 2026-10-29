@@ -18,10 +18,14 @@
 
     <section dusk="top" class="container my-5">
         <h3>{{ $category->name }}</h3>
-        <p class="text-dark mb-5">{{ $category->extras['description_top'] }}</p>
+        @if(!empty($category->extras['description_top'] ?? null))
+            <p class="text-dark mb-5">{{ $category->extras['description_top'] }}</p>
+        @endif
         <livewire:category-articles :category="$category"/>
         <livewire:videos :category="$category"/>
-        <p class="text-dark mt-5">{{ $category->extras['description_bottom'] }}</p>
+        @if(!empty($category->extras['description_bottom'] ?? null))
+            <p class="text-dark mt-5">{{ $category->extras['description_bottom'] }}</p>
+        @endif
     </section>
 
     @if($relatedArticles->isNotEmpty())

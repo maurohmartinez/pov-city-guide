@@ -302,7 +302,7 @@ class LocalizationService
 
     public static function getLaravelLocalizationLocales(): array
     {
-        return array_merge(...array_map(fn (string $value) => [$value => self::$locales[$value]], explode(',', config('app.supported_locales'))));
+        return array_merge(...array_map(fn (string $value) => [$value => self::$locales[$value]], config('custom.supported_locales')));
     }
 
     public static function getCrudLocales(): array
@@ -312,7 +312,7 @@ class LocalizationService
 
     public static function supportsMultipleLocales(): bool
     {
-        return count(explode(',', config('app.supported_locales'))) > 1;
+        return count(config('custom.supported_locales')) > 1;
     }
 
     public static function prepareTempTranslatableColumn(null|string|array $value): null|string
