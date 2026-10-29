@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Video>
@@ -28,10 +29,12 @@ class VideoFactory extends Factory
     {
         $this->addSampleImage('videos');
 
+        $title = fake()->word;
+
         return [
-            'title' => fake()->word,
+            'title' => $title,
             'description' => fake()->words(10, true),
-            'slug' => fake()->slug(),
+            'slug' => Str::slug($title),
             'data' => [
                 'id' => '9-ochJEQpb0',
                 'title' => 'Video sample',

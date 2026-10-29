@@ -6,14 +6,15 @@ use App\Models\Admin;
 use App\Services\RoleAndPermissionService;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Hash;
 
 class AdminCrudController extends CrudController
 {
     use \App\Traits\HasCrudPermissions;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 
     public function setup(): void
@@ -98,7 +99,8 @@ class AdminCrudController extends CrudController
     {
         CRUD::setValidation([
             'name' => 'required|max:100',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|confirmed',
         ]);
 
         $this->addUserFields();
@@ -106,7 +108,54 @@ class AdminCrudController extends CrudController
 
     protected function setupUpdateOperation(): void
     {
-        $this->setupCreateOperation();
+        $this->addUserFields();
+
+        CRUD::setValidation([
+            'name' => 'required|max:100',
+            'email' => 'required|email|unique:admins,email,' . $this->crud->getCurrentEntryId(),
+            'password' => 'nullable|confirmed',
+        ]);
+    }
+
+    /**
+     * Hash the password before storing and discard empty / helper inputs.
+     */
+    public function store()
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation(); // validation has already been run
+
+        return $this->traitStore();
+    }
+
+    /**
+     * Hash the password before updating. An empty password keeps the current one.
+     */
+    public function update()
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation(); // validation has already been run
+
+        return $this->traitUpdate();
+    }
+
+    /**
+     * Hash the password when present, otherwise remove it from the request so the
+     * existing value is preserved. Also strips the confirmation helper field.
+     */
+    protected function handlePasswordInput($request)
+    {
+        $request->request->remove('password_confirmation');
+
+        if ($request->input('password')) {
+            $request->request->set('password', Hash::make($request->input('password')));
+        } else {
+            $request->request->remove('password');
+        }
+
+        return $request;
     }
 
     protected function setupReorderOperation(): void
@@ -126,6 +175,16 @@ class AdminCrudController extends CrudController
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'email',
+            ],
+            [
+                'name'  => 'password',
+                'label' => trans('backpack::permissionmanager.password'),
+                'type'  => 'password',
+            ],
+            [
+                'name'  => 'password_confirmation',
+                'label' => trans('backpack::permissionmanager.password_confirmation'),
+                'type'  => 'password',
             ],
             [
                 // two interconnected entities

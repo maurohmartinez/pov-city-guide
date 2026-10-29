@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Author>
@@ -17,9 +18,11 @@ class AuthorFactory extends Factory
     {
         $this->addSampleImage('authors');
 
+        $name = fake()->firstName() . ' ' . fake()->lastName();
+
         return [
-            'name' => fake()->firstName() . ' ' . fake()->lastName(),
-            'slug' => fake()->slug(),
+            'name' => $name,
+            'slug' => Str::slug($name),
             'description' => fake()->words(3, true),
             'image' => 'sample.jpg',
         ];

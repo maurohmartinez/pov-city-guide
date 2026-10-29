@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
 
         return [
             'name' => $name,
-            'template' => fake()->randomElement(CategoryTemplateEnum::cases()),
+            'template' => fake()->randomElement(CategoryTemplateEnum::options()),
             'slug' => Str::slug($name),
         ];
     }
