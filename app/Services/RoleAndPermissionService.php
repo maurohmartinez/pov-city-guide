@@ -27,6 +27,7 @@ class RoleAndPermissionService
         ...self::PERMISSIONS_CUSTOMER,
         ...self::PERMISSIONS_ADMIN,
         ...self::PERMISSIONS_SETTING,
+        ...self::PERMISSIONS_VIDEO,
     ];
 
     // Article
@@ -130,5 +131,21 @@ class RoleAndPermissionService
     public const array PERMISSIONS_SETTING = [
         self::PERMISSION_SETTING_READ,
         self::PERMISSION_SETTING_UPDATE,
+    ];
+
+    // Video
+    public const string PERMISSION_VIDEO_READ = 'video.read';
+
+    public const string PERMISSION_VIDEO_CREATE = 'video.create';
+
+    public const string PERMISSION_VIDEO_UPDATE = 'video.update';
+
+    public const string PERMISSION_VIDEO_DELETE = 'video.delete';
+
+    public const array PERMISSIONS_VIDEO = [
+        self::PERMISSION_VIDEO_READ,
+        self::PERMISSION_VIDEO_CREATE,
+        self::PERMISSION_VIDEO_UPDATE,
+        self::PERMISSION_VIDEO_DELETE,
     ];
 }

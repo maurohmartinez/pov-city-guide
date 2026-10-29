@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\CategoryTemplateEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -17,6 +18,7 @@ class CategoryFactory extends Factory
 
         return [
             'name' => $name,
+            'template' => fake()->randomElement(CategoryTemplateEnum::options()),
             'slug' => Str::slug($name),
         ];
     }

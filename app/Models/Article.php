@@ -6,6 +6,7 @@ use App\Enums\VisibilityEnum;
 use App\Observers\ArticleObserver;
 use App\Traits\HasCaseInsensitiveSearch;
 use App\Traits\HasImages;
+use App\Traits\RelatedTrait;
 use App\Traits\UseTranslatableToArray;
 use Backpack\AutoTranslate\Traits\HasAutoTranslations;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -41,7 +42,7 @@ use Illuminate\Support\Collection;
 class Article extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
-    use UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable, HasImages;
+    use UseTranslatableToArray, HasCaseInsensitiveSearch, Sluggable, HasImages, RelatedTrait;
 
     public array $translatable = ['title', 'content'];
 
@@ -119,31 +120,5 @@ class Article extends Model
     public function scopeHidden(Builder $query)
     {
         return $query->where('visibility', VisibilityEnum::HIDDEN);
-    }
-
-    public function related(): Attribute
-    {
-        return new Attribute(
-            get: function () {
-                $collection = new Collection();
-                $relatedByCategory = self::query()
-                    ->whereHas('categoriesToDisplay', fn ($query) => $query->whereIn('categories.id', $this->categories->pluck('id')))
-                    ->limit(5)
-                    ->with(['categoriesToDisplay', 'tags', 'author'])
-                    ->withCount('favourites')
-                    ->get();
-
-                $relatedByTags = self::query()
-                    ->whereHas('tags', fn ($query) => $query->whereIn('tags.id', $this->tags->pluck('id')))
-                    ->limit(5)
-                    ->with(['categoriesToDisplay', 'tags', 'author'])
-                    ->withCount('favourites')
-                    ->get();
-
-                $collection->push(...$relatedByCategory, ...$relatedByTags);
-
-                return $collection->shuffle();
-            },
-        );
     }
 }

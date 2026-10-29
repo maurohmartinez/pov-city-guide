@@ -17,7 +17,7 @@ use Throwable;
 abstract class DuskTestCase extends BaseTestCase
 {
     // Static browser instance shared across all tests
-    protected static ?Browser $browser;
+    protected static ?Browser $browser = null;
 
     // Static flag to track if migrations have been run
     protected static bool $migrationsRun = false;
