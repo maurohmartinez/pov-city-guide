@@ -21,7 +21,7 @@ class VideoCrudController extends CrudController
     {
         CRUD::setModel(Video::class);
         CRUD::setRoute(route: config('backpack.base.route_prefix').'/video');
-        CRUD::setEntityNameStrings(singular: 'Video', plural: 'Videos');
+        CRUD::setEntityNameStrings(singular: __('common.video'), plural: __('common.videos'));
 
         $this->checkPermissions([
             RoleAndPermissionService::PERMISSION_VIDEO_READ => ['list'],
@@ -65,7 +65,7 @@ class VideoCrudController extends CrudController
             ->withFiles(['disk' => 'videos'])
             ->crop(true)
             ->aspect_ratio(16/9)
-            ->hint('We will try to automatically fetch the image if this field is left empty.');
+            ->hint(__('common.video_image_hint'));
 
         CRUD::field('visibility')
             ->type('enum')
@@ -82,6 +82,6 @@ class VideoCrudController extends CrudController
 
     protected function setupReorderOperation(): void
     {
-        CRUD::enableReorder('title', 1);
+        CRUD::enableReorder('title');
     }
 }

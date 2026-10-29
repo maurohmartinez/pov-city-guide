@@ -75,4 +75,15 @@ return array(
 
     'author' => 'Autor',
     'authors' => 'Autori',
+
+    'template' => 'Șablon',
+    'description_top' => 'Descrierea principală',
+    'description_bottom' => 'Descrierea din partea de jos',
+    'template_hint' => 'Dacă nu sunt atribuite subcategorii, ȘABLOON-ul va fi implicit "SIMPLE".',
+    'show_in_menu' => 'Arată în meniu',
+    'subcategories' => 'Subcategorii',
+
+    'video' => 'Video',
+    'videos' => 'Videoclipuri',
+    'video_image_hint' => 'Încercăm să obținem automat imaginea dacă acest câmp rămâne gol.',
 );

@@ -71,4 +71,15 @@ return [
 
     'author' => 'Author',
     'authors' => 'Authors',
+
+    'template' => 'Template',
+    'description_top' => 'Top description',
+    'description_bottom' => 'Bottom description',
+    'template_hint' => 'If no subcategories are assigned, the TEMPLATE will default to "SIMPLE".',
+    'show_in_menu' => 'Show in menu',
+    'subcategories' => 'Subcategories',
+
+    'video' => 'Video',
+    'videos' => 'Videos',
+    'video_image_hint' => 'We will try to automatically fetch the image if this field is left empty.',
 ];

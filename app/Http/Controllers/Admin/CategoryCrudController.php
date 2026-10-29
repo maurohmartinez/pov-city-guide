@@ -39,7 +39,7 @@ class CategoryCrudController extends CrudController
     protected function setupListOperation(): void
     {
         CRUD::column('name')->label(__('common.name'));
-        CRUD::column('template')->label('Template')->type('enum');
+        CRUD::column('template')->label(__('common.template'))->type('enum');
         CRUD::column('articles_count')->label(__('common.articles'));
     }
 
@@ -55,16 +55,16 @@ class CategoryCrudController extends CrudController
         ]);
 
         CRUD::field('name')->label(__('common.name'))->type('text')->size(6);
-        CRUD::field('template')->label('Template')->size(6)->type('enum');
+        CRUD::field('template')->label(__('common.template'))->size(6)->type('enum');
 
-        CRUD::field('description_top')->label('Top description')->type('textarea')->fake(true);
-        CRUD::field('description_bottom')->label('Bottom description')->type('textarea')->fake(true);
+        CRUD::field('description_top')->label(__('common.description_top'))->type('textarea')->fake(true);
+        CRUD::field('description_bottom')->label(__('common.description_bottom'))->type('textarea')->fake(true);
 
         CRUD::field('hint_html')->type('custom_html')
-            ->value('<div class="alert alert-info d-flex align-items-center"><i class="la la-warning"></i>If no subcategories are assigned, the TEMPLATE will default to "SIMPLE".</div>');
+            ->value('<div class="alert alert-info d-flex align-items-center"><i class="la la-warning"></i>.' . __('common.template_hint') . '</div>');
 
         CRUD::field('subcategories')
-            ->label('Subcategories')
+            ->label(__('common.subcategories'))
             ->type('repeatable')
             ->subfields([
                 [
@@ -81,7 +81,7 @@ class CategoryCrudController extends CrudController
             ])
             ->fake(true);
 
-        CRUD::field('showInMenu')->label('Show in menu')->type('switch')->fake(true);
+        CRUD::field('showInMenu')->label(__('common.show_in_menu'))->type('switch')->fake(true);
 
         Widget::add()->type('script')->content(asset('js/admin/forms/category.js'));
 
