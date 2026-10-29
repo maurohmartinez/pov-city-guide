@@ -52,8 +52,11 @@ class HomeController extends Controller
                 : Category::query()
                     ->where('parent_id', $category->id)
                     ->whereIn('id', $subcategoryIds)
-                    ->orderByRaw('FIELD(id, ' . implode(',', $subcategoryIds) . ')')
-                    ->get();
+                    ->get()
+                    // Preserve the order the subcategories were configured in. Sorting in
+                    // PHP keeps this portable (MySQL's FIELD() isn't available on SQLite).
+                    ->sortBy(fn (Category $child) => array_search($child->id, $subcategoryIds, true))
+                    ->values();
 
             $category->setRelation('children', $children);
 
