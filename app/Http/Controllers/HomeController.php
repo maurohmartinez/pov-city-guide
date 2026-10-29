@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CategoryTemplateEnum;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
@@ -40,14 +41,32 @@ class HomeController extends Controller
 
     public function category(Category $category): View
     {
-        return view('category', [
+        $template = $category->template;
+
+        // Override template if category has no subcategories
+        if ($template === CategoryTemplateEnum::WITH_SUBCATEGORIES) {
+            $subcategoryIds = array_map('intval', array_column($category->extras['subcategories'] ?? [], 'category_id'));
+
+            $children = empty($subcategoryIds)
+                ? collect()
+                : Category::query()
+                    ->where('parent_id', $category->id)
+                    ->whereIn('id', $subcategoryIds)
+                    ->get()
+                    // Preserve the order the subcategories were configured in. Sorting in
+                    // PHP keeps this portable (MySQL's FIELD() isn't available on SQLite).
+                    ->sortBy(fn (Category $child) => array_search($child->id, $subcategoryIds, true))
+                    ->values();
+
+            $category->setRelation('children', $children);
+
+            if ($children->isEmpty()) {
+                $template = CategoryTemplateEnum::SIMPLE;
+            }
+        }
+
+        return view('category.' . $template->value, [
             'category' => $category,
-            'tags' => Tag::query()
-                ->whereHas('articles', fn (Builder $query) => $query
-                    ->public()
-                    ->whereHas('categories', fn (Builder $q) => $q->whereKey($category->id))
-                )
-                ->get(),
             'relatedArticles' => Article::query()
                 ->public()
                 ->with(['tags', 'categoriesToDisplay', 'author'])

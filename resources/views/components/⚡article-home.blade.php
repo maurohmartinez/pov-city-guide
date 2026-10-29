@@ -4,7 +4,6 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
@@ -25,7 +24,7 @@ new class extends Component {
         $this->limit = $this->perPage;
     }
 
-    #[Computed]
+    #[\Livewire\Attributes\Computed]
     public function query(): Builder
     {
         return Article::query()
@@ -37,13 +36,13 @@ new class extends Component {
             ->orderBy('rgt');
     }
 
-    #[Computed]
+    #[\Livewire\Attributes\Computed]
     public function total(): int
     {
         return $this->query->count();
     }
 
-    #[Computed]
+    #[\Livewire\Attributes\Computed]
     public function items(): Collection
     {
         return $this->query
@@ -53,7 +52,7 @@ new class extends Component {
             ->get();
     }
 
-    #[Computed]
+    #[\Livewire\Attributes\Computed]
     public function categoriesToDisplay(): Collection
     {
         return Category::query()

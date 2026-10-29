@@ -37,7 +37,9 @@ class StoreFrontDesktopTest extends DuskTestCase
     public function test_category_page_loads_correctly()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(new CategoryPage);
+            $browser->visit(CategoryPage::simple());
+            $browser->visit(CategoryPage::withSubcategories());
+            $browser->visit(CategoryPage::withVideos());
         });
     }
 

@@ -369,6 +369,10 @@ button.tags:hover {
     aspect-ratio: 5/4;
 }
 
+.ratio-16x9 {
+    aspect-ratio: 16/9;
+}
+
 .card-arrow {
     width: 30px;
     height: 30px;

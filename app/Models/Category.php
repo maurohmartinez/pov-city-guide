@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\CategoryTemplateEnum;
 use App\Observers\CategoryObserver;
-use App\Traits\HasImages;
 use App\Traits\UseTranslatableToArray;
 use Backpack\AutoTranslate\Traits\HasAutoTranslations;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[ObservedBy(CategoryObserver::class)]
-#[Fillable(['name', 'slug', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
+#[Fillable(['name', 'template', 'slug', 'parent_id', 'lft', 'rgt', 'depth', 'extras'])]
 class Category extends Model
 {
     use HasFactory, SoftDeletes, CrudTrait, HasTranslations, HasAutoTranslations;
@@ -28,7 +28,10 @@ class Category extends Model
 
     public array $translatable = ['name'];
 
-    protected $casts = ['extras' => 'array'];
+    protected $casts = [
+        'template' => CategoryTemplateEnum::class,
+        'extras' => 'array',
+    ];
 
     protected array $fakeColumns = ['extras'];
 

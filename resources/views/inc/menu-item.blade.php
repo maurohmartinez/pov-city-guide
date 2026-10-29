@@ -2,7 +2,7 @@
     @if($depth === null)
         <a class="text-white text-decoration-none @if(!$loop->first) px-4 @else pe-4 @endif mx-md-0" href="{{ route('category', $category) }}">{{ $category->name }}</a>
     @else
-        @if($category->children->isEmpty())
+        @if(!$category->relationLoaded('children') || $category->children->isEmpty())
             <li class="@if($depth === 0) nav-item @endif">
                 <a
                     class="{{ $depth === 0 ? 'nav-link' : 'dropdown-item' }} @if(request()->url() === route('category', $category)) active @endif"

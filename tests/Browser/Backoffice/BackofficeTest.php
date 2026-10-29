@@ -13,7 +13,7 @@ class BackofficeTest extends DuskTestCase
     {
         return $browser->visit('/backoffice/login')
             ->type('email', 'admin@example.com')
-            ->type('password', 'admin')
+            ->type('password', 'password')
             ->press('button[type="submit"]')
             ->pause(2000) // Add a pause to wait for the redirect to complete
             ->assertPathIs('/backoffice/dashboard');

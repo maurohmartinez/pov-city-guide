@@ -10,28 +10,28 @@ trait HasImages
     protected function smallImage(): Attribute
     {
         return Attribute::make(
-            get: fn () => ImageProcessingService::getSmallPath($this),
+            get: fn () => $this->image ? ImageProcessingService::getSmallPath($this) : null,
         );
     }
 
     protected function mediumImage(): Attribute
     {
         return Attribute::make(
-            get: fn () => ImageProcessingService::getMediumPath($this),
+            get: fn () => $this->image ? ImageProcessingService::getMediumPath($this) : null,
         );
     }
 
     protected function largeImage(): Attribute
     {
         return Attribute::make(
-            get: fn () => ImageProcessingService::getLargePath($this),
+            get: fn () => $this->image ? ImageProcessingService::getLargePath($this) : null,
         );
     }
 
     protected function originalImage(): Attribute
     {
         return Attribute::make(
-            get: fn () => ImageProcessingService::getOriginalPath($this),
+            get: fn () => $this->image ? ImageProcessingService::getOriginalPath($this) : null,
         );
     }
 }

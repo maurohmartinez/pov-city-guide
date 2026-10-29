@@ -11,7 +11,7 @@ return [
     | This list is used to show translation options to the admin.
     |
     */
-    'supported_locales' => ['en', 'ro'],
+    'supported_locales' => ['ro'],
 
     /*
     |--------------------------------------------------------------------------

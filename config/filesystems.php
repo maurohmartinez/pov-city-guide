@@ -65,6 +65,15 @@ return [
             'report' => false,
         ],
 
+        'videos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/videos'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage/videos',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'authors' => [
             'driver' => 'local',
             'root' => storage_path('app/public/authors'),
