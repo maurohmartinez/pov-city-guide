@@ -302,7 +302,10 @@ class LocalizationService
 
     public static function getLaravelLocalizationLocales(): array
     {
-        return array_merge(...array_map(fn (string $value) => [$value => self::$locales[$value]], config('custom.supported_locales')));
+        return 'custom.supported_locales'
+                |> config(...)
+                |> (fn ($x) => array_map(fn (string $value) => [$value => self::$locales[$value]], $x))
+                |> array_merge(...);
     }
 
     public static function getCrudLocales(): array
