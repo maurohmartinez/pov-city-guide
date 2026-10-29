@@ -1,16 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @push('title', __('Forgot Password'))
 
 @section('content')
-    @include('inc.hero', ['minimalistic' => true])
-    @include('inc.stripe-menu')
-
     <section class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <div class="card">
                     <div class="card-body">
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('storefront/images/pov.svg') }}" alt="POV" style="max-width: 100px;" class="mb-3">
+                        </a>
+
                         <h3 class="mb-3">{{ __('Forgot your password?') }}</h3>
 
                         <p class="text-muted">
@@ -35,8 +36,8 @@
                             </div>
 
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="{{ route('login') }}">{{ __('Back to log in') }}</a>
-                                <button type="submit" class="btn btn-primary">{{ __('Email password reset link') }}</button>
+                                <a class="text-custom-accent" href="{{ route('login') }}">{{ __('Back to log in') }}</a>
+                                <button type="submit" class="btn btn-primary text-dark">{{ __('Email password reset link') }}</button>
                             </div>
                         </form>
                     </div>

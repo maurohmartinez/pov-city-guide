@@ -37,6 +37,13 @@
                     style="background-image: url('{{ $article->large_image }}');"
                 >
                 </div>
+                @if(config('custom.use_login_function'))
+                    <livewire:article-user-favourite
+                        :article-id="$article->id"
+                        :favourite-count="$article->favourites_count"
+                        :is-favourite="in_array($article->id, $userFavourites)"
+                    />
+                @endif
             </div>
         </div>
         @if($article->author)

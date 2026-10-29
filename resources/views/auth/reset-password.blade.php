@@ -1,16 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @push('title', __('Reset Password'))
 
 @section('content')
-    @include('inc.hero', ['minimalistic' => true])
-    @include('inc.stripe-menu')
-
     <section class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <div class="card">
                     <div class="card-body">
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('storefront/images/pov.svg') }}" alt="POV" style="max-width: 100px;" class="mb-4">
+                        </a>
+
                         <h3 class="mb-4">{{ __('Reset Password') }}</h3>
 
                         <form method="POST" action="{{ route('password.store') }}">

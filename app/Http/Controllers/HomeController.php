@@ -23,6 +23,7 @@ class HomeController extends Controller
                     'articles' => Article::query()
                         ->public()
                         ->with(['categoriesToDisplay', 'tags', 'author'])
+                        ->withCount('favourites')
                         ->whereHas('categories', fn ($query) => $query->where('categories.id', $value['category_id']))
                         ->limit(10)
                         ->orderBy('rgt')
@@ -35,7 +36,7 @@ class HomeController extends Controller
     public function article(Article $article): View
     {
         return view('article', [
-            'article' => $article,
+            'article' => $article->loadCount('favourites'),
         ]);
     }
 
@@ -70,6 +71,7 @@ class HomeController extends Controller
             'relatedArticles' => Article::query()
                 ->public()
                 ->with(['tags', 'categoriesToDisplay', 'author'])
+                ->withCount('favourites')
                 ->whereDoesntHave('categories', fn ($query) => $query->where('categories.id', $category->id))
                 ->inRandomOrder()
                 ->limit(10)

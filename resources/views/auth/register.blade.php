@@ -1,17 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @push('title', __('Register'))
 
 @section('content')
-    @include('inc.hero', ['minimalistic' => true])
-    @include('inc.stripe-menu')
-
     <section class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="mb-4">{{ __('Register') }}</h3>
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('storefront/images/pov.svg') }}" alt="POV" style="max-width: 100px;" class="mb-4">
+                        </a>
 
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
@@ -22,7 +21,7 @@
                                        class="form-control @error('name') is-invalid @enderror"
                                        required autofocus autocomplete="name">
                                 @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -32,7 +31,7 @@
                                        class="form-control @error('email') is-invalid @enderror"
                                        required autocomplete="username">
                                 @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -42,7 +41,7 @@
                                        class="form-control @error('password') is-invalid @enderror"
                                        required autocomplete="new-password">
                                 @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -53,8 +52,8 @@
                             </div>
 
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="{{ route('login') }}">{{ __('Already registered?') }}</a>
-                                <button type="submit" class="btn btn-primary">{{ __('Register') }}</button>
+                                <a class="text-custom-accent" href="{{ route('login') }}">{{ __('Already registered?') }}</a>
+                                <button type="submit" class="btn btn-primary text-dark">{{ __('Register') }}</button>
                             </div>
                         </form>
                     </div>

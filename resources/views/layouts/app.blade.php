@@ -58,7 +58,7 @@
 </head>
 <body>
 
-<main class="bg-primary">
+<main class="bg-primary d-flex flex-column min-vh-100">
     @yield('content')
     @include('inc.footer')
 </main>

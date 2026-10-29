@@ -10,5 +10,3 @@ Route::get('category/{category}', [HomeController::class, 'category'])->name('ca
 Route::get('terms-and-conditions', fn () => view('terms-and-conditions'))->name('terms-and-conditions');
 Route::get('privacy-policy', fn () => view('privacy-policy'))->name('privacy-policy');
 Route::get('cookie-policy', fn () => view('cookie-policy'))->name('cookie-policy');
-
-require __DIR__.'/auth.php';

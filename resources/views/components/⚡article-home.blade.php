@@ -30,6 +30,7 @@ new class extends Component {
         return Article::query()
             ->public()
             ->with(['categoriesToDisplay', 'author'])
+            ->withCount('favourites')
             ->when(!empty($this->filterByCategoriesId), function (Builder $query) {
                 $query->whereHas('categoriesToDisplay', fn (Builder $query) => $query->whereIn('categories.id', $this->filterByCategoriesId));
             })

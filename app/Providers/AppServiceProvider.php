@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\SettingService;
 use App\View\Composers\MenuComposer;
+use App\View\Composers\UserFavouriteComposer;
 use Backpack\Settings\app\Models\Setting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::anonymousComponentPath(resource_path('views/components'), 'component');
 
         View::composer(['inc.menu', 'inc.stripe-menu'], MenuComposer::class);
+        View::composer(['article', 'components.articles.hero', 'components.articles.horizontal-card'], UserFavouriteComposer::class);
 
         View::composer('inc.footer', function (\Illuminate\View\View $view) {
             return $view->with('socialMediaLinks', json_decode(Setting::get(SettingService::SOCIAL_MEDIA_LINKS), true));
