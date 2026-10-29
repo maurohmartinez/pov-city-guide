@@ -10,11 +10,13 @@
                     </div>
                 </div>
             </a>
-            <livewire:article-user-favourite
-                :article-id="$article->id"
-                :favourite-count="$article->favourites_count"
-                :is-favourite="in_array($article->id, $userFavourites)"
-            />
+            @if(config('custom.use_login_function'))
+                <livewire:article-user-favourite
+                    :article-id="$article->id"
+                    :favourite-count="$article->favourites_count"
+                    :is-favourite="in_array($article->id, $userFavourites)"
+                />
+            @endif
         </div>
         <div class="row position-relative p-3">
             <h5 class="card-category text-truncate">

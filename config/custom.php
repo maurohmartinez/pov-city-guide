@@ -67,4 +67,6 @@ return [
      *   light / dark    => locked to that mode, switcher hidden
      */
     'color_mode' => env('COLOR_MODE', 'light_and_dark'),
+
+    'use_login_function' => env('USE_LOGIN_FUNCTION', false),
 ];

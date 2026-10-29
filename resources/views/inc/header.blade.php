@@ -26,15 +26,17 @@
                         </ul>
                     </div>
                 @else
-                    <div class="dropdown">
-                        <a class="mx-3 animate-shake text-custom-accent" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fi-user animate-target fs-3"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('register') }}"><i class="la la-sign-in me-1"></i>Register</a></li>
-                            <li><a class="dropdown-item" href="{{ route('login') }}"><i class="la la-user me-1"></i>Login</a></li>
-                        </ul>
-                    </div>
+                    @if(config('custom.use_login_function'))
+                        <div class="dropdown">
+                            <a class="mx-3 animate-shake text-custom-accent" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fi-user animate-target fs-3"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('register') }}"><i class="la la-sign-in me-1"></i>Register</a></li>
+                                <li><a class="dropdown-item" href="{{ route('login') }}"><i class="la la-user me-1"></i>Login</a></li>
+                            </ul>
+                        </div>
+                    @endif
                 @endif
                 @include('inc.menu', ['alwaysExpanded' => true, 'switchesOffCanvas' => true])
             </div>

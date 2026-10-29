@@ -10,11 +10,13 @@
                         >
                         </div>
                     </a>
-                    <livewire:article-user-favourite
-                        :article-id="$article->id"
-                        :favourite-count="$article->favourites_count"
-                        :is-favourite="in_array($article->id, $userFavourites)"
-                    />
+                    @if(config('custom.use_login_function'))
+                        <livewire:article-user-favourite
+                            :article-id="$article->id"
+                            :favourite-count="$article->favourites_count"
+                            :is-favourite="in_array($article->id, $userFavourites)"
+                        />
+                    @endif
                 </div>
             </div>
             <div class="col-7 col-lg-8 my-auto ps-0">
