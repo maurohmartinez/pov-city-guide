@@ -82,4 +82,5 @@ return [
     'video' => 'Video',
     'videos' => 'Videos',
     'video_image_hint' => 'We will try to automatically fetch the image if this field is left empty.',
+    'no_articles' => 'No articles to show here...',
 ];

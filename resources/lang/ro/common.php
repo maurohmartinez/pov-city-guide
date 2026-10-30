@@ -86,4 +86,5 @@ return array(
     'video' => 'Video',
     'videos' => 'Videoclipuri',
     'video_image_hint' => 'Încercăm să obținem automat imaginea dacă acest câmp rămâne gol.',
+    'no_articles' => 'Nu există articole de afișat...',
 );

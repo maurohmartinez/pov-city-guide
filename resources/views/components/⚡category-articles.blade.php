@@ -45,6 +45,10 @@ new class extends \Livewire\Component {
 ?>
 
 <div>
+    @if($this->items->isEmpty())
+        <div class="text-dark">{{ __('common.no_articles') }}</div>
+    @endif
+
     @foreach ($this->items as $article)
         <div class="card-surface card-variant-sm p-2 rounded mb-3">
             <div class="row position-relative">
