@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\VisibilityEnum;
+use App\Models\Tag;
 use App\Models\Video;
 use App\Services\RoleAndPermissionService;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\Paginator;
 
 class VideoCrudController extends CrudController
 {
@@ -16,6 +19,7 @@ class VideoCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+    use \Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 
     public function setup(): void
     {
@@ -47,7 +51,6 @@ class VideoCrudController extends CrudController
             'description' => 'sometimes|nullable|max:255',
             'data' => 'required',
             'data.*.id' => 'required',
-            'image' => 'required',
             'visibility' => 'required|in:' . VisibilityEnum::toString(),
             'categories' => 'required|exists:categories,id',
             'tags' => 'sometimes|nullable|exists:tags,id',
@@ -83,5 +86,10 @@ class VideoCrudController extends CrudController
     protected function setupReorderOperation(): void
     {
         CRUD::enableReorder('title');
+    }
+
+    protected function fetchTags(): JsonResponse|Paginator
+    {
+        return $this->fetch(Tag::class);
     }
 }
