@@ -539,41 +539,28 @@ new class extends Component {
         // field-init loop, neither of which are available inside a Livewire component.
         if (typeof window.parseVideoLink !== 'function') {
             window.tryYouTube = function (link) {
-                let id = null;
-                let youtubeStandardExpr = /^https?:\/\/(www\.)?youtube.com\/watch\?v=([^?&]+)/i;
-                let youtubeAlternateExpr = /^https?:\/\/(www\.)?youtube.com\/v\/([^\/\?]+)/i;
-                let youtubeShortExpr = /^https?:\/\/youtu.be\/([^\/]+)/i;
-                let youtubeEmbedExpr = /^https?:\/\/(www\.)?youtube.com\/embed\/([^\/]+)/i;
-                let match = link.match(youtubeStandardExpr);
-                if (match != null) {
-                    id = match[2];
-                } else {
-                    match = link.match(youtubeAlternateExpr);
+                // `group` is the capture group holding the video ID for each supported form.
+                let patterns = [
+                    { re: /^https?:\/\/(www\.)?youtube\.com\/watch\?v=([^?&]+)/i, group: 2 }, // standard
+                    { re: /^https?:\/\/(www\.)?youtube\.com\/v\/([^\/\?]+)/i,     group: 2 }, // alternate
+                    { re: /^https?:\/\/youtu\.be\/([^\/\?]+)/i,                   group: 1 }, // short link
+                    { re: /^https?:\/\/(www\.)?youtube\.com\/embed\/([^\/\?]+)/i, group: 2 }, // embed
+                    { re: /^https?:\/\/(www\.)?youtube\.com\/shorts\/([^\/\?]+)/i, group: 2 }, // shorts
+                ];
+                for (let i = 0; i < patterns.length; i++) {
+                    let match = link.match(patterns[i].re);
                     if (match != null) {
-                        id = match[2];
-                    } else {
-                        match = link.match(youtubeShortExpr);
-                        if (match != null) {
-                            id = match[1];
-                        } else {
-                            match = link.match(youtubeEmbedExpr);
-                            if (match != null) {
-                                id = match[2];
-                            }
-                        }
+                        return match[patterns[i].group];
                     }
                 }
-                return id;
+                return null;
             };
 
             window.tryVimeo = function (link) {
-                let id = null;
-                let regExp = /(http|https):\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
-                let match = link.match(regExp);
-                if (match) {
-                    id = match[3];
-                }
-                return id;
+                // Accept any standard Vimeo URL; the numeric id is resolved via oEmbed in fetchVimeo().
+                // Covers vimeo.com/ID, vimeo.com/ID/HASH (unlisted), player.vimeo.com/video/ID, channels, etc.
+                let regExp = /^https?:\/\/(www\.|player\.)?vimeo\.com\/.+/i;
+                return regExp.test(link) ? link : null;
             };
 
             window.fetchYouTube = function (videoId, callback, apiKey) {
@@ -604,20 +591,27 @@ new class extends Component {
                 });
             };
 
-            window.fetchVimeo = function (videoId, callback) {
-                let api = 'https://vimeo.com/api/v2/video/' + videoId + '.json';
-                let video = {provider: 'vimeo', id: null, title: null, image: null, url: null};
+            window.fetchVimeo = function (link, callback) {
+                // oEmbed resolves the numeric id (and title/thumbnail) for any public Vimeo URL,
+                // including unlisted vimeo.com/ID/HASH and player.vimeo.com URLs. The legacy
+                // api/v2 endpoint only accepted numeric ids and never called back on failure.
+                let api = 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(link);
+                let video = {provider: 'vimeo', id: null, title: null, image: null, url: link};
                 fetch(api).then(function (response) {
                     if (response.ok) {
                         response.json().then(function (v) {
-                            v = v[0];
-                            video.id = v.id;
+                            video.id = v.video_id;
                             video.title = v.title;
-                            video.image = v.thumbnail_large || v.thumbnail_small;
-                            video.url = v.url;
+                            video.image = v.thumbnail_url;
+                            video.url = 'https://vimeo.com/' + v.video_id;
                             callback(video);
                         });
+                    } else {
+                        // Not a resolvable public video (e.g. a vimeo.com/share/<uuid> link).
+                        callback(null);
                     }
+                }).catch(function () {
+                    callback(null);
                 });
             };
 
