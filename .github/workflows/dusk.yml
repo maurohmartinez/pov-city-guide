@@ -6,7 +6,9 @@ jobs:
   dusk:
     runs-on: ubuntu-latest
     env:
-      DB_DATABASE: app_testing
+      # Must match DB_DATABASE in .env.dusk.testing — the env file `php artisan dusk`
+      # swaps in for the test run (APP_ENV=testing + that file existing triggers the swap).
+      DB_DATABASE: povcityguide_testing
       COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
     steps:
@@ -20,12 +22,17 @@ jobs:
           tools: composer
 
       - name: Prepare The Environment
-        run: cp .env.ci .env
+        # Dusk forces .env.dusk.testing for the test process, so the served app must use the
+        # SAME file — otherwise the browser hits one database while the tests seed another.
+        # That file leaves APP_URL commented out; point it at the server we start below.
+        run: |
+          echo "APP_URL=http://127.0.0.1:8000" >> .env.dusk.testing
+          cp .env.dusk.testing .env
 
       - name: Create Database
         run: |
           sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE \`app_testing\` character set UTF8mb4 collate utf8mb4_bin;"
+          mysql --user="root" --password="root" -e "CREATE DATABASE \`${{ env.DB_DATABASE }}\` character set UTF8mb4 collate utf8mb4_bin;"
 
       - name: Prepare composer auth
         run: composer config http-basic.backpackforlaravel.com missionaryventures41786027 kaUk0ykBNtYG --global
@@ -40,7 +47,9 @@ jobs:
         run: php artisan storage:link --quiet
 
       - name: Run Migrations
-        run: php artisan migrate:fresh --force
+        # Gives the server a populated DB so the readiness check gets a 200. DuskTestCase
+        # re-runs migrate:fresh --seed once when the suite starts (its own fresh data).
+        run: php artisan migrate:fresh --seed --force
 
       - name: Upgrade ChromeDriver
         run: php artisan dusk:chrome-driver --detect
