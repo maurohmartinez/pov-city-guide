@@ -12,11 +12,11 @@ new class extends Component {
 
     public bool $isLogged;
 
-    public function mount(int $articleId, bool $isFavourite, ?int $favouriteCount = 0): void
+    public function mount(int $articleId, bool $isFavourite, int $favouriteCount): void
     {
         $this->isLogged = auth()->check();
         $this->articleId = $articleId;
-        $this->favouriteCount = $favouriteCount ?? 0;
+        $this->favouriteCount = $favouriteCount;
         $this->isFavourite = $isFavourite;
     }
 

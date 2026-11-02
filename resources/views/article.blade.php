@@ -39,7 +39,7 @@
                 </div>
                     <livewire:article-user-favourite
                         :article-id="$article->id"
-                        :favourite-count="$article->favourites_count"
+                        :favourite-count="(int) $article->favourites_count"
                         :is-favourite="in_array($article->id, $userFavourites)"
                     />
             </div>
