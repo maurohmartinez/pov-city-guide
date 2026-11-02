@@ -46,6 +46,14 @@ jobs:
       - name: Create Storage Link
         run: php artisan storage:link --quiet
 
+      - name: Reset Basset Cache Map
+        # storage/basset/.basset is committed, but the internalized asset files it points
+        # at are not. In production mode Basset trusts that map and emits <script src> URLs
+        # for files that don't exist on the runner — notably @bassetBlock assets like the
+        # Tabler admin menu, which 403 and fail the console-error assertion. Dropping the
+        # stale map makes Basset re-internalize (or inline) each asset on first render.
+        run: rm -f storage/basset/.basset
+
       - name: Run Migrations
         # Gives the server a populated DB so the readiness check gets a 200. DuskTestCase
         # re-runs migrate:fresh --seed once when the suite starts (its own fresh data).
