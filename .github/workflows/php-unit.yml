@@ -1,0 +1,46 @@
+name: CI
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: app_testing
+      COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, pdo, pdo_mysql, bcmath, json, curl
+          tools: composer
+
+      - name: Prepare The Environment
+        run: cp .env.ci .env
+
+      - name: Create Database
+        run: |
+          sudo systemctl start mysql
+          mysql --user="root" --password="root" -e "CREATE DATABASE \`app_testing\` character set UTF8mb4 collate utf8mb4_bin;"
+
+      - name: Prepare composer auth
+        run: composer config http-basic.backpackforlaravel.com missionaryventures41786027 kaUk0ykBNtYG --global
+
+      - name: Install Composer Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Create Storage Link
+        run: php artisan storage:link --quiet
+
+      - name: Run Migrations
+        run: php artisan migrate:fresh --force
+
+      - name: Run Unit Tests
+        run: php artisan test
