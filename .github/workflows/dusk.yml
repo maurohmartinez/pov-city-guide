@@ -78,11 +78,17 @@ jobs:
           exit 1
 
       - name: Run Dusk Tests
-        # --without-tty skips Dusk's setTty(true) call, which otherwise probes /dev/tty
-        # (unavailable on CI). That probe prints "Warning: TTY mode requires /dev/tty..."
-        # and can leave the PHPUnit subprocess terminating via a signal, which Dusk
-        # rethrows as a failure — making the step exit 1 even when every test passes.
-        run: php artisan dusk --without-tty
+        # Run PHPUnit directly instead of via `php artisan dusk`. The dusk wrapper runs
+        # PHPUnit as a child Symfony Process and rethrows a ProcessSignaledException at
+        # shutdown, which Laravel's console reports as exit 1 even when every test passes.
+        # We already aligned .env with .env.dusk.testing, so the wrapper's env-swap is a
+        # no-op and can be skipped. The echo makes the real exit code explicit in the log.
+        run: |
+          set +e
+          php vendor/bin/phpunit -c phpunit.dusk.xml
+          code=$?
+          echo "phpunit (dusk suite) exit code: ${code}"
+          exit $code
 
       - name: Upload Dusk Output
         if: failure()
