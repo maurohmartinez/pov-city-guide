@@ -78,7 +78,11 @@ jobs:
           exit 1
 
       - name: Run Dusk Tests
-        run: php artisan dusk
+        # --without-tty skips Dusk's setTty(true) call, which otherwise probes /dev/tty
+        # (unavailable on CI). That probe prints "Warning: TTY mode requires /dev/tty..."
+        # and can leave the PHPUnit subprocess terminating via a signal, which Dusk
+        # rethrows as a failure — making the step exit 1 even when every test passes.
+        run: php artisan dusk --without-tty
 
       - name: Upload Dusk Output
         if: failure()
