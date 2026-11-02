@@ -1,0 +1,76 @@
+name: Dusk
+
+on: [push]
+
+jobs:
+  dusk:
+    runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: app_testing
+      COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, pdo, pdo_mysql, bcmath, json, curl
+          tools: composer
+
+      - name: Prepare The Environment
+        run: cp .env.ci .env
+
+      - name: Create Database
+        run: |
+          sudo systemctl start mysql
+          mysql --user="root" --password="root" -e "CREATE DATABASE \`app_testing\` character set UTF8mb4 collate utf8mb4_bin;"
+
+      - name: Prepare composer auth
+        run: composer config http-basic.backpackforlaravel.com missionaryventures41786027 kaUk0ykBNtYG --global
+
+      - name: Install Composer Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Create Storage Link
+        run: php artisan storage:link --quiet
+
+      - name: Run Migrations
+        run: php artisan migrate:fresh --force
+
+      - name: Upgrade ChromeDriver
+        run: php artisan dusk:chrome-driver --detect
+
+      - name: Start Application Server
+        run: php artisan serve --host=127.0.0.1 --port=8000 --no-reload &
+
+      - name: Wait For Application Server
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sSf http://127.0.0.1:8000 > /dev/null; then
+              echo "Server is up."
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Application server did not start in time." >&2
+          exit 1
+
+      - name: Run Dusk Tests
+        run: php artisan dusk
+
+      - name: Upload Dusk Output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dusk-output
+          path: |
+            tests/Output/Browser/screenshots
+            tests/Output/Browser/console
+            tests/Output/Browser/source
+          if-no-files-found: ignore
+          retention-days: 7
