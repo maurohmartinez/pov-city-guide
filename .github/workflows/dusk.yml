@@ -78,17 +78,20 @@ jobs:
           exit 1
 
       - name: Run Dusk Tests
-        # Run PHPUnit directly instead of via `php artisan dusk`. The dusk wrapper runs
-        # PHPUnit as a child Symfony Process and rethrows a ProcessSignaledException at
-        # shutdown, which Laravel's console reports as exit 1 even when every test passes.
-        # We already aligned .env with .env.dusk.testing, so the wrapper's env-swap is a
-        # no-op and can be skipped. The echo makes the real exit code explicit in the log.
+        # `php artisan dusk` is required (not raw phpunit): it putenvs .env.dusk.testing into
+        # the real environment so the PHPUnit child inherits the correct APP_URL/DB, instead
+        # of Laravel loading .env.testing (sqlite + APP_URL=localhost) because of APP_ENV.
+        #
+        # The wrapper can still report a spurious non-zero exit — it runs PHPUnit as a child
+        # process and rethrows a ProcessSignaledException raised during that child's shutdown,
+        # which Laravel's console turns into exit 1 even when every test passed. So we decide
+        # the step's result from PHPUnit's JUnit report (real failures/errors), not the code.
         run: |
           set +e
-          php vendor/bin/phpunit -c phpunit.dusk.xml
-          code=$?
-          echo "phpunit (dusk suite) exit code: ${code}"
-          exit $code
+          php artisan dusk --without-tty --log-junit storage/dusk-junit.xml
+          echo "php artisan dusk raw exit code: $?"
+          php -r '$x=@simplexml_load_file("storage/dusk-junit.xml"); if($x===false){fwrite(STDERR,"no JUnit report — treating as failure\n");exit(2);} $n=count($x->xpath("//failure"))+count($x->xpath("//error")); fwrite(STDERR,"JUnit failures+errors: $n\n"); exit($n>0?1:0);'
+          exit $?
 
       - name: Upload Dusk Output
         if: failure()
