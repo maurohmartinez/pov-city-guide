@@ -62,9 +62,9 @@ class ArticleCrudController extends CrudController
     protected function setupCreateOperation(): void
     {
         CRUD::setValidation([
-            'title' => 'required|max:200',
+            'title' => 'required|max:60',
             'content' => 'required|max:20000',
-            'description' => 'required|max:1000',
+            'description' => 'required|max:500',
             'image' => 'required',
             'visibility' => 'required|in:' . VisibilityEnum::toString(),
             'categories' => 'required|exists:categories,id',
