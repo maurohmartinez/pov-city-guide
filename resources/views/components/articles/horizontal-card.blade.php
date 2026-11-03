@@ -1,41 +1,43 @@
 @foreach($articles as $article)
-    <div class="card-surface card-variant-sm p-2 rounded {{ !$loop->last ? 'mb-3' : '' }}">
-        <div class="row position-relative">
-            <div class="col-5 col-lg-4">
-                <div class="overflow-hidden {{ $ratio ?? 'ratio-5x4' }} rounded hover-effect-scale">
-                    <a href="{{ route('article', $article) }}" class="text-decoration-none">
-                        <div
-                            class="image-container hover-effect-target"
-                            style="background-image: url('{{ $article->small_image }}');"
-                        >
-                        </div>
-                    </a>
-                    <livewire:article-user-favourite
-                        :article-id="$article->id"
-                        :favourite-count="(int) $article->favourites_count"
-                        :is-favourite="in_array($article->id, $userFavourites)"
-                    />
+    <div class="{{ $colClass ?? '' }}">
+        <div class="card-surface card-variant-sm p-2 rounded {{ !$loop->last ? 'mb-3' : '' }}">
+            <div class="row position-relative">
+                <div class="col-5 col-lg-4">
+                    <div class="overflow-hidden {{ $ratio ?? 'ratio-5x4' }} rounded hover-effect-scale">
+                        <a href="{{ route('article', $article) }}" class="text-decoration-none">
+                            <div
+                                class="image-container hover-effect-target"
+                                style="background-image: url('{{ $article->small_image }}');"
+                            >
+                            </div>
+                        </a>
+                        <livewire:article-user-favourite
+                            :article-id="$article->id"
+                            :favourite-count="(int) $article->favourites_count"
+                            :is-favourite="in_array($article->id, $userFavourites)"
+                        />
+                    </div>
                 </div>
-            </div>
-            <div class="col-7 col-lg-8 my-auto ps-0">
-                @foreach($article->categoriesToDisplay as $category)
-                    @if(!$loop->first) <span class="fw-light card-category">-</span> @endif
-                    <a class="card-category text-decoration-none" href="{{ route('category', $category) }}">
-                        <small>{{ $category->name }}</small>
+                <div class="col-7 col-lg-8 my-auto ps-0">
+                    @foreach($article->categoriesToDisplay as $category)
+                        @if(!$loop->first) <span class="fw-light card-category">-</span> @endif
+                        <a class="card-category text-decoration-none" href="{{ route('category', $category) }}">
+                            <small>{{ $category->name }}</small>
+                        </a>
+                    @endforeach
+                    <a href="{{ route('article', $article) }}" class="text-decoration-none">
+                        <p class="card-title text-truncate">{{ $article->title }}</p>
+                        <p class="card-description text-light pe-4 lh-1">
+                            <small>{{ \Illuminate\Support\Str::words($article->description, 7) }}</small>
+                        </p>
                     </a>
-                @endforeach
+                </div>
                 <a href="{{ route('article', $article) }}" class="text-decoration-none">
-                    <p class="card-title text-truncate">{{ $article->title }}</p>
-                    <p class="card-description text-light pe-4 lh-1">
-                        <small>{{ \Illuminate\Support\Str::words($article->description, 7) }}</small>
-                    </p>
+                    <div class="card-arrow card-arrow-positioned text-dark bottom-0">
+                        <i class="fi-arrow-up-right"></i>
+                    </div>
                 </a>
             </div>
-            <a href="{{ route('article', $article) }}" class="text-decoration-none">
-                <div class="card-arrow card-arrow-positioned text-dark bottom-0">
-                    <i class="fi-arrow-up-right"></i>
-                </div>
-            </a>
         </div>
     </div>
 @endforeach

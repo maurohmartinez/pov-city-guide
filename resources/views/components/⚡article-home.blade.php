@@ -140,11 +140,15 @@ new class extends Component {
             </div>
 
             {{--More List--}}
-            @if($this->items->count() > $this->perPage)
-                <div class="col-12">
-                    @include('components.articles.horizontal-card', ['articles' => $this->items->slice(4), 'ratio' => '5-2'])
-                </div>
-            @endif
+            <div class="row">
+                @if($this->items->count() > $this->perPage)
+                    @include('components.articles.horizontal-card', [
+                        'articles' => $this->items->slice(4),
+                        'ratio' => 'ratio-5x4',
+                        'colClass' => 'col-12 col-md-6',
+                    ])
+               @endif
+            </div>
 
             {{--Action Load More--}}
             @if($this->total > $this->items->count())
