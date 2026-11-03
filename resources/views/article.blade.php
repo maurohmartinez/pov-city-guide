@@ -20,7 +20,7 @@
     <section class="container my-5" dusk="top">
         <div class="card-surface rounded mb-3 overflow-hidden">
             <div class="row position-relative p-3">
-                <h5 class="card-category text-truncate">
+                <h5 class="card-category">
                     @foreach($article->categoriesToDisplay as $category)
                         @if(!$loop->first) <span class="fw-light card-category">-</span> @endif
                         <a class="card-category text-decoration-none fw-bold" href="{{ route('category', $category) }}">
@@ -28,7 +28,7 @@
                         </a>
                     @endforeach
                 </h5>
-                <h4 class="card-title text-truncate">{{ $article->title }}</h4>
+                <h4 class="card-title">{{ $article->title }}</h4>
             </div>
             <div class="overflow-hidden ratio-5x2">
                 <div

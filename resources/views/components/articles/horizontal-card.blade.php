@@ -26,7 +26,7 @@
                         </a>
                     @endforeach
                     <a href="{{ route('article', $article) }}" class="text-decoration-none">
-                        <p class="card-title text-truncate">{{ $article->title }}</p>
+                        <p class="card-title">{{ $article->title }}</p>
                         <p class="card-description text-light pe-4 lh-1">
                             <small>{{ \Illuminate\Support\Str::words($article->description, 7) }}</small>
                         </p>

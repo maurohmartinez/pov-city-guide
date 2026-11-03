@@ -61,7 +61,7 @@ new class extends \Livewire\Component {
                         </div>
                     </a>
                     <div class="row position-relative p-3">
-                        <h5 class="card-category text-truncate">
+                        <h5 class="card-category">
                             @foreach($video->categoriesToDisplay as $category)
                                 @if(!$loop->first)
                                     <span class="fw-light">-</span>
@@ -70,7 +70,7 @@ new class extends \Livewire\Component {
                             @endforeach
                         </h5>
                         <a href="{{ $video->data['url'] }}" target="_blank" class="text-decoration-none">
-                            <h5 class="card-title text-truncate">{{ $video->title }}</h5>
+                            <h5 class="card-title">{{ $video->title }}</h5>
                             <p class="card-description text-light pe-4 lh-1 text-truncate-2">
                                 <small>{{ \Illuminate\Support\Str::words($video->description, $words ?? 10) }}</small>
                             </p>

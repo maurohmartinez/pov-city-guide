@@ -17,7 +17,7 @@
             />
         </div>
         <div class="row position-relative p-3">
-            <h5 class="card-category text-truncate">
+            <h5 class="card-category">
                 @foreach($article->categoriesToDisplay as $category)
                     @if(!$loop->first)
                         <span class="fw-light">-</span>
@@ -26,7 +26,7 @@
                 @endforeach
             </h5>
             <a href="{{ route('article', $article) }}" class="text-decoration-none">
-                <h5 class="card-title text-truncate">{{ $article->title }}</h5>
+                <h5 class="card-title">{{ $article->title }}</h5>
                 <p class="card-description text-light pe-4 lh-1 text-truncate-2">
                     <small>{{ \Illuminate\Support\Str::words($article->description, $words ?? 20) }}</small>
                 </p>
@@ -37,7 +37,7 @@
                     <div class="d-flex align-items-center">
                         <img class="img-fluid rounded-circle" style="width: 35px; height: 35px;" src="{{ $article->author->small_image }}" alt="Author">
                         <div class="text-light lh-1 ms-2">
-                            <small class="text-truncate fw-bold">{{ $article->author->name }}</small><br>
+                            <small class="fw-bold">{{ $article->author->name }}</small><br>
                             <small>{{ $article->created_at->isoFormat('L') }}</small>
                         </div>
                     </div>
