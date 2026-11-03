@@ -30,13 +30,13 @@ class ArticleFactory extends Factory
     {
         $this->addSampleImage('articles');
 
-        $title = ucfirst(fake()->words(rand(1, 5), true));
+        $title = ucfirst(fake()->words(rand(1, 3), true));
 
         return [
             'title' => $title,
             'slug' => Str::slug($title),
             'content' => $this->content(),
-            'description' => fake()->words(100, true),
+            'description' => fake()->words(50, true),
             'author_id' => Author::query()->exists() ? Author::query()->inRandomOrder()->first() : Author::factory(),
             'image' => 'sample.jpg',
             'visibility' => fake()->randomElement(VisibilityEnum::options()),
