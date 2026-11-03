@@ -17,8 +17,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@stack('title', config('app.name'))</title>
-    <meta name="description" content="@stack('meta-description', '')" />
-
+    <meta name="description" content="@stack('meta-description', 'Discover Bucharest with POV: a curated guide to restaurants, cafés, bars, art galleries and local favourites, with fresh perspectives on life in the city.')" />
+    <meta name="keywords" content="POV Bucharest, Bucharest city guide, things to do in Bucharest, Bucharest restaurants, Bucharest cafés, Bucharest bars, art galleries in Bucharest, Bucharest culture, local shops in Bucharest">
     @stack('metas')
     @stack('before_styles')
 
