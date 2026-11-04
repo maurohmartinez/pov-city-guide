@@ -46,6 +46,9 @@ jobs:
       - name: Create Storage Link
         run: php artisan storage:link --quiet
 
+      - name: Create Application Key
+        run: php artisan key:generate
+
       - name: Reset Basset Cache Map
         # storage/basset/.basset is committed, but the internalized asset files it points
         # at are not. In production mode Basset trusts that map and emits <script src> URLs

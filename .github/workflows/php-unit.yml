@@ -39,6 +39,9 @@ jobs:
       - name: Create Storage Link
         run: php artisan storage:link --quiet
 
+      - name: Create Application Key
+        run: php artisan key:generate
+
       - name: Run Migrations
         run: php artisan migrate:fresh --force
 
