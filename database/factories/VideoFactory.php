@@ -35,11 +35,13 @@ class VideoFactory extends Factory
             'title' => $title,
             'description' => fake()->words(10, true),
             'slug' => Str::slug($title),
+            // Key order matches what Backpack's `video` field type produces on save,
+            // so the order-sensitive assertSame() in VideoCrudControllerTest passes.
             'data' => [
                 'id' => '9-ochJEQpb0',
-                'title' => 'Video sample',
-                'image' => 'https://img.youtube.com/vi/9-ochJEQpb0/hqdefault.jpg',
                 'url' => 'https://www.youtube.com/watch?v=9-ochJEQpb0',
+                'image' => 'https://img.youtube.com/vi/9-ochJEQpb0/hqdefault.jpg',
+                'title' => 'Video sample',
                 'provider' => 'youtube',
             ],
             'image' => 'sample.jpg',

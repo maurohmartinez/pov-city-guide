@@ -1102,5 +1102,23 @@
         "asset_path": "https://www.gravatar.com/avatar/128052456183121b1953c1dcc66e15db1304f49d79a61e7827c757a92ae3c093.jpg?s=80&d=blank&r=g",
         "asset_disk_path": "basset/www.gravatar.com/avatar/128052456183121b1953c1dcc66e15db1304f49d79a61e7827c757a92ae3c093.jpg",
         "asset_attributes": []
+    },
+    "https://www.gravatar.com/avatar/7b82ea8c0c96f566d77e16508cbbd5633af04803ebfd0b71892aa500adcd0c76.jpg?s=80&d=blank&r=g": {
+        "asset_name": "https://www.gravatar.com/avatar/7b82ea8c0c96f566d77e16508cbbd5633af04803ebfd0b71892aa500adcd0c76.jpg?s=80&d=blank&r=g",
+        "asset_path": "https://www.gravatar.com/avatar/7b82ea8c0c96f566d77e16508cbbd5633af04803ebfd0b71892aa500adcd0c76.jpg?s=80&d=blank&r=g",
+        "asset_disk_path": "basset/www.gravatar.com/avatar/7b82ea8c0c96f566d77e16508cbbd5633af04803ebfd0b71892aa500adcd0c76.jpg",
+        "asset_attributes": []
+    },
+    "https://www.gravatar.com/avatar/6436105fdecacfb3aabf89a2b450c91fe7d7a61702aa27e3e0f8eeed0197606f.jpg?s=80&d=blank&r=g": {
+        "asset_name": "https://www.gravatar.com/avatar/6436105fdecacfb3aabf89a2b450c91fe7d7a61702aa27e3e0f8eeed0197606f.jpg?s=80&d=blank&r=g",
+        "asset_path": "https://www.gravatar.com/avatar/6436105fdecacfb3aabf89a2b450c91fe7d7a61702aa27e3e0f8eeed0197606f.jpg?s=80&d=blank&r=g",
+        "asset_disk_path": "basset/www.gravatar.com/avatar/6436105fdecacfb3aabf89a2b450c91fe7d7a61702aa27e3e0f8eeed0197606f.jpg",
+        "asset_attributes": []
+    },
+    "https://www.gravatar.com/avatar/c96e90aed81a7b000cb857000758ae45f7eaba52991af3493a4b640500d766b8.jpg?s=80&d=blank&r=g": {
+        "asset_name": "https://www.gravatar.com/avatar/c96e90aed81a7b000cb857000758ae45f7eaba52991af3493a4b640500d766b8.jpg?s=80&d=blank&r=g",
+        "asset_path": "https://www.gravatar.com/avatar/c96e90aed81a7b000cb857000758ae45f7eaba52991af3493a4b640500d766b8.jpg?s=80&d=blank&r=g",
+        "asset_disk_path": "basset/www.gravatar.com/avatar/c96e90aed81a7b000cb857000758ae45f7eaba52991af3493a4b640500d766b8.jpg",
+        "asset_attributes": []
     }
 }
