@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'brevo_api_key' => env('BREVO_API_KEY'),
+    'brevo_mailing_list_id' => env('BREVO_MAILING_LIST_ID'),
 ];

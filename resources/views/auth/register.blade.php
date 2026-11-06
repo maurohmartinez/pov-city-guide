@@ -51,6 +51,11 @@
                                        class="form-control" required autocomplete="new-password">
                             </div>
 
+                            <div class="mb-3">
+                                <input id="agreed_to_receive_promotion_emails" @if(old('agreed_to_receive_promotion_emails') === 'on') checked="checked" @endif type="checkbox" name="agreed_to_receive_promotion_emails">
+                                <label for="agreed_to_receive_promotion_emails" class="form-label">{{ __('common.agree_to_promotion') }}</label>
+                            </div>
+
                             <div class="d-flex align-items-center justify-content-between">
                                 <a class="text-custom-accent" href="{{ route('login') }}">{{ __('Already registered?') }}</a>
                                 <button type="submit" class="btn btn-primary text-dark">{{ __('Register') }}</button>

@@ -87,4 +87,7 @@ return array(
     'videos' => 'Videoclipuri',
     'video_image_hint' => 'Încercăm să obținem automat imaginea dacă acest câmp rămâne gol.',
     'no_articles' => 'Nu există articole de afișat...',
+
+    'agree_to_promotion' => 'Sunt de acord să primesc e-mailuri promoționale.',
+    'profile_update' => 'Profilul a fost actualizat cu succes',
 );

@@ -83,4 +83,7 @@ return [
     'videos' => 'Videos',
     'video_image_hint' => 'We will try to automatically fetch the image if this field is left empty.',
     'no_articles' => 'No articles to show here...',
+
+    'agree_to_promotion' => 'I agree to receive promotion emails.',
+    'profile_update' => 'Profile updated successfully',
 ];

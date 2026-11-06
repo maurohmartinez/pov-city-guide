@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\AddContactToMailingList;
 use App\Models\User;
+use Brevo\Exceptions\BrevoApiException;
+use Brevo\Exceptions\BrevoException;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -17,18 +20,13 @@ use Log;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('auth.register');
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws BrevoApiException|BrevoException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -46,9 +44,13 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        if ($request->input('agreed_to_receive_promotion_emails') === 'on') {
+            AddContactToMailingList::dispatch($user->id);
+        }
+
         Auth::guard('web')->login($user);
 
-        return redirect()->route('verification.notice');
+        return redirect()->route('profile');
     }
 
     public function update(Request $request): RedirectResponse
@@ -58,7 +60,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($request->user()->id)],
         ]);
 
-        $didEmailChange = $request->input('email') !== $request->user()->email;
+//        $didEmailChange = $request->input('email') !== $request->user()->email;
 
         try {
             $request->user()->update([
@@ -71,8 +73,6 @@ class RegisteredUserController extends Controller
             return redirect()->route('verification.notice')->with('error', 'Failed to update profile');
         }
 
-        return $didEmailChange
-            ? redirect()->route('verification.notice')
-            : redirect()->route('profile')->with('success', 'Profile updated successfully');
+        return redirect()->route('profile')->with('success', __('common.profile_update'));
     }
 }
