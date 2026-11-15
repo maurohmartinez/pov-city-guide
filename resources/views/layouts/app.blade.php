@@ -82,11 +82,6 @@
 <script src="{{ asset('storefront/js/swiper-bundle.min.js?v='.app_version()) }}"></script>
 <script src="{{ asset('storefront/js/theme.min.js?v='.app_version()) }}"></script>
 <script src="{{ asset('storefront/js/scripts.js?v='.app_version()) }}"></script>
-<script>
-    document.getElementById('searchModal')?.addEventListener('shown.bs.modal', (event) => {
-        event.target.querySelector('.modal-body input')?.focus();
-    });
-</script>
 
 @stack('scripts')
 @stack('after_scripts')

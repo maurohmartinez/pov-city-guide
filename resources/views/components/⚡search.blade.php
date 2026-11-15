@@ -116,3 +116,51 @@ new class extends Component {
         @endif
     </div>
 </div>
+
+@push('after_scripts')
+    <script>
+        (() => {
+            const modal = document.getElementById('searchModal');
+
+            if (! modal) {
+                return;
+            }
+
+            const searchInput = () => modal.querySelector('.modal-body input');
+            let proxy = null;
+
+            // iOS only opens the keyboard when focus() runs synchronously inside the tap, but the
+            // modal input is still hidden then. Focus an invisible proxy input during the tap and
+            // hand focus over to the real input once it is visible: iOS keeps the keyboard open.
+            document.querySelectorAll('[data-bs-target="#searchModal"]').forEach((trigger) => {
+                trigger.addEventListener('click', () => {
+                    proxy?.remove();
+                    proxy = document.createElement('input');
+                    proxy.type = 'text';
+                    proxy.tabIndex = -1;
+                    proxy.setAttribute('aria-hidden', 'true');
+                    proxy.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;border:0;padding:0;font-size:16px;pointer-events:none;';
+                    document.body.appendChild(proxy);
+                    proxy.focus();
+                });
+            });
+
+            // Bootstrap's focus trap calls modal.focus() right before `shown.bs.modal`, which would
+            // blur the proxy and close the keyboard, so redirect that call to the search input.
+            modal.addEventListener('show.bs.modal', () => {
+                modal.focus = () => {
+                    const input = searchInput();
+
+                    input ? input.focus() : HTMLElement.prototype.focus.call(modal);
+                };
+            });
+
+            modal.addEventListener('shown.bs.modal', () => {
+                delete modal.focus;
+                searchInput()?.focus();
+                proxy?.remove();
+                proxy = null;
+            });
+        })();
+    </script>
+@endpush

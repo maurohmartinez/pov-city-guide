@@ -660,3 +660,10 @@ header {
 .search-input::placeholder {
     color: #656565;
 }
+
+/* iOS Safari auto-zooms on focus when an input's font-size is below 16px */
+@media (hover: none) and (pointer: coarse) {
+    .search-input {
+        font-size: 16px;
+    }
+}

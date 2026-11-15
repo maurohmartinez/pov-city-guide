@@ -51,20 +51,29 @@ class StoreFrontDesktopTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(CategoryPage::simple())
                 ->click('header.header a[data-bs-target="#searchModal"]')
-                ->assertVisible('#searchModal');
+                ->waitFor('#searchModal.show')
+                // Poll until the modal covers the header's search icon
+                ->waitUntil(<<<'JS'
+                    (() => {
+                        const icon = document.querySelector('header.header a[data-bs-target="#searchModal"]');
+                        const rect = icon.getBoundingClientRect();
+                        const element = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
-            $this->assertTrue($browser->driver->executeScript(<<<'JS'
-                const header = document.querySelector('header.header');
-                const rect = header.getBoundingClientRect();
-                const element = document.elementFromPoint(rect.left + 1, rect.top + 1);
-
-                return element?.classList.contains('modal-backdrop') ?? false;
-            JS));
+                        return Boolean(element?.closest('#searchModal'));
+                    })()
+                    JS)
+                // Focus moves to the input on `shown.bs.modal`, i.e. once Bootstrap finished opening;
+                // closing earlier is ignored while the modal is still transitioning
+                ->waitUntil("document.activeElement === document.querySelector('#searchModal .search-input')")
+                ->assertMissing('body > input[aria-hidden="true"]');
 
             $browser->click('#searchModal .btn-close')
                 ->waitUntilMissing('.modal-backdrop')
                 ->click('header.header a[data-bs-target="#searchModal"]')
-                ->assertVisible('#searchModal');
+                ->waitFor('#searchModal.show')
+                ->assertVisible('#searchModal')
+                ->waitUntil("document.activeElement === document.querySelector('#searchModal .search-input')")
+                ->assertMissing('body > input[aria-hidden="true"]');
         });
     }
 
