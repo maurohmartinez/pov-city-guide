@@ -46,6 +46,31 @@ class StoreFrontDesktopTest extends DuskTestCase
     /**
      * @throws Throwable
      */
+    public function test_search_modal_displays_over_the_header()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(CategoryPage::simple())
+                ->click('header.header a[data-bs-target="#searchModal"]')
+                ->assertVisible('#searchModal');
+
+            $this->assertTrue($browser->driver->executeScript(<<<'JS'
+                const header = document.querySelector('header.header');
+                const rect = header.getBoundingClientRect();
+                const element = document.elementFromPoint(rect.left + 1, rect.top + 1);
+
+                return element?.classList.contains('modal-backdrop') ?? false;
+            JS));
+
+            $browser->click('#searchModal .btn-close')
+                ->waitUntilMissing('.modal-backdrop')
+                ->click('header.header a[data-bs-target="#searchModal"]')
+                ->assertVisible('#searchModal');
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_article_page_loads_correctly()
     {
         $this->browse(function (Browser $browser) {

@@ -82,8 +82,13 @@ return [
     'video' => 'Video',
     'videos' => 'Videos',
     'video_image_hint' => 'We will try to automatically fetch the image if this field is left empty.',
-    'no_articles' => 'No articles to show here...',
+    'no_articles' => 'No articles found...',
 
     'agree_to_promotion' => 'I agree to receive promotion emails.',
     'profile_update' => 'Profile updated successfully',
+    'edit_profile' => 'Edit profile',
+
+    'favourites' => 'Favourites',
+    'search' => 'Search',
+    'type_to_search' => 'Type at least 3 characters...',
 ];

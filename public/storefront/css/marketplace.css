@@ -654,5 +654,9 @@ footer .container {
 }
 
 header {
-    z-index: 9999;
+    z-index: 1020;
+}
+
+.search-input::placeholder {
+    color: #656565;
 }

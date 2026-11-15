@@ -86,8 +86,13 @@ return array(
     'video' => 'Video',
     'videos' => 'Videoclipuri',
     'video_image_hint' => 'Încercăm să obținem automat imaginea dacă acest câmp rămâne gol.',
-    'no_articles' => 'Nu există articole de afișat...',
+    'no_articles' => 'Nu s-au găsit articole...',
 
     'agree_to_promotion' => 'Sunt de acord să primesc e-mailuri promoționale.',
     'profile_update' => 'Profilul a fost actualizat cu succes',
+    'edit_profile' => 'Editează profilul',
+
+    'favourites' => 'Favorituri',
+    'search' => 'Caută',
+    'type_to_search' => 'Tipărește cel puțin 3 caractere...',
 );

@@ -305,7 +305,7 @@ class LocalizationService
         return 'custom.supported_locales'
                 |> config(...)
                 |> (fn ($x) => array_map(fn (string $value) => [$value => self::$locales[$value]], $x))
-                |> array_merge(...);
+                |> (fn ($x) => array_merge(...$x));
     }
 
     public static function getCrudLocales(): array

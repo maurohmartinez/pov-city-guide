@@ -61,6 +61,18 @@
 <main class="bg-primary d-flex flex-column min-vh-100">
     @yield('content')
     @include('inc.footer')
+
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content bg-primary border-0">
+                <button type="button" class="btn-close position-absolute z-1" data-bs-dismiss="modal" aria-label="Close" style="right: 20px; top: 20px;"></button>
+                <div class="modal-body">
+                    <livewire:search />
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 @stack('before_scripts')
@@ -70,6 +82,11 @@
 <script src="{{ asset('storefront/js/swiper-bundle.min.js?v='.app_version()) }}"></script>
 <script src="{{ asset('storefront/js/theme.min.js?v='.app_version()) }}"></script>
 <script src="{{ asset('storefront/js/scripts.js?v='.app_version()) }}"></script>
+<script>
+    document.getElementById('searchModal')?.addEventListener('shown.bs.modal', (event) => {
+        event.target.querySelector('.modal-body input')?.focus();
+    });
+</script>
 
 @stack('scripts')
 @stack('after_scripts')
