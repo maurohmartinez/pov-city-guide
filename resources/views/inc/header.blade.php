@@ -3,7 +3,7 @@
     <div class="container position-relative z-1">
         <div class="header-wrapper d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center ms-auto">
-                <a data-bs-toggle="modal" data-bs-target="#searchModal" class="animate-shake">
+                <a data-bs-toggle="modal" data-bs-target="#searchModal" class="animate-shake cursor-pointer">
                     <i class="fi-search animate-target text-custom-accent fs-3 mx-1"></i>
                 </a>
                 @if(auth()->check())
