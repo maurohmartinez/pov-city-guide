@@ -661,9 +661,17 @@ header {
     color: #656565;
 }
 
-/* iOS Safari auto-zooms on focus when an input's font-size is below 16px */
-@media (hover: none) and (pointer: coarse) {
-    .search-input {
-        font-size: 16px;
+/*
+ * iOS (every iPhone browser runs on WebKit) zooms the whole page when a focused field's
+ * font-size is below 16px. `-webkit-touch-callout` is only supported on iOS, so desktop keeps
+ * the theme's smaller inputs.
+ */
+@supports (-webkit-touch-callout: none) {
+    input,
+    select,
+    textarea,
+    .form-control,
+    .form-select {
+        font-size: 16px !important;
     }
 }
