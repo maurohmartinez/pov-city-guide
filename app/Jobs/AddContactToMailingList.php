@@ -38,16 +38,16 @@ class AddContactToMailingList implements ShouldQueue
                 'listIds' => [(int) config('app.brevo_mailing_list_id')],
                 'updateEnabled' => true,
             ]));
+
+            $user->update([
+                'extras' => [
+                    'added_to_promotion_emails' => true,
+                ],
+            ]);
         } catch (\Exception $e) {
             Log::error($e);
 
             return;
         }
-
-        $user->update([
-            'extras' => [
-                'added_to_promotion_emails' => true,
-            ],
-        ]);
     }
 }
