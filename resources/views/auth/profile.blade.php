@@ -11,14 +11,14 @@
                 <div class="card">
                     <div class="card-body">
                         @session('error')
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
                         @endsession
                         @session('success')
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                         @endsession
                         <form method="POST" action="{{ route('profile.update') }}">
                             @csrf
@@ -41,6 +41,13 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            @if(!auth()->user()->added_to_promotion_emails)
+                                <div class="mb-3">
+                                    <input id="agreed_to_receive_promotion_emails" @if(old('agreed_to_receive_promotion_emails') === 'on') checked="checked" @endif type="checkbox" name="agreed_to_receive_promotion_emails">
+                                    <label for="agreed_to_receive_promotion_emails" class="form-label">{{ __('common.agree_to_promotion') }}</label>
+                                </div>
+                            @endif
 
                             <button type="submit" class="btn btn-primary w-100 text-dark mt-3">{{ __('Apply') }}</button>
                         </form>

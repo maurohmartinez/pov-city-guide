@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
 
         Auth::guard('web')->login($user);
 
-        return redirect()->route('profile');
+        return redirect()->route('home');
     }
 
     public function update(Request $request): RedirectResponse
@@ -58,14 +58,17 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($request->user()->id)],
+            'agreed_to_receive_promotion_emails' => ['nullable', 'in:on,off'],
         ]);
-
-//        $didEmailChange = $request->input('email') !== $request->user()->email;
 
         try {
             $request->user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
+                'extras' => [
+                    ...$request->user()->extras ?? [],
+                    'added_to_promotion_emails' => $request->input('agreed_to_receive_promotion_emails') === 'on',
+                ],
             ]);
         } catch (Exception $e) {
             Log::error($e);
