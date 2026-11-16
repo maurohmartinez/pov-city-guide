@@ -455,6 +455,10 @@ button.tags:hover {
     background-repeat: repeat-y;
 }
 
+.newsletter-bg {
+    background: #ffc4e8;
+}
+
 .card-dark {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -657,8 +661,8 @@ header {
     z-index: 1020;
 }
 
-.search-input::placeholder {
-    color: #656565;
+.pov-input::placeholder {
+    color: #505050;
 }
 
 /*

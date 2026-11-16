@@ -64,16 +64,21 @@ class StoreFrontDesktopTest extends DuskTestCase
                     JS)
                 // Focus moves to the input on `shown.bs.modal`, i.e. once Bootstrap finished opening;
                 // closing earlier is ignored while the modal is still transitioning
-                ->waitUntil("document.activeElement === document.querySelector('#searchModal .search-input')")
-                ->assertMissing('body > input[aria-hidden="true"]');
+                ->waitUntil("document.activeElement === document.querySelector('#searchModal .pov-input')")
+                ->assertMissing('[data-search-focus-proxy]');
+
+            $viewport = "document.querySelector('meta[name=\"viewport\"]').getAttribute('content')";
+
+            $this->assertStringContainsString('user-scalable=no', $browser->script("return {$viewport}")[0]);
 
             $browser->click('#searchModal .btn-close')
                 ->waitUntilMissing('.modal-backdrop')
+                ->waitUntil("{$viewport} === 'width=device-width, initial-scale=1.0'")
                 ->click('header.header a[data-bs-target="#searchModal"]')
                 ->waitFor('#searchModal.show')
                 ->assertVisible('#searchModal')
-                ->waitUntil("document.activeElement === document.querySelector('#searchModal .search-input')")
-                ->assertMissing('body > input[aria-hidden="true"]');
+                ->waitUntil("document.activeElement === document.querySelector('#searchModal .pov-input')")
+                ->assertMissing('[data-search-focus-proxy]');
         });
     }
 

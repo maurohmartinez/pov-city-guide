@@ -72,7 +72,7 @@ new class extends Component {
 
 <div>
     <h5>{{ __('common.search') }}</h5>
-    <input type="text" wire:model.live.debounce="input" class="form-control text-dark search-input" placeholder="{{ __('common.type_to_search') }}...">
+    <input type="text" wire:model.live.debounce="input" class="form-control text-dark pov-input" placeholder="{{ __('common.type_to_search') }}...">
 
     <div class="w-100 mt-4" wire:loading>
         <div class="w-100 d-flex justify-content-center p-4">
@@ -119,7 +119,7 @@ new class extends Component {
 
 @push('after_scripts')
     <script>
-        (() => {
+        document.addEventListener('livewire:initialized', () => {
             const modal = document.getElementById('searchModal');
 
             if (! modal) {
@@ -127,18 +127,28 @@ new class extends Component {
             }
 
             const searchInput = () => modal.querySelector('.modal-body input');
+            const viewport = document.querySelector('meta[name="viewport"]');
+            const defaultViewport = viewport?.getAttribute('content');
             let proxy = null;
+
+            // Disable zooming while the modal is open, so focusing the input can't zoom the page.
+            // It's restored on close, so the rest of the site stays zoomable.
+            const lockZoom = () => viewport?.setAttribute('content', `${defaultViewport}, maximum-scale=1, user-scalable=no`);
+            const unlockZoom = () => viewport?.setAttribute('content', defaultViewport);
 
             // iOS only opens the keyboard when focus() runs synchronously inside the tap, but the
             // modal input is still hidden then. Focus an invisible proxy input during the tap and
             // hand focus over to the real input once it is visible: iOS keeps the keyboard open.
             document.querySelectorAll('[data-bs-target="#searchModal"]').forEach((trigger) => {
                 trigger.addEventListener('click', () => {
+                    lockZoom();
                     proxy?.remove();
                     proxy = document.createElement('input');
                     proxy.type = 'text';
                     proxy.tabIndex = -1;
-                    proxy.setAttribute('aria-hidden', 'true');
+                    // Not aria-hidden: a focused element must stay exposed to assistive technology
+                    proxy.setAttribute('aria-label', @js(__('common.search')));
+                    proxy.dataset.searchFocusProxy = '';
                     proxy.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;border:0;padding:0;font-size:16px;pointer-events:none;';
                     document.body.appendChild(proxy);
                     proxy.focus();
@@ -148,6 +158,7 @@ new class extends Component {
             // Bootstrap's focus trap calls modal.focus() right before `shown.bs.modal`, which would
             // blur the proxy and close the keyboard, so redirect that call to the search input.
             modal.addEventListener('show.bs.modal', () => {
+                lockZoom();
                 modal.focus = () => {
                     const input = searchInput();
 
@@ -161,6 +172,8 @@ new class extends Component {
                 proxy?.remove();
                 proxy = null;
             });
-        })();
+
+            modal.addEventListener('hidden.bs.modal', unlockZoom);
+        });
     </script>
 @endpush
