@@ -117,8 +117,7 @@ new class extends Component {
 
                 // getInstance() returns null until the modal has been initialised (Bootstrap does that
                 // lazily on the first trigger click), so create the instance if it doesn't exist yet
-                // setTimeout(() => bootstrap.Modal.getOrCreateInstance(modalEl).show(), 5000);
-                bootstrap.Modal.getOrCreateInstance(modalEl).show()
+                setTimeout(() => bootstrap.Modal.getOrCreateInstance(modalEl).show(), 5000);
             });
         </script>
     @endif
