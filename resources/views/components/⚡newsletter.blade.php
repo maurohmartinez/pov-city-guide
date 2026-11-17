@@ -65,7 +65,7 @@ new class extends Component {
 };
 ?>
 
-<div class="p-4 pe-5">
+<div class="px-4 pb-4 p-md-4 pe-md-5">
     @if(!$success)
         <h5>Discover the places, people and stories that make the city worth a closer look.</h5>
         <p class="text-dark">Subscribe to the POV newsletter.</p>
@@ -117,7 +117,8 @@ new class extends Component {
 
                 // getInstance() returns null until the modal has been initialised (Bootstrap does that
                 // lazily on the first trigger click), so create the instance if it doesn't exist yet
-                setTimeout(() => bootstrap.Modal.getOrCreateInstance(modalEl).show(), 5000);
+                // setTimeout(() => bootstrap.Modal.getOrCreateInstance(modalEl).show(), 5000);
+                bootstrap.Modal.getOrCreateInstance(modalEl).show()
             });
         </script>
     @endif

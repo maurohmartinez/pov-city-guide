@@ -37,7 +37,6 @@
     <link rel="preload" href="{{ asset('storefront/webfonts/finder-icons.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="{{ asset('storefront/css/finder-icons.min.css?v='.app_version()) }}">
 
-    {{-- --}}
     <link rel="stylesheet" href="{{ asset('storefront/css/swiper-bundle.min.css?v='.app_version()) }}">
     <link rel="stylesheet" href="{{ asset('storefront/css/marketplace.css?v='.app_version()) }}"/>
 

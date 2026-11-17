@@ -3,7 +3,7 @@
         <div class="modal-content newsletter-bg border-0 overflow-hidden">
             <div class="modal-body p-0">
                 <div class="row">
-                    <div class="col-md-6 ps-5">
+                    <div class="col-md-6 p-4 p-md-5 pe-md-4">
                         <img src="{{ asset('images/newsletter.jpg') }}" alt="Newsletter">
                     </div>
                     <div class="col-md-6 ps-0 d-flex flex-column justify-content-center">

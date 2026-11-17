@@ -8,7 +8,7 @@ use App\Models\Author;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 /**
  * @extends Factory<Article>
@@ -34,7 +34,7 @@ class ArticleFactory extends Factory
 
         return [
             'title' => $title,
-            'slug' => Str::slug($title),
+            'slug' => SlugService::createSlug(Article::class, 'slug', $title, ['unique' => false]),
             'content' => $this->content(),
             'description' => fake()->words(50, true),
             'author_id' => Author::query()->exists() ? Author::query()->inRandomOrder()->first() : Author::factory(),

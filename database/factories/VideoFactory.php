@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 /**
  * @extends Factory<Video>
@@ -34,7 +34,7 @@ class VideoFactory extends Factory
         return [
             'title' => $title,
             'description' => fake()->words(10, true),
-            'slug' => Str::slug($title),
+            'slug' => SlugService::createSlug(Video::class, 'slug', $title, ['unique' => false]),
             // Key order matches what Backpack's `video` field type produces on save,
             // so the order-sensitive assertSame() in VideoCrudControllerTest passes.
             'data' => [

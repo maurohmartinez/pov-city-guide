@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 /**
  * @extends Factory<Author>
@@ -22,7 +22,7 @@ class AuthorFactory extends Factory
 
         return [
             'name' => $name,
-            'slug' => Str::slug($name),
+            'slug' => SlugService::createSlug(Author::class, 'slug', $name, ['unique' => false]),
             'description' => fake()->words(3, true),
             'image' => 'sample.jpg',
         ];

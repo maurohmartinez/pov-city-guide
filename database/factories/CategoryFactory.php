@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Enums\CategoryTemplateEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 /**
  * @extends Factory<Category>
@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $name,
             'template' => fake()->randomElement(CategoryTemplateEnum::options()),
-            'slug' => Str::slug($name),
+            'slug' => SlugService::createSlug(Category::class, 'slug', $name, ['unique' => false]),
         ];
     }
 }

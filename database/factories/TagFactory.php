@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 /**
  * @extends Factory<Article>
@@ -17,7 +18,7 @@ class TagFactory extends Factory
 
         return [
             'name' => $name,
-            'slug' => Str::slug($name),
+            'slug' => SlugService::createSlug(Tag::class, 'slug', $name, ['unique' => false]),
         ];
     }
 }
